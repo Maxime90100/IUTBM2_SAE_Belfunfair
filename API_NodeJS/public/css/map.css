@@ -1,0 +1,35 @@
+.map{
+    overflow: hidden;
+    padding: 20px;
+    background-color: #3F4545;
+    transform: scale(0.9);
+}
+
+.map__image{
+    width: 50%;
+    float: left;
+}
+.map__card{
+    width: 50%;
+    float: right;
+    display: flex;
+}
+.map__select{
+    display: flex;
+}
+@media (max-width: 800px) {
+    .map__image{
+        width: 100%;
+    }
+    .map__card{
+        width: 100%;
+        display: block;
+    }
+}
+
+.map__image path{
+    fill: grey;
+    stroke: white;
+    stroke-width: 2px;
+    transition: fill 0.3s;
+}

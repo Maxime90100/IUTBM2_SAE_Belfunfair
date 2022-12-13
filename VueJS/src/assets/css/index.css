@@ -1,0 +1,22 @@
+h1{
+    text-align: center;
+}
+h2{
+    text-align: center;
+}
+h3{
+    text-align: center;
+}
+
+form{
+    background-color: darkgray;
+    width: 75%;
+    margin-left: 12.5%;
+    margin-top: 5%;
+    padding: 20px;
+}
+form>input{
+    background-color: white;
+    margin-bottom: 10px;
+    width: 100%;
+}
