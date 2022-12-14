@@ -12965,7 +12965,7 @@
         <h1>{{this.emplacements.id_emplacement}}</h1>
         <h2 style="color: white">{{$t('attribute.from')}} {{this.emplacements.datedebut}} {{$t('attribute.to')}} {{this.emplacements.datefin}}</h2>
         <div id="mapSignupManegeRegistered">
-          <div class="map__image">
+          <div class="map__image" style="width: 60%; margin-left: 20%">
             <svg
                 viewBox="0 0 296.07645 156.98164"
                 version="1.1"
@@ -25882,8 +25882,6 @@
               </g>
             </svg>
             <input v-on:change="changeMap" type="checkbox" id="selectMap">
-            <label style="color: white" for="selectMap">{{ $t('map.change') }}</label>
-
             <v-btn @click="goTo('/prestataire/maneges')">{{ $t('button.back') }}</v-btn>
           </div>
         </div>
@@ -25955,13 +25953,14 @@ export default {
       let dateDebut = new Date(this.datedebut).getTime()
       let dateFin = new Date(this.datefin).getTime()
 
-      if(!dateDebut || dateDebut<debut || dateDebut>fin) this.map.querySelector('#datedebut').style.backgroundColor = 'red'
-      else{
-        this.map.querySelector('#datedebut').style.backgroundColor = 'green'
-        if(!dateFin || dateFin>fin || dateFin<=dateDebut) this.map.querySelector('#datefin').style.backgroundColor = 'red'
-        else{
-          this.map.querySelector('#datefin').style.backgroundColor = 'green'
-          axios({
+      let error = false
+      if(!dateDebut || dateDebut<debut || dateDebut>fin) {this.map.querySelector('#datedebut').style.borderColor = 'red'; error=true}
+      else this.map.querySelector('#datedebut').style.borderColor = 'green'
+      if(!dateFin || dateFin>fin || dateFin<=dateDebut) {this.map.querySelector('#datefin').style.borderColor = 'red'; error=true}
+      else this.map.querySelector('#datefin').style.borderColor = 'green'
+
+      if(!error){
+        axios({
             method: 'post',
             url: 'http://localhost:3000/prestataires/'+this.id_user+'/manege/'+this.id+'/signupPost',
             data: {
@@ -25975,7 +25974,6 @@ export default {
           }).catch(error=>{
             console.log(error)
           })
-        }
       }
     }
   },

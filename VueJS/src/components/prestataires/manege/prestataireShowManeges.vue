@@ -19,8 +19,8 @@
 
         <div style="text-align: center">
           <v-btn fab small dark v-if="manege.status === 'not_attributed'" @click="update(manege.id)"><v-icon>mdi-pencil</v-icon></v-btn>
-          <v-btn class="ma-3" fab small @click="signup(manege.id)"><v-icon>mdi-format-list-bulleted-square</v-icon></v-btn>
-          <v-btn fab small outlined color="red" @click="_delete(manege.id)"><v-icon>mdi-delete</v-icon></v-btn>
+          <v-btn class="ma-3" fab small outlined color="red" @click="_delete(manege.id)"><v-icon>mdi-delete</v-icon></v-btn>
+          <v-btn rounded @click="signup(manege.id)">{{$t('button.signup')}}</v-btn>
         </div>
 
         <div v-for="(image,index) in manege.images" :key="'prestataire-manege-image-'+index">

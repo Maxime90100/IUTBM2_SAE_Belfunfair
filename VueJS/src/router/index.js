@@ -18,6 +18,7 @@ import prestataireStandSignup from "@/views/prestataires/stand/prestataireStandS
 
 import prestataireArtistes from "@/views/prestataires/artiste/prestataireArtistes.vue";
 import prestataireArtisteAdd from "@/views/prestataires/artiste/prestataireArtisteAdd.vue";
+import prestataireArtisteUpdate from "@/views/prestataires/artiste/prestataireArtisteUpdate.vue";
 
 Vue.use(Router);
 
@@ -89,6 +90,11 @@ export default new Router({
             path: "/prestataire/artistes/add",
             name: "prestataireArtisteAdd",
             component: prestataireArtisteAdd
+        },
+        {
+            path: "/prestataire/artistes/:id",
+            name: "prestataireArtisteUpdate",
+            component: prestataireArtisteUpdate
         }
     ]
 })

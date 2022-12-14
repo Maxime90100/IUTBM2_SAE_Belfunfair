@@ -28,8 +28,8 @@
 
         <div style="text-align: center">
           <v-btn fab small dark v-if="artiste.status === 'not_attributed'" @click="update(artiste.id)"><v-icon>mdi-pencil</v-icon></v-btn>
-          <v-btn class="ma-3" fab small @click="signup(artiste.id)"><v-icon>mdi-format-list-bulleted-square</v-icon></v-btn>
-          <v-btn fab small outlined color="red" @click="_delete(artiste.id)"><v-icon>mdi-delete</v-icon></v-btn>
+          <v-btn class="ma-3" fab small outlined color="red" @click="_delete(artiste.id)"><v-icon>mdi-delete</v-icon></v-btn>
+          <v-btn rounded @click="signup(artiste.id)">{{$t('button.signup')}}</v-btn>
         </div>
 
         <div v-for="(image,index) in artiste.images" :key="'prestataire-artiste-image-'+index">

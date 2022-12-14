@@ -13098,8 +13098,10 @@
                 </g>
             </svg>
 
-      <input v-on:change="changeMap" type="checkbox" id="selectMap">
-      <label style="color: white" for="selectMap">{{ $t('map.change') }}</label>
+      <label style="color: white; float: left" for="selectMap">{{ $t('map.change') }}</label>
+      <div style="float:left; width: 5%">
+        <input v-on:change="changeMap" type="checkbox" id="selectMap">
+      </div>
 
       <div class="map__select mb-2">
         <select v-model="selectedOption" @change="activeArea" class="form-select w-25" id="selectMap">

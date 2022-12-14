@@ -7,7 +7,7 @@
         <input id="name" v-model="name" type="text" required />
 
         <h4>{{ $t('attribute.description') }}</h4>
-        <input id="description" v-model="description" type="text" required />
+        <textarea id="description" v-model="description" type="text" required></textarea>
 
         <h4>{{ $t('attribute.type') }}</h4>
         <select id="type" v-model="type" style="background-color: white; width: 100%">
@@ -45,17 +45,17 @@ export default {
     add(){
       let error = false
 
-      if(!this.name){document.querySelector('#name').style.backgroundColor = 'red'; error = true}
-      else{document.querySelector('#name').style.backgroundColor = 'green'}
+      if(!this.name){document.querySelector('#name').style.borderColor = 'red'; error = true}
+      else{document.querySelector('#name').style.borderColor = 'green'}
 
-      if(!this.description){document.querySelector('#description').style.backgroundColor = 'red'; error = true}
-      else{document.querySelector('#description').style.backgroundColor = 'green'}
+      if(!this.description){document.querySelector('#description').style.borderColor = 'red'; error = true}
+      else{document.querySelector('#description').style.borderColor = 'green'}
 
-      if(this.type === null){document.querySelector('#type').style.backgroundColor = 'red'; error = true}
-      else{document.querySelector('#type').style.backgroundColor = 'green'}
+      if(this.type === null){document.querySelector('#type').style.borderColor = 'red'; error = true}
+      else{document.querySelector('#type').style.borderColor = 'green'}
 
-      if(!this.taille){document.querySelector('#taille').style.backgroundColor = 'red'; error = true}
-      else{document.querySelector('#taille').style.backgroundColor = 'green'}
+      if(!this.taille){document.querySelector('#taille').style.borderColor = 'red'; error = true}
+      else{document.querySelector('#taille').style.borderColor = 'green'}
 
       if(!error){
         axios({
@@ -68,6 +68,7 @@ export default {
             taille_min: this.taille
           }
         }).then(result=>{
+          this.goTo('/prestataire/maneges')
           this.$store.commit('setMessage',result.data)
         }).catch(error=>{
           console.log(error)
@@ -88,3 +89,10 @@ export default {
   }
 }
 </script>
+<style>
+input,select,textarea{
+  border: solid 2px;
+  background-color: white;
+  width: 100%;
+}
+</style>
