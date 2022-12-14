@@ -148,9 +148,9 @@ export default class PrestatairesService {
         }
         return service.getArtistsByIdUser(id_user)
     }
-    async addArtist(id_user,name,description,type){
+    async addArtist(id_user,name,description,type,groupe){
         return new Promise((resolve,reject)=>{
-            pool.query('insert into artistes(id_user,name,description,type,status) values ($1,$2,$3,$4,$5);', [id_user,name,description,type,"not_attributed"], (error,result)=>{
+            pool.query('insert into artistes(id_user,name,description,type,status,groupe) values ($1,$2,$3,$4,$5,$6);', [id_user,name,description,type,"not_attributed",groupe.toString()], (error,result)=>{
                 if(error){
                     console.error(error)
                     reject(error)

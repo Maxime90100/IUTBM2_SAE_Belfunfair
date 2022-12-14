@@ -14,7 +14,8 @@
     "startDate": "Start date",
     "endDate": "End date",
     "from": "From",
-    "to": "to"
+    "to": "to",
+    "groupMember": "Group members"
   },
   "button": {
     "logout": "Logout",
@@ -69,6 +70,7 @@
   "artiste": {
     "name": "Groups",
     "add": "Add a group",
+    "addMember": "Add a member",
     "signup": "Register your group"
   }
 }

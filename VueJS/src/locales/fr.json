@@ -14,7 +14,8 @@
     "startDate": "Date début",
     "endDate": "Date fin",
     "from": "Du",
-    "to": "au"
+    "to": "au",
+    "groupMember": "Membres du groupe"
   },
   "button": {
     "logout": "Déconnexion",
@@ -69,6 +70,7 @@
   "artiste": {
     "name": "Groupes",
     "add": "Ajouter un groupe",
+    "addMember": "Ajouter un membre",
     "signup": "Inscrire votre groupe"
   }
 }

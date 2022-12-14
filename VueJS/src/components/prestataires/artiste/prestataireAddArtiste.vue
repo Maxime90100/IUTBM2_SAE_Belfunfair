@@ -16,6 +16,14 @@
           </option>
         </select>
 
+        <h4>{{ $t('attribute.groupMember') }} ({{this.groupe.length}})</h4>
+        <input id="groupe" type="text" required />
+        <v-btn x-small @click="addMember()">{{ $t('artiste.addMember') }}</v-btn>
+        <div v-for="(member,index) in groupe" :key="'prestataire-add-member-'+member">
+          {{member}} <v-btn color="red" x-small @click="deleteMember(index)">{{ $t('button.delete') }}</v-btn>
+        </div>
+
+
         <div style="margin-top: 10px">
           <v-btn dark type="button" v-on:click="add()">{{ $t('button.add') }}</v-btn>
           <v-btn type="button" v-on:click="goTo('/prestataire/artistes')">{{ $t('button.back') }}</v-btn>
@@ -36,11 +44,14 @@ export default {
       description:null,
       types:null,
       type:null,
+      groupe:[],
       id_user:null
     }
   },
   methods:{
     goTo(path){this.$router.replace(path)},
+    addMember(){this.groupe.push(document.querySelector('#groupe').value)},
+    deleteMember(index){this.groupe.splice(index,1)},
     add(){
       let error = false
 
@@ -50,8 +61,11 @@ export default {
       if(!this.description){document.querySelector('#description').style.backgroundColor = 'red'; error = true}
       else{document.querySelector('#description').style.backgroundColor = 'green'}
 
-      if(this.type === null){document.querySelector('#type').style.backgroundColor = 'red'; error = true}
+      if(!this.type){document.querySelector('#type').style.backgroundColor = 'red'; error = true}
       else{document.querySelector('#type').style.backgroundColor = 'green'}
+
+      if(this.groupe.length === 0){document.querySelector('#groupe').style.backgroundColor = 'red'; error = true}
+      else{document.querySelector('#groupe').style.backgroundColor = 'green'}
 
       if(!error){
         axios({
@@ -60,7 +74,8 @@ export default {
           data: {
             name: this.name,
             description: this.description,
-            type: this.type
+            type: this.type,
+            groupe:this.groupe
           }
         }).then(result=>{
           this.$store.commit('setMessage',result.data)

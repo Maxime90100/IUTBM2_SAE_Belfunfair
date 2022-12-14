@@ -6,6 +6,17 @@
         <h1>{{artiste.name}}</h1>
 
         <div style="text-align: center">
+          <v-menu dark>
+            <template v-slot:activator="{ on }">
+              <v-btn icon v-on="on" color="white"><v-icon>mdi-account</v-icon></v-btn>
+            </template>
+            <v-list>
+              <v-list-item v-for="name in artiste.groupe.split(',')" :key="'prestataire-artiste-'+name">{{ name }}</v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
+
+        <div style="text-align: center">
           <h4 v-if="artiste.status === 'attributed'" style="color: green">{{$t('status.attributed')}}</h4>
           <h4 v-if="artiste.status === 'wait_attribution'" style="color: orange">{{$t('status.wait_attribution')}}</h4>
           <h4 v-if="artiste.status === 'not_attributed'" style="color: red">{{$t('status.not_attributed')}}</h4>

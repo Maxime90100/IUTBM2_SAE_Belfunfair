@@ -219,9 +219,10 @@ export const addArtist = (req,res)=>{
     let name = req.body.name
     let description = req.body.description
     let type = req.body.type
+    let groupe = req.body.groupe
 
     let service = new PrestatairesService()
-    service.addArtist(id_user,name,description,type).then(result=>{
+    service.addArtist(id_user,name,description,type,groupe).then(result=>{
         res.status(200).send(result)
     }).catch(error=>{
         res.status(400).send(error)
