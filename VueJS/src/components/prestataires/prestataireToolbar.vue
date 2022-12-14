@@ -14,11 +14,12 @@
         </template>
 
         <v-list>
-          <v-list-item @click="goTo('/prestataire')">{{$t('prestataireToolbar.profil')}}</v-list-item>
+          <v-list-item @click="goTo('/prestataire')"><v-icon>mdi-account</v-icon>{{$t('prestataireToolbar.profil')}}</v-list-item>
           <v-list-item @click="goTo('/prestataire/maneges')">{{$t('prestataireToolbar.manege')}}</v-list-item>
           <v-list-item @click="goTo('/prestataire/stands')">{{$t('prestataireToolbar.stand')}}</v-list-item>
-          <v-list-item @click="logout">{{$t('button.logout')}}</v-list-item>
-          <v-list-item @click="goTo('/')">{{$t('prestataireToolbar.home')}}</v-list-item>
+          <v-list-item @click="goTo('/prestataire/stage')">{{$t('prestataireToolbar.stage')}}</v-list-item>
+          <v-list-item @click="logout"><v-icon>mdi-logout</v-icon>{{$t('button.logout')}}</v-list-item>
+          <v-list-item @click="goTo('/')"><v-icon>mdi-home</v-icon>{{$t('prestataireToolbar.home')}}</v-list-item>
          </v-list>
       </v-menu>
 
@@ -58,6 +59,7 @@
           <v-tab @click="goTo('/prestataire')">{{$t('prestataireToolbar.profil')}}</v-tab>
           <v-tab @click="goTo('/prestataire/maneges')">{{$t('prestataireToolbar.manege')}}</v-tab>
           <v-tab @click="goTo('/prestataire/stands')">{{$t('prestataireToolbar.stand')}}</v-tab>
+          <v-tab @click="goTo('/prestataire/stage')">{{$t('prestataireToolbar.stage')}}</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>

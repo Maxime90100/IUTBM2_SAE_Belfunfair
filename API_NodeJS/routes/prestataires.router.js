@@ -23,19 +23,16 @@ router.get("/:id_user/stand/:id/signup", controller.signupStand);
 router.post("/:id_user/stand/:id/signupPost", controller.signupStandPOST);
 //router.post("/:id_user/stand/:id/deleteImage", imageProcessor.deleteImage, controller.deleteImageStand);
 
-
-
-
-
-
-
-
-
-
 // SCENE
 
-// Artistes
-router.get("/:id_user/artistes/:id?", controller.showArtists);
+router.get("/:id_user/artiste/:id?", controller.showArtists);
+
+
+
+
+
+
+
 
 router.get("/:id_user/addArtists", controller.addArtists);
 router.post("/:id_user/addArtists", controller.addArtistsPOST);

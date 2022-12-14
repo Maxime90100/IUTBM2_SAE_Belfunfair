@@ -1,7 +1,6 @@
 import PrestatairesService from "../services/prestataires.service.js";
 import dotenv from "dotenv"
 import UsersService from "../services/users.service.js";
-import {inArray} from "sharp/lib/is.js";
 dotenv.config()
 
 // MANEGES
@@ -192,17 +191,18 @@ export const deleteImageStand = (req,res)=>{
 }
 */
 
-// ARTISTS
+// SCENE
 
 export const showArtists = (req,res)=>{
-    let user_id = req.params.id_user
+    let id_user = req.params.id_user
     let artiste_id = req.params.id
-    let service = new PrestatairesService()
 
-    service.showArtists(user_id,artiste_id).then(result=>{
-        if(artiste_id !== undefined) res.status(200).render("prestataires/showArtists.handlebars",result)
-        else res.status(200).render("prestataires/artists.handlebars", {artistes:result,id_user:user_id})
-    }).catch(error=>{res.status(400).send({success:0,error:error})});
+    let service = new PrestatairesService()
+    service.showArtists(id_user,artiste_id).then(result=>{
+        res.status(200).send(result)
+    }).catch(error=>{
+        res.status(400).send(error)
+    });
 }
 
 export const addArtists = (req,res)=>{

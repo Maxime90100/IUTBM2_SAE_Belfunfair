@@ -16,8 +16,8 @@
         <v-list>
           <v-list-item @click="goTo('/#presentation')">{{$t('userToolbar.presentation')}}</v-list-item>
           <v-list-item @click="goTo('/#map')">{{$t('userToolbar.map')}}</v-list-item>
-          <v-list-item @click="goTo('/login')">{{$t('button.login')}}</v-list-item>
-          <v-list-item @click="goTo('/#about')">{{$t('button.about')}}</v-list-item>
+          <v-list-item @click="goTo('/login')"><v-icon>mdi-login</v-icon>{{$t('button.login')}}</v-list-item>
+          <v-list-item @click="goTo('/#about')"><v-icon>mdi-information-outline</v-icon>{{$t('button.about')}}</v-list-item>
         </v-list>
       </v-menu>
 

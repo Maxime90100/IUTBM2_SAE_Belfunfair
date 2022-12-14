@@ -139,21 +139,6 @@ export default class PrestatairesService {
 
     // ARTISTES
 
-    // async showArtists(id_user,id_artist,callback){
-    //     let service = new UsersService()
-    //     let Artists = await service.loadArtists(id_user)
-    //     if(id_artist !== undefined){
-    //         let Artist
-    //         Artists.forEach((artist)=>{
-    //             if(artist.id === id_artist)
-    //                 Artist = artist
-    //         });
-    //         return callback(null,Artist)
-    //     }
-    //     return callback(null,Artists)
-    // }
-
-
 async showArtists(id_user,id_artist){
     let service = new UsersService()
     if(id_artist !== undefined)

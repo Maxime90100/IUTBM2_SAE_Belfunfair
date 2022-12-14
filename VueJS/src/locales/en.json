@@ -42,7 +42,8 @@
     "profil": "Account",
     "home": "Home",
     "manege": "Rides",
-    "stand": "Stalls"
+    "stand": "Stalls",
+    "stage": "Stage"
   },
   "home": {
     "title": "Welcome to BELFUNFAIR",

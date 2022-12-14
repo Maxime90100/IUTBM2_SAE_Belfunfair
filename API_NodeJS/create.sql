@@ -1,12 +1,16 @@
-drop table if exists artistes;
 drop table if exists manegesInscrit;
 drop table if exists emplacementsManeges;
 drop table if exists maneges;
+drop table if exists types_manege;
+
 drop table if exists standsInscrit;
 drop table if exists emplacementsStands;
 drop table if exists stands;
-drop table if exists staff;
-drop table if exists types_manege;
+drop table if exists types_stand;
+
+drop table if exists artistes;
+drop table if exists types_artiste;
+
 drop table if exists users;
 
 create table users(
@@ -55,15 +59,23 @@ create table manegesInscrit(
   foreign key (id_emplacement) references emplacementsManeges(id)
 );
 
+create table types_stand(
+    id serial,
+    libelle varchar(50),
+    primary key (id)
+);
+
 create table stands(
   id serial,
   id_user int,
   name varchar(50),
+  type int,
   description varchar(1000),
   images text[],
   status varchar(50),
   primary key (id),
-  foreign key (id_user) references users(id)
+  foreign key (id_user) references users(id),
+  foreign key (type) references types_stand(id)
 );
 
 create table emplacementsStands(
@@ -82,26 +94,23 @@ create table standsInscrit(
   foreign key (id_emplacement) references emplacementsStands(id)
 );
 
-create table staff(
-    id serial,
-    id_user int,
-    firstname varchar(50),
-    lastname varchar(50),
-    function varchar(50),
-    primary key (id),
-    foreign key (id_user) references users(id)
-
+create table types_artiste(
+  id serial,
+  libelle varchar(50),
+  primary key (id)
 );
 
 create table artistes(
   id serial,
   id_user int,
   name varchar(50),
-  description varchar(255),
+  description varchar(1000),
+  type int,
   images text[],
   groupe text,
   primary key (id),
-  foreign key (id_user) references users(id)
+  foreign key (id_user) references users(id),
+  foreign key (type) references types_artiste(id)
 );
 
 insert into users(role, firstname, surname, email, password) values ('organisateur','orga1','orga1', 'orga1@orga1.com','$2b$10$94kO1uWdRJrMNCozXZII7OE38Yxd7oQFsA.10iq.gZOg35FEzralO');
@@ -121,10 +130,15 @@ insert into maneges(id_user, name, type, description, images, status) values (3,
 insert into maneges(id_user, name, type, taille_min, description, images, status) values (4,'Chaises-volantes', 2, 120, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis nulla vel justo faucibus venenatis et ut tellus. Nam ac ante purus. Donec in tempor lacus. Quisque efficitur augue ut mi bibendum, ut maximus nisi consequat. Proin pretium ante vitae elit luctus varius vitae eget nulla. Curabitur eleifend malesuada mattis. Quisque ut mi at sapien eleifend porttitor. Fusce at efficitur nulla. Vivamus ex nisl, semper ut sodales in, vulputate at dolor. Integer sit amet efficitur lorem. Aliquam vel pharetra augue. Vestibulum quis malesuada metus, et elementum lectus.','{}','not_attributed');
 insert into maneges(id_user, name, type, description, images, status) values (4,'Pinces', 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis nulla vel justo faucibus venenatis et ut tellus. Nam ac ante purus. Donec in tempor lacus. Quisque efficitur augue ut mi bibendum, ut maximus nisi consequat. Proin pretium ante vitae elit luctus varius vitae eget nulla. Curabitur eleifend malesuada mattis. Quisque ut mi at sapien eleifend porttitor. Fusce at efficitur nulla. Vivamus ex nisl, semper ut sodales in, vulputate at dolor. Integer sit amet efficitur lorem. Aliquam vel pharetra augue. Vestibulum quis malesuada metus, et elementum lectus.','{}','not_attributed');
 
-insert into stands(id_user, name, description, images, status) values (3,'chez gipsy','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis nulla vel justo faucibus venenatis et ut tellus. Nam ac ante purus. Donec in tempor lacus. Quisque efficitur augue ut mi bibendum, ut maximus nisi consequat. Proin pretium ante vitae elit luctus varius vitae eget nulla. Curabitur eleifend malesuada mattis. Quisque ut mi at sapien eleifend porttitor. Fusce at efficitur nulla. Vivamus ex nisl, semper ut sodales in, vulputate at dolor. Integer sit amet efficitur lorem. Aliquam vel pharetra augue. Vestibulum quis malesuada metus, et elementum lectus.','{}','attributed');
-insert into stands(id_user, name, description, images, status) values (3,'kebab','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis nulla vel justo faucibus venenatis et ut tellus. Nam ac ante purus. Donec in tempor lacus. Quisque efficitur augue ut mi bibendum, ut maximus nisi consequat. Proin pretium ante vitae elit luctus varius vitae eget nulla. Curabitur eleifend malesuada mattis. Quisque ut mi at sapien eleifend porttitor. Fusce at efficitur nulla. Vivamus ex nisl, semper ut sodales in, vulputate at dolor. Integer sit amet efficitur lorem. Aliquam vel pharetra augue. Vestibulum quis malesuada metus, et elementum lectus.','{}','attributed');
-insert into stands(id_user, name, description, images, status) values (4,'Vapiano','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis nulla vel justo faucibus venenatis et ut tellus. Nam ac ante purus. Donec in tempor lacus. Quisque efficitur augue ut mi bibendum, ut maximus nisi consequat. Proin pretium ante vitae elit luctus varius vitae eget nulla. Curabitur eleifend malesuada mattis. Quisque ut mi at sapien eleifend porttitor. Fusce at efficitur nulla. Vivamus ex nisl, semper ut sodales in, vulputate at dolor. Integer sit amet efficitur lorem. Aliquam vel pharetra augue. Vestibulum quis malesuada metus, et elementum lectus.','{}','attributed');
-insert into stands(id_user, name, description, images, status) values (4,'ritz','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis nulla vel justo faucibus venenatis et ut tellus. Nam ac ante purus. Donec in tempor lacus. Quisque efficitur augue ut mi bibendum, ut maximus nisi consequat. Proin pretium ante vitae elit luctus varius vitae eget nulla. Curabitur eleifend malesuada mattis. Quisque ut mi at sapien eleifend porttitor. Fusce at efficitur nulla. Vivamus ex nisl, semper ut sodales in, vulputate at dolor. Integer sit amet efficitur lorem. Aliquam vel pharetra augue. Vestibulum quis malesuada metus, et elementum lectus.','{}','not_attributed');
+insert into  types_stand(libelle) values ('boissons');
+insert into  types_stand(libelle) values ('nourriture');
+insert into  types_stand(libelle) values ('nourriture-boissons');
+insert into  types_stand(libelle) values ('restaurant');
+
+insert into stands(id_user, name, type, description, images, status) values (3,'chez gipsy', 3,'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis nulla vel justo faucibus venenatis et ut tellus. Nam ac ante purus. Donec in tempor lacus. Quisque efficitur augue ut mi bibendum, ut maximus nisi consequat. Proin pretium ante vitae elit luctus varius vitae eget nulla. Curabitur eleifend malesuada mattis. Quisque ut mi at sapien eleifend porttitor. Fusce at efficitur nulla. Vivamus ex nisl, semper ut sodales in, vulputate at dolor. Integer sit amet efficitur lorem. Aliquam vel pharetra augue. Vestibulum quis malesuada metus, et elementum lectus.','{}','attributed');
+insert into stands(id_user, name, type, description, images, status) values (3,'kebab', 2,'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis nulla vel justo faucibus venenatis et ut tellus. Nam ac ante purus. Donec in tempor lacus. Quisque efficitur augue ut mi bibendum, ut maximus nisi consequat. Proin pretium ante vitae elit luctus varius vitae eget nulla. Curabitur eleifend malesuada mattis. Quisque ut mi at sapien eleifend porttitor. Fusce at efficitur nulla. Vivamus ex nisl, semper ut sodales in, vulputate at dolor. Integer sit amet efficitur lorem. Aliquam vel pharetra augue. Vestibulum quis malesuada metus, et elementum lectus.','{}','attributed');
+insert into stands(id_user, name, type, description, images, status) values (4,'Vapiano', 4,'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis nulla vel justo faucibus venenatis et ut tellus. Nam ac ante purus. Donec in tempor lacus. Quisque efficitur augue ut mi bibendum, ut maximus nisi consequat. Proin pretium ante vitae elit luctus varius vitae eget nulla. Curabitur eleifend malesuada mattis. Quisque ut mi at sapien eleifend porttitor. Fusce at efficitur nulla. Vivamus ex nisl, semper ut sodales in, vulputate at dolor. Integer sit amet efficitur lorem. Aliquam vel pharetra augue. Vestibulum quis malesuada metus, et elementum lectus.','{}','attributed');
+insert into stands(id_user, name, type, description, images, status) values (4,'ritz', 1,'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis nulla vel justo faucibus venenatis et ut tellus. Nam ac ante purus. Donec in tempor lacus. Quisque efficitur augue ut mi bibendum, ut maximus nisi consequat. Proin pretium ante vitae elit luctus varius vitae eget nulla. Curabitur eleifend malesuada mattis. Quisque ut mi at sapien eleifend porttitor. Fusce at efficitur nulla. Vivamus ex nisl, semper ut sodales in, vulputate at dolor. Integer sit amet efficitur lorem. Aliquam vel pharetra augue. Vestibulum quis malesuada metus, et elementum lectus.','{}','not_attributed');
 
 insert into emplacementsManeges(id) values (1);
 insert into emplacementsManeges(id) values (2);
@@ -157,7 +171,9 @@ insert into standsInscrit(id_stand, id_emplacement, dateDebut, dateFin) values (
 insert into standsInscrit(id_stand, id_emplacement, dateDebut, dateFin) values (2,6,'20-06-2022','20-08-2022');
 insert into standsInscrit(id_stand, id_emplacement, dateDebut, dateFin) values (3,10,'20-06-2022','20-08-2022');
 
-insert into staff(id_user, firstname, lastname, function) values (1,'Shakir','Laabany','security');
+insert into types_artiste(libelle) values ('Variété Française');
+insert into types_artiste(libelle) values ('Pop');
+insert into types_artiste(libelle) values ('Rock');
+insert into types_artiste(libelle) values ('Electro');
 
-insert into artistes(id_user, name, description, images, groupe) values (3,'Maitre Gims','Maitre Gims est un rappeur français, né le 9 novembre 1986 à Vitry-sur-Seine (Val-de-Marne). Il est le fils de l’ancien footballeur et entraîneur de football, Gimsley, et de la chanteuse et comédienne, Marie-Claude Pietragalla.','{}','');
-insert into artistes(id_user, name, description, images, groupe) values (3,'Jesse Rutherford',' Jesse Rutherford fait partie de The neighbourhood qui est un groupe de rock américain, originaire de Los Angeles, en Californie.','{}', 'Zach abdels, Mikey Margott Bryan Sammis');
+insert into artistes(id_user, name, type, description, images, groupe) values (3,'Le trio', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin turpis mauris, vulputate sit amet quam eu, rhoncus auctor massa. Donec id maximus eros. In porttitor et massa vestibulum bibendum. In quis nibh vitae libero tempor dignissim. Aenean convallis leo ac dapibus consequat. Vivamus quis enim tempus, feugiat odio vitae, pharetra urna. Ut id tortor pharetra, tincidunt dui non, dictum lorem. Mauris a neque id ante lacinia interdum. Morbi dapibus placerat urna, ac efficitur purus hendrerit in.', '{}', '{}');
