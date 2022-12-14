@@ -65,5 +65,10 @@
   "stand": {
     "add": "Add a stall",
     "signup": "Register your stall"
+  },
+  "artiste": {
+    "name": "Groups",
+    "add": "Add a group",
+    "signup": "Register your group"
   }
 }

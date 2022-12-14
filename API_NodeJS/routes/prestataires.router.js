@@ -26,21 +26,7 @@ router.post("/:id_user/stand/:id/signupPost", controller.signupStandPOST);
 // SCENE
 
 router.get("/:id_user/artiste/:id?", controller.showArtists);
-
-
-
-
-
-
-
-
-router.get("/:id_user/addArtists", controller.addArtists);
-router.post("/:id_user/addArtists", controller.addArtistsPOST);
-router.post("/:id_user/artistes/:id/update", imageProcessor.uploadImages, await imageProcessor.resizeImages, controller.editArtists);
-router.post("/:id_user/artistes/:id/deleteImage", imageProcessor.deleteImage, controller.deleteImageArtists);
-router.post("/:id_user/artistes/:id/delete", controller.deleteArtists);
-
-
-// router.get("/:id_user/artistes/:id?", controller.showArtists);
+router.post("/:id_user/addArtiste", controller.addArtist);
+router.post("/:id_user/artiste/:id/delete", controller.deleteArtist);
 
 export default router;

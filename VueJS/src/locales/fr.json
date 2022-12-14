@@ -65,5 +65,10 @@
   "stand": {
     "add": "Ajouter un stand",
     "signup": "Inscrire votre stand"
+  },
+  "artiste": {
+    "name": "Groupes",
+    "add": "Ajouter un groupe",
+    "signup": "Inscrire votre groupe"
   }
 }

@@ -5,14 +5,19 @@ import Home from "@/views/Home.vue";
 import Login from "@/views/users/login.vue";
 
 import prestataireHome from "@/views/prestataires/prestataireHome.vue";
+
 import prestataireManeges from "@/views/prestataires/manege/prestataireManeges.vue";
-import prestataireStands from "@/views/prestataires/stand/prestataireStands.vue";
 import prestataireManegeAdd from "@/views/prestataires/manege/prestataireManegeAdd.vue";
-import prestataireStandAdd from "@/views/prestataires/stand/prestataireStandAdd.vue";
 import prestataireManegeUpdate from "@/views/prestataires/manege/prestataireManegeUpdate.vue";
-import prestataireStandUpdate from "@/views/prestataires/stand/prestataireStandUpdate.vue";
 import prestataireManegeSignup from "@/views/prestataires/manege/prestataireManegeSignup.vue";
+
+import prestataireStands from "@/views/prestataires/stand/prestataireStands.vue";
+import prestataireStandAdd from "@/views/prestataires/stand/prestataireStandAdd.vue";
+import prestataireStandUpdate from "@/views/prestataires/stand/prestataireStandUpdate.vue";
 import prestataireStandSignup from "@/views/prestataires/stand/prestataireStandSignup.vue";
+
+import prestataireArtistes from "@/views/prestataires/artiste/prestataireArtistes.vue";
+import prestataireArtisteAdd from "@/views/prestataires/artiste/prestataireArtisteAdd.vue";
 
 Vue.use(Router);
 
@@ -41,19 +46,9 @@ export default new Router({
             component: prestataireManeges
         },
         {
-            path: "/prestataire/stands",
-            name: "prestataireStands",
-            component: prestataireStands
-        },
-        {
             path: "/prestataire/maneges/add",
             name: "prestataireManegeAdd",
             component: prestataireManegeAdd
-        },
-        {
-            path: "/prestataire/stands/add",
-            name: "prestataireStandAdd",
-            component: prestataireStandAdd
         },
         {
             path: "/prestataire/maneges/:id",
@@ -61,19 +56,39 @@ export default new Router({
             component: prestataireManegeUpdate
         },
         {
-            path: "/prestataire/stands/:id",
-            name: "prestataireStandUpdate",
-            component: prestataireStandUpdate
-        },
-        {
             path: "/prestataire/maneges/:id/signup",
             name: "prestataireManegeSignup",
             component: prestataireManegeSignup
         },
         {
+            path: "/prestataire/stands",
+            name: "prestataireStands",
+            component: prestataireStands
+        },
+        {
+            path: "/prestataire/stands/add",
+            name: "prestataireStandAdd",
+            component: prestataireStandAdd
+        },
+        {
+            path: "/prestataire/stands/:id",
+            name: "prestataireStandUpdate",
+            component: prestataireStandUpdate
+        },
+        {
             path: "/prestataire/stands/:id/signup",
             name: "prestataireStandSignup",
             component: prestataireStandSignup
+        },
+        {
+            path: "/prestataire/artistes",
+            name: "prestataireArtistes",
+            component: prestataireArtistes
+        },
+        {
+            path: "/prestataire/artistes/add",
+            name: "prestataireArtisteAdd",
+            component: prestataireArtisteAdd
         }
     ]
 })

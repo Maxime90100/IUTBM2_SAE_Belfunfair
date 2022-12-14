@@ -204,62 +204,26 @@ export const showArtists = (req,res)=>{
         res.status(400).send(error)
     });
 }
+export const deleteArtist = (req,res)=>{
+    let id_artist = req.params.id
 
-export const addArtists = (req,res)=>{
-    let id_user = req.params.id_user
-    res.status(200).render("prestataires/addArtists.handlebars",{id_user:id_user})
+    let service = new PrestatairesService()
+    service.deleteArtist(id_artist).then(result=>{
+        res.status(200).send(result)
+    }).catch(error=>{
+        res.status(400).send(error)
+    });
 }
-
-export const addArtistsPOST = (req,res)=>{
+export const addArtist = (req,res)=>{
     let id_user = req.params.id_user
     let name = req.body.name
     let description = req.body.description
-    let groupe = req.body.groupe
-    let service = new PrestatairesService()
-
-    service.addArtists(id_user,name,description, groupe).then(result=>{
-        req.flash("success",result);
-        res.redirect("/prestataires/"+id_user+"/artistes");
-    }).catch(error=>{
-        req.flash("error",error);
-        res.redirect("/prestataires/"+id_user+"/artistes");
-    });
-}
-
-export const editArtists = (req,res)=>{
-    let id_user = req.params.id_user
-    let id_artist = req.params.id
-    let name = req.body.name
-    let description = req.body.description
-    let groupe = req.body.groupe
-console.log(groupe, id_artist, name, description, id_user);
+    let type = req.body.type
 
     let service = new PrestatairesService()
-    service.editArtists(id_artist,name,description, groupe).then(result=>{
-        req.flash("success",`${result}`);
-        res.redirect("/prestataires/"+id_user+"/artistes/"+id_artist);
+    service.addArtist(id_user,name,description,type).then(result=>{
+        res.status(200).send(result)
     }).catch(error=>{
-        req.flash("error",`${error}`);
-        res.redirect("/prestataires/"+id_user+"/artistes/"+id_artist);
+        res.status(400).send(error)
     });
-}
-
-export const deleteArtists = (req,res)=>{
-    let id_user = req.params.id_user
-    let id_artist = req.body.id_artist
-    let service = new PrestatairesService()
-    service.deleteArtists(id_artist).then(result=>{
-        req.flash("success",`${result}`);
-        res.redirect("/prestataires/"+id_user+"/artistes");
-    }).catch(error=>{
-        req.flash("error",`${error}`);
-        res.redirect("/prestataires/"+id_user+"/artistes");
-    });
-}
-export const deleteImageArtists = (req,res)=>{
-    let id_user = req.params.id_user
-    let id_artist = req.params.id
-    if(req.body.path !== undefined)
-        req.flash("success",`Les images ont été supprimées !`);
-    res.redirect("/prestataires/"+id_user+"/artistes/"+id_artist);
 }

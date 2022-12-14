@@ -137,55 +137,47 @@ export default class PrestatairesService {
         });
     }
 
-    // ARTISTES
+    // SCENE
 
-async showArtists(id_user,id_artist){
-    let service = new UsersService()
-    if(id_artist !== undefined)
-        return service.getArtistsById(id_artist)
-    return service.getArtistsByIdUser(id_user)
-}
-
-async addArtists(id_user,name,description, groupe){
-    return new Promise((resolve,reject)=>{
-        pool.query('insert into artistes(id_user, name, description,groupe) values ($1,$2,$3,$4);', [id_user,name,description,groupe], (error,result)=>{
-            if(error){
-                console.error(error)
-                reject('Votre artiste n\'a pas pu être ajouté !')
-            }
-            resolve('Votre artiste "'+name+'" à bien été ajouté !')
-        });
-    });
-}
-
-async editArtists(id_artist,name,description,groupe){
-    return new Promise((resolve,reject)=>{
-        pool.query('update artistes set name=$1, description=$2, groupe=$3 where id=$4;', [name,description,groupe,id_artist], (error,result)=>{
-            if(error){
-                console.error("tests", error)
-                reject('Votre artiste n\'a pas pu être modifié !')
-            }
-            resolve('Votre artiste "'+name+'" à bien été modifié !')
-        });
-    });
-}
-
-async deleteArtists(id_artist){
-    let service = new UsersService()
-    return new Promise(async (resolve,reject)=>{
-        service.getArtistsById(id_artist).then(result=>{
-            pool.query('delete from artistes where id=$1;', [id_artist], (error,result)=>{
+    async showArtists(id_user,id_artist){
+        let service = new UsersService()
+        if(id_artist !== undefined){
+            let artist = await service.getArtistById(id_artist)
+            let types = await service.getTypesArtist()
+            return ({success:1,data:{artist:artist,types:types}})
+        }
+        return service.getArtistsByIdUser(id_user)
+    }
+    async addArtist(id_user,name,description,type){
+        return new Promise((resolve,reject)=>{
+            pool.query('insert into artistes(id_user,name,description,type,status) values ($1,$2,$3,$4,$5);', [id_user,name,description,type,"not_attributed"], (error,result)=>{
                 if(error){
                     console.error(error)
-                    reject('Votre artiste n\'a pas pu être supprimé !')
+                    reject(error)
                 }
-                resolve('Votre artiste à bien été supprimé !')
+                resolve({success:1,data:'Votre groupe "'+name+'" à bien été ajouté !'})
             });
-        }).catch(error=>{
-            console.error(error)
-            reject('Votre artiste n\'a pas pu être supprimé !')
         });
-    });
-}
-
+    }
+    async deleteArtist(id_artist){
+        let service = new UsersService()
+        return new Promise(async (resolve,reject)=>{
+            service.getArtistById(id_artist).then(artist=>{
+                if(artist.status === "not_attributed") {
+                    pool.query('delete from artistes where id=$1;', [id_artist], (error, result) => {
+                        if (error) {
+                            console.error(error)
+                            reject(error)
+                        }
+                        resolve({success:1,data:'Votre groupe "'+artist.name+'" à bien été supprimé !'})
+                    });
+                }else{
+                    resolve({success:0,data:'Votre groupe "'+artist.name+'" ne peut pas être supprimé car il est déjà inscrit ou en cours d\'inscription ! Faite une demande d\'annulation dans le menu \"inscription\"'})
+                }
+            }).catch(error=>{
+                console.error(error)
+                reject(error)
+            });
+        });
+    }
 }

@@ -9,4 +9,5 @@ router.get("/logout", user.logout);
 
 router.get("/typesManege",user.getTypesManege);
 router.get("/typesStand",user.getTypesStand);
+router.get("/typesArtiste",user.getTypesArtist);
 export default router;

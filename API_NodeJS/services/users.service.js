@@ -25,6 +25,7 @@ export default class UsersService {
            });
         });
     }
+
     async getTypesManege(){
         return new Promise((resolve, reject)=>{
             pool.query('select * from types_manege;', (error,result)=>{
@@ -36,10 +37,20 @@ export default class UsersService {
             });
         });
     }
-
     async getTypesStand(){
         return new Promise((resolve, reject)=>{
             pool.query('select * from types_stand;', (error,result)=>{
+                if(error){
+                    console.error(error)
+                    reject(error)
+                }
+                resolve(result.rows)
+            });
+        });
+    }
+    async getTypesArtist(){
+        return new Promise((resolve, reject)=>{
+            pool.query('select * from types_artiste;', (error,result)=>{
                 if(error){
                     console.error(error)
                     reject(error)
@@ -143,6 +154,63 @@ export default class UsersService {
         });
     }
 
+    // SCENE
+
+    async getArtists(){
+        return new Promise((resolve,reject)=>{
+            pool.query('select a.id, a.id_user, a.name, t.libelle as type, a.description, a.images, a.groupe, a.status from artistes a join types_artiste t on a.type = t.id order by a.id ASC;', (error,result)=>{
+                if(error){
+                    console.error(error)
+                    reject(error)
+                }
+                resolve(result.rows)
+            });
+        });
+    }
+    async getArtistsByIdUser(id_user){
+        return new Promise((resolve,reject)=>{
+            pool.query('select a.id, a.id_user, a.name, t.libelle as type, a.description, a.images, a.groupe, a.status from artistes a join types_artiste t on a.type = t.id where id_user=$1 order by id ASC;', [id_user], (error,result)=>{
+                if(error){
+                    console.error(error)
+                    reject(error)
+                }
+                resolve(result.rows)
+            });
+        });
+    }
+    async getArtistById(id){
+        return new Promise((resolve,reject)=>{
+            pool.query('select a.id, a.id_user, a.name, a.type, t.libelle as typeLibelle, a.description, a.images, a.groupe, a.status from artistes a join types_artiste t on a.type = t.id where a.id=$1;', [id], (error,result)=>{
+                if(error){
+                    console.error(error)
+                    reject(error)
+                }
+                resolve(result.rows[0])
+            });
+        });
+    }
+    async getArtistsStartWith(start){
+        return new Promise((resolve,reject)=>{
+            pool.query('select * from artistes  where name like $1;', [start+"%"], (error,result)=>{
+                if(error){
+                    console.error(error)
+                    reject(error)
+                }
+                resolve(result.rows)
+            });
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
     // STAFF
 
     async getStaffById(id){
@@ -186,42 +254,5 @@ export default class UsersService {
                 reject({success:0,message:'Firstname or Surname incorrect !',data:[]});
             }
         })
-    }
-
-    async getArtists(){
-        return new Promise((resolve,reject)=>{
-            pool.query('select * from artistes order by id ASC;', (error,result)=>{
-                if(error){
-                    console.error(error)
-                    reject(error)
-                }
-                resolve(result.rows)
-            });
-        });
-    }
-    
-    async getArtistsByIdUser(id_user){
-        return new Promise((resolve,reject)=>{
-            pool.query('select * from artistes where id_user=$1 order by id ASC;', [id_user], (error,result)=>{
-                if(error){
-                    console.error(error)
-                    reject(error)
-                }
-                resolve(result.rows)
-            });
-        });
-    }
-    
-    
-    async getArtistsById(id){
-        return new Promise((resolve,reject)=>{
-            pool.query('select * from artistes where id=$1;', [id], (error,result)=>{
-                if(error){
-                    console.error(error)
-                    reject(error)
-                }
-                resolve(result.rows[0])
-            });
-        });
     }
 }

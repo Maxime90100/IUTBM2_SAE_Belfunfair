@@ -27,10 +27,17 @@ export const getTypesManege = (req,res)=>{
         res.status(400).send({success:0,data:error})
     })
 }
-
 export const getTypesStand = (req,res)=>{
     let service = new UsersService()
     service.getTypesStand().then(result=>{
+        res.status(200).send({success:1,data:result})
+    }).catch(error=>{
+        res.status(400).send({success:0,data:error})
+    })
+}
+export const getTypesArtist = (req,res)=>{
+    let service = new UsersService()
+    service.getTypesArtist().then(result=>{
         res.status(200).send({success:1,data:result})
     }).catch(error=>{
         res.status(400).send({success:0,data:error})

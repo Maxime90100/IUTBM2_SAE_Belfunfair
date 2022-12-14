@@ -108,6 +108,7 @@ create table artistes(
   type int,
   images text[],
   groupe text,
+  status varchar(50),
   primary key (id),
   foreign key (id_user) references users(id),
   foreign key (type) references types_artiste(id)
@@ -171,9 +172,7 @@ insert into standsInscrit(id_stand, id_emplacement, dateDebut, dateFin) values (
 insert into standsInscrit(id_stand, id_emplacement, dateDebut, dateFin) values (2,6,'20-06-2022','20-08-2022');
 insert into standsInscrit(id_stand, id_emplacement, dateDebut, dateFin) values (3,10,'20-06-2022','20-08-2022');
 
-insert into types_artiste(libelle) values ('Variété Française');
-insert into types_artiste(libelle) values ('Pop');
-insert into types_artiste(libelle) values ('Rock');
-insert into types_artiste(libelle) values ('Electro');
+insert into types_artiste(libelle) values ('Musique');
+insert into types_artiste(libelle) values ('Théâtre');
 
-insert into artistes(id_user, name, type, description, images, groupe) values (3,'Le trio', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin turpis mauris, vulputate sit amet quam eu, rhoncus auctor massa. Donec id maximus eros. In porttitor et massa vestibulum bibendum. In quis nibh vitae libero tempor dignissim. Aenean convallis leo ac dapibus consequat. Vivamus quis enim tempus, feugiat odio vitae, pharetra urna. Ut id tortor pharetra, tincidunt dui non, dictum lorem. Mauris a neque id ante lacinia interdum. Morbi dapibus placerat urna, ac efficitur purus hendrerit in.', '{}', '{}');
+insert into artistes(id_user, name, type, description, images, groupe, status) values (3,'Le trio', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin turpis mauris, vulputate sit amet quam eu, rhoncus auctor massa. Donec id maximus eros. In porttitor et massa vestibulum bibendum. In quis nibh vitae libero tempor dignissim. Aenean convallis leo ac dapibus consequat. Vivamus quis enim tempus, feugiat odio vitae, pharetra urna. Ut id tortor pharetra, tincidunt dui non, dictum lorem. Mauris a neque id ante lacinia interdum. Morbi dapibus placerat urna, ac efficitur purus hendrerit in.', '{}', '{}', 'not_attributed');
