@@ -11,6 +11,7 @@ drop table if exists types_stand;
 drop table if exists artistes;
 drop table if exists types_artiste;
 
+drop table if exists manifestations;
 drop table if exists users;
 
 create table users(
@@ -21,6 +22,14 @@ create table users(
     email varchar(50),
     password varchar(255),
     primary key (id)
+);
+
+create table manifestations(
+  id serial,
+  dateDebut date,
+  dateFin date,
+  inProgress boolean,
+  primary key (id)
 );
 
 create table types_manege(
@@ -50,11 +59,13 @@ create table emplacementsManeges(
 
 create table manegesInscrit(
   id serial,
+  id_manifestation int,
   id_manege int,
   id_emplacement int,
   dateDebut date,
   dateFin date,
   primary key (id),
+  foreign key (id_manifestation) references manifestations(id),
   foreign key (id_manege) references maneges(id),
   foreign key (id_emplacement) references emplacementsManeges(id)
 );
@@ -85,11 +96,13 @@ create table emplacementsStands(
 
 create table standsInscrit(
   id serial,
+  id_manifestation int,
   id_stand int,
   id_emplacement int,
   dateDebut date,
   dateFin date,
   primary key (id),
+  foreign key (id_manifestation) references manifestations(id),
   foreign key (id_stand) references stands(id),
   foreign key (id_emplacement) references emplacementsStands(id)
 );
@@ -121,6 +134,8 @@ insert into users(role, firstname, surname, email, password) values ('organisate
 insert into users(role, firstname, surname, email, password) values ('prestataire','maxime','theveneau', 'maxime.theveneau@gmail.com','$2b$10$94kO1uWdRJrMNCozXZII7OE38Yxd7oQFsA.10iq.gZOg35FEzralO');
 insert into users(role, firstname, surname, email, password) values ('prestataire','presta2','presta2', 'presta2@presta2.com','$2b$10$IAZ6pccUb..oKrKxh8iLVeJMS0JPu9YWIfUlNQl3T5rYPINtd5Eai');
 
+insert into manifestations (dateDebut, dateFin, inProgress) values ('20-06-2023','20-08-2023', TRUE);
+
 /* MANEGES */
 
 insert into  types_manege(libelle) values ('Sensations');
@@ -144,12 +159,12 @@ insert into emplacementsManeges(id) values (6);
 insert into emplacementsManeges(id) values (7);
 insert into emplacementsManeges(id) values (8);
 
-insert into manegesInscrit(id_manege, id_emplacement, dateDebut, dateFin) values (1,2,'20-06-2022','20-07-2022');
-insert into manegesInscrit(id_manege, id_emplacement, dateDebut, dateFin) values (2,2,'21-07-2022','20-08-2022');
-insert into manegesInscrit(id_manege, id_emplacement, dateDebut, dateFin) values (3,1,'30-06-2022','15-08-2022');
-insert into manegesInscrit(id_manege, id_emplacement, dateDebut, dateFin) values (4,7,'01-07-2022','20-07-2022');
-insert into manegesInscrit(id_manege, id_emplacement, dateDebut, dateFin) values (5,3,'10-07-2022','10-08-2022');
-insert into manegesInscrit(id_manege, id_emplacement, dateDebut, dateFin) values (6,6,'10-07-2022','20-07-2022');
+insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin) values (1,1,2,'20-06-2023','20-07-2023');
+insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin) values (2,1,2,'30-07-2023','10-08-2023');
+insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin) values (3,1,1,'30-06-2023','15-08-2023');
+insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin) values (4,1,7,'01-07-2023','20-07-2023');
+insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin) values (5,1,3,'10-07-2023','10-08-2023');
+insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin) values (6,1,6,'10-07-2023','20-07-2023');
 
 /* STANDS */
 
@@ -173,9 +188,9 @@ insert into emplacementsStands(id) values (8);
 insert into emplacementsStands(id) values (9);
 insert into emplacementsStands(id) values (10);
 
-insert into standsInscrit(id_stand, id_emplacement, dateDebut, dateFin) values (1,3,'25-06-2022','02-07-2022');
-insert into standsInscrit(id_stand, id_emplacement, dateDebut, dateFin) values (2,6,'18-07-2022','30-07-2022');
-insert into standsInscrit(id_stand, id_emplacement, dateDebut, dateFin) values (3,10,'20-06-2022','20-08-2022');
+insert into standsInscrit(id_stand, id_manifestation, id_emplacement, dateDebut, dateFin) values (1,1,3,'25-06-2023','02-07-2023');
+insert into standsInscrit(id_stand, id_manifestation, id_emplacement, dateDebut, dateFin) values (2,1,6,'18-07-2023','30-07-2023');
+insert into standsInscrit(id_stand, id_manifestation, id_emplacement, dateDebut, dateFin) values (3,1,10,'20-06-2023','20-08-2023');
 
 /* ARTISTES */
 

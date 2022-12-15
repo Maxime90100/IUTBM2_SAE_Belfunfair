@@ -12960,10 +12960,10 @@
           </div>
 
           <h4 style="color: white">{{$t('attribute.startDate')}}</h4>
-          <input id="datedebut" style="background-color: white; width: 100%" v-model="datedebut" type="date" min="2022-06-20" max="2022-08-20">
+          <input id="datedebut" style="background-color: white; width: 100%" v-model="datedebut" type="date" :min="inputDateDebut" :max="inputDateFin">
 
           <h4 style="color: white">{{$t('attribute.endDate')}}</h4>
-          <input id="datefin" style="background-color: white; width: 100%; margin-bottom: 10px" v-model="datefin" type="date" min="2022-06-20" max="2022-08-20">
+          <input id="datefin" style="background-color: white; width: 100%; margin-bottom: 10px" v-model="datefin" type="date" :min="inputDateDebut" :max="inputDateFin">
 
           <v-btn @click="signup()">{{$t('button.signup')}}</v-btn>
         </div>
@@ -25929,7 +25929,9 @@ export default {
       selectedOption: 'unselect',
       selectedObjects: [],
       datedebut:null,
-      datefin:null
+      datefin:null,
+      inputDateDebut:null,
+      inputDateFin:null
     }
   },
   methods: {
@@ -25945,6 +25947,12 @@ export default {
         this.emplacements = result.data.data.emplacements
         this.stand = result.data.data.stand
         this.map = document.querySelector('#mapSignupStand')
+
+        let dateDebut = this.$store.state.manifestation.datedebut
+        this.inputDateDebut = dateDebut.split('/')[2]+'-'+dateDebut.split('/')[1]+'-'+dateDebut.split('/')[0]
+        let dateFin = this.$store.state.manifestation.datefin
+        this.inputDateFin = dateFin.split('/')[2]+'-'+dateFin.split('/')[1]+'-'+dateFin.split('/')[0]
+
       }).catch(error=>{
         console.log(error)
       })
@@ -25984,33 +25992,70 @@ export default {
       })
       this.map.querySelector('.map__display').style.display = 'block'
     },
-    signup(){
-      let debut = new Date('2022-06-20').getTime()
-      let fin = new Date('2022-08-20').getTime()
+    signup() {
+      let dateDebutManifestation = this.$store.state.manifestation.datedebut
+      let dateFinManifestation = this.$store.state.manifestation.datefin
+      let debut = new Date(dateDebutManifestation.split('/')[2] + '-' + dateDebutManifestation.split('/')[1] + '-' + dateDebutManifestation.split('/')[0]).getTime()
+      let fin = new Date(dateFinManifestation.split('/')[2] + '-' + dateFinManifestation.split('/')[1] + '-' + dateFinManifestation.split('/')[0]).getTime()
       let dateDebut = new Date(this.datedebut).getTime()
       let dateFin = new Date(this.datefin).getTime()
 
-      if(!dateDebut || dateDebut<debut || dateDebut>fin) this.map.querySelector('#datedebut').style.backgroundColor = 'red'
-      else{
-        this.map.querySelector('#datedebut').style.backgroundColor = 'green'
-        if(!dateFin || dateFin>fin || dateFin<=dateDebut) this.map.querySelector('#datefin').style.backgroundColor = 'red'
-        else{
-          this.map.querySelector('#datefin').style.backgroundColor = 'green'
-          axios({
-            method: 'post',
-            url: 'http://localhost:3000/prestataires/'+this.id_user+'/stand/'+this.id+'/signupPost',
-            data: {
-              id_emplacement: this.selectedOption.split('stand')[1],
-              datedebut: this.datedebut,
-              datefin: this.datefin
-            }
-          }).then(result=>{
-            this.$store.commit('setMessage',result.data)
-            this.getData()
-          }).catch(error=>{
-            console.log(error)
-          })
+      let error = false
+      if (!dateDebut || dateDebut < debut || dateDebut > fin) {
+        this.map.querySelector('#datedebut').style.borderColor = 'red'
+        this.$store.commit('setMessage', {
+          success: 0,
+          data: `La date de début ne correspond pas aux dates de l'évènement (du ${this.inputDateDebut} au ${this.inputDateFin})`
+        })
+        error = true
+      } else this.map.querySelector('#datedebut').style.borderColor = 'green'
+      if (!dateFin || dateFin > fin || dateFin <= dateDebut) {
+        this.map.querySelector('#datefin').style.borderColor = 'red'
+        this.$store.commit('setMessage', {
+          success: 0,
+          data: `La date de fin ne correspond pas aux dates de l'évènement (du ${this.inputDateDebut} au ${this.inputDateFin})`
+        })
+        error = true
+      } else this.map.querySelector('#datefin').style.borderColor = 'green'
+
+      let dateDebutO, dateFinO
+      this.selectedObjects.forEach(o => {
+        if (o.datedebut) {
+          dateDebutO = new Date(o.datedebut.split('/')[2] + '-' + o.datedebut.split('/')[1] + '-' + o.datedebut.split('/')[0])
+          dateFinO = new Date(o.datefin.split('/')[2] + '-' + o.datefin.split('/')[1] + '-' + o.datefin.split('/')[0])
+          if (dateDebut >= dateDebutO && dateDebut <= dateFinO) {
+            this.map.querySelector('#datedebut').style.borderColor = 'red'
+            this.$store.commit('setMessage', {success: 0, data: 'La date de début est incompatible avec les créneaux déjà réservés'})
+            error = true
+          }
+          if (dateFin >= dateDebutO && dateFin <= dateFinO) {
+            this.map.querySelector('#datefin').style.borderColor = 'red'
+            this.$store.commit('setMessage', {success: 0, data: 'La date de fin est incompatible avec les créneaux déjà réservés'})
+            error = true
+          }
+          if (dateDebutO > dateDebut && dateFinO < dateFin) {
+            this.map.querySelector('#datefin').style.borderColor = 'red'
+            this.$store.commit('setMessage', {success: 0, data: 'La date de fin est incompatible avec les créneaux déjà réservés'})
+            error = true
+          }
         }
+      })
+
+      if (!error) {
+        axios({
+          method: 'post',
+          url: 'http://localhost:3000/prestataires/' + this.id_user + '/stand/' + this.id + '/signupPost',
+          data: {
+            id_emplacement: this.selectedOption.split('stand')[1],
+            datedebut: this.datedebut,
+            datefin: this.datefin
+          }
+        }).then(result => {
+          this.$store.commit('setMessage', result.data)
+          this.getData()
+        }).catch(error => {
+          console.log(error)
+        })
       }
     }
   },

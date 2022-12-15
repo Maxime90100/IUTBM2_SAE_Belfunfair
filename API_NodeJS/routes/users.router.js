@@ -10,4 +10,6 @@ router.get("/logout", user.logout);
 router.get("/typesManege",user.getTypesManege);
 router.get("/typesStand",user.getTypesStand);
 router.get("/typesArtiste",user.getTypesArtist);
+
+router.get("/manifestation",user.getManifestation);
 export default router;

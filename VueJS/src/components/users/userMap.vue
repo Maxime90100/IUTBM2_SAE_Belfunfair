@@ -13109,7 +13109,7 @@
           <option v-for="(manege,index) in maneges" :key="'map-manege-'+index" :value="'manege-'+manege.id_emplacement+'-'+manege.id">{{manege.name}}</option>
           <option v-for="(stand,index) in stands" :key="'map-stand-'+index" :value="'stand-'+stand.id_emplacement+'-'+stand.id">{{stand.name}}</option>
         </select>
-        <input v-model="selectedDate" @change="activeArea" type="date" min="2022-06-20" max="2022-08-20">
+        <input v-model="selectedDate" @change="activeArea" type="date" :min="dateDebut" :max="dateFin">
       </div>
     </div>
 
@@ -13149,13 +13149,19 @@ export default {
       selectedPath: null,
       selectedOption: 'unselect',
       selectedDate:null,
-      selectedObjects: []
+      selectedObjects: [],
+      dateDebut:null,
+      dateFin:null
     }
   },
   methods:{
     fillData(){
       this.maneges = this.manegesData.map(x=>x)
       this.stands = this.standsData.map(x=>x)
+      let dateDebut = this.$store.state.manifestation.datedebut
+      this.dateDebut = dateDebut.split('/')[2]+'-'+dateDebut.split('/')[1]+'-'+dateDebut.split('/')[0]
+      let dateFin = this.$store.state.manifestation.datefin
+      this.dateFin = dateFin.split('/')[2]+'-'+dateFin.split('/')[1]+'-'+dateFin.split('/')[0]
     },
     changeDate(){
       if(this.selectedDate){
