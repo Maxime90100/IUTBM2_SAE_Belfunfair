@@ -25970,7 +25970,6 @@ export default {
             }
           }).then(result=>{
             this.$store.commit('setMessage',result.data)
-            console.log(this.$store.state.message)
           }).catch(error=>{
             console.log(error)
           })

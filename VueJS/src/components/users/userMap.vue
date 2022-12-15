@@ -13106,9 +13106,10 @@
       <div class="map__select mb-2">
         <select v-model="selectedOption" @change="activeArea" class="form-select w-25" id="selectMap">
           <option hidden :value="'unselect'">{{ $t('map.choose') }}</option>
-          <option v-for="(manege,index) in maneges" :key="'map-manege-'+index" :value="'manege'+manege.id_emplacement">{{manege.name}}</option>
-          <option v-for="(stand,index) in stands" :key="'map-stand-'+index" :value="'stand'+stand.id_emplacement">{{stand.name}}</option>
+          <option v-for="(manege,index) in maneges" :key="'map-manege-'+index" :value="'manege-'+manege.id_emplacement+'-'+manege.id">{{manege.name}}</option>
+          <option v-for="(stand,index) in stands" :key="'map-stand-'+index" :value="'stand-'+stand.id_emplacement+'-'+stand.id">{{stand.name}}</option>
         </select>
+        <input v-model="selectedDate" @change="activeArea" type="date" min="2022-06-20" max="2022-08-20">
       </div>
     </div>
 
@@ -13116,15 +13117,17 @@
       <div v-for="(object,index) in selectedObjects" :key="index">
           <div class="card">
             <h1>{{object.name}}</h1>
-            <h2>{{object.datedebut}} - {{object.datefin}}</h2>
+            <h2 style="color: red">{{$t('attribute.from')}} {{object.datedebut}} {{$t('attribute.to')}} {{object.datefin}}</h2>
 
             <h3>- {{object.type}} -</h3>
             <h3 v-if="object.taille_min">{{$t('attribute.taille')}}: {{object.taille_min}}</h3>
 
             <p style="text-align: justify">{{object.description}}</p>
+            <!--
             <div v-for="(image,index) in object.images" :key="'card-image-'+index">
               <img :src="image">
             </div>
+            -->
           </div>
       </div>
     </div>
@@ -13135,18 +13138,41 @@
 export default {
   name: "userMap",
   props:{
-    maneges: Array,
-    stands: Array
+    manegesData: Array,
+    standsData: Array
   },
   data:()=>{
     return{
+      maneges:[],
+      stands:[],
       map: null,
       selectedPath: null,
       selectedOption: 'unselect',
+      selectedDate:null,
       selectedObjects: []
     }
   },
   methods:{
+    fillData(){
+      this.maneges = this.manegesData.map(x=>x)
+      this.stands = this.standsData.map(x=>x)
+    },
+    changeDate(){
+      if(this.selectedDate){
+        let date = new Date(this.selectedDate)
+        let dateDebut, dateFin
+        this.maneges.forEach((m,i) => {
+          dateDebut = new Date(m.datedebut.split('/')[2] + '-' + m.datedebut.split('/')[1] + '-' + m.datedebut.split('/')[0])
+          dateFin = new Date(m.datefin.split('/')[2] + '-' + m.datefin.split('/')[1] + '-' + m.datefin.split('/')[0])
+          if (!(dateDebut <= date && dateFin >= date)) this.maneges.splice(i,1)
+        });
+        this.stands.forEach((s,i) => {
+          dateDebut = new Date(s.datedebut.split('/')[2] + '-' + s.datedebut.split('/')[1] + '-' + s.datedebut.split('/')[0])
+          dateFin = new Date(s.datefin.split('/')[2] + '-' + s.datefin.split('/')[1] + '-' + s.datefin.split('/')[0])
+          if (!(dateDebut <= date && dateFin >= date)) this.stands.splice(i,1)
+        });
+      }
+    },
     changeMap(){
       let select = this.map.querySelector('#selectMap')
       let opacity = 100
@@ -13159,27 +13185,69 @@ export default {
       this.activeArea()
     },
     activeArea(){
-      this.selectedObjects = []
-      if(this.selectedOption) this.selectedPath = null
-      this.map.querySelectorAll('[name="map"]').forEach(p=>{p.style.fill = 'grey'})
+      if(this.selectedOption !== 'unselect' || this.selectedPath) {
 
-      let path = this.map.querySelector('#'+this.selectedPath)
-      if(this.selectedOption) path = this.map.querySelector('#'+this.selectedOption)
-      path.style.fill = 'blue'
+        this.fillData()
+        this.changeDate()
+        this.selectedObjects = []
+        if(this.selectedOption) this.selectedPath = null
+        this.map.querySelectorAll('[name="map"]').forEach(p => {p.style.fill = 'grey'})
 
-      this.maneges.forEach(m=>{
-        let id = parseInt(path.id.split('manege')[1])
-        if(m.id_emplacement === id)
-          this.selectedObjects.push(m)
-      })
-      this.stands.forEach(s=>{
-        let id = parseInt(path.id.split('stand')[1])
-        if(s.id_emplacement === id)
-          this.selectedObjects.push(s)
-      })
+        let id, id_emplacement, type, path
+        if (this.selectedOption){
+          id = this.selectedOption.split('-')[2]
+          id_emplacement = this.selectedOption.split('-')[1]
+          type = this.selectedOption.split('-')[0]
+          path = this.map.querySelector('#' + type + id_emplacement)
+        } else path = this.map.querySelector('#'+this.selectedPath)
+        path.style.fill = 'blue'
+
+        if(id){
+          if(type === 'manege'){
+            this.maneges.forEach(m=>{
+              if(m.id === parseInt(id)) this.selectedObjects.push(m)
+            })
+          }
+          if(type === 'stand'){
+            this.stands.forEach(s=>{
+              if(s.id === parseInt(id)) this.selectedObjects.push(s)
+            })
+          }
+        }else{
+          this.maneges.forEach(m => {
+            let id = parseInt(path.id.split('manege')[1])
+            if (m.id_emplacement === id) {
+
+              if (this.selectedDate) {
+                let date = new Date(this.selectedDate)
+                let dateDebut = new Date(m.datedebut.split('/')[2] + '-' + m.datedebut.split('/')[1] + '-' + m.datedebut.split('/')[0])
+                let dateFin = new Date(m.datefin.split('/')[2] + '-' + m.datefin.split('/')[1] + '-' + m.datefin.split('/')[0])
+
+                if (dateDebut <= date && dateFin >= date) this.selectedObjects.push(m)
+
+              }else this.selectedObjects.push(m)
+            }
+          })
+          this.stands.forEach(s => {
+            let id = parseInt(path.id.split('stand')[1])
+            if (s.id_emplacement === id) {
+
+              if (this.selectedDate){
+                let date = new Date(this.selectedDate)
+                let dateDebut = new Date(s.datedebut.split('/')[2] + '-' + s.datedebut.split('/')[1] + '-' + s.datedebut.split('/')[0])
+                let dateFin = new Date(s.datefin.split('/')[2] + '-' + s.datefin.split('/')[1] + '-' + s.datefin.split('/')[0])
+
+                if (dateDebut <= date && dateFin >= date) this.selectedObjects.push(s)
+
+              }else this.selectedObjects.push(s)
+            }
+          })
+        }
+      }
     }
   },
   mounted(){
+    this.fillData()
     this.map = document.querySelector('#map')
   }
 }

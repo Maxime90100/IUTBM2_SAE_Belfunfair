@@ -15,7 +15,7 @@ export default class PublicService {
     }
     async getStandsMap() {
         return new Promise((resolve, reject) => {
-            pool.query('select s.id, s.id_user, s.name, s.description, s.images, s.status, cast(si.dateDebut as TEXT), cast(si.dateFin as TEXT), si.id_emplacement from stands s join standsInscrit si on s.id = si.id where status = $1;', ['attributed'], (error, result) => {
+            pool.query('select s.id, s.id_user, s.name, t.libelle as type, s.description, s.images, s.status, cast(si.dateDebut as TEXT), cast(si.dateFin as TEXT), si.id_emplacement from stands s join types_stand t on s.type = t.id join standsInscrit si on s.id = si.id where status = $1;', ['attributed'], (error, result) => {
                 if (error) {
                     console.error(error)
                     reject(error)

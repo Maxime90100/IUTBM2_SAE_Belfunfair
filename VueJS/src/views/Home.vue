@@ -15,7 +15,7 @@
     </div>
 
     <div id="map">
-      <user-map :maneges="maneges" :stands="stands"></user-map>
+      <user-map :maneges-data="maneges" :stands-data="stands"></user-map>
     </div>
 
     <footer id="about">
