@@ -15,7 +15,8 @@
     "endDate": "End date",
     "from": "From",
     "to": "to",
-    "groupMember": "Group members"
+    "groupMember": "Group members",
+    "noMessage": "No information yet"
   },
   "button": {
     "logout": "Logout",
@@ -71,6 +72,7 @@
     "name": "Groups",
     "add": "Add a group",
     "addMember": "Add a member",
+    "member": "Member of the group",
     "signup": "Register your group"
   }
 }

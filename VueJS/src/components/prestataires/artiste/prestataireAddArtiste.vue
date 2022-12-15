@@ -50,6 +50,17 @@ export default {
   },
   methods:{
     goTo(path){this.$router.replace(path)},
+    getData(){
+      this.id_user = this.$store.state.user.id
+      axios({
+        method: 'get',
+        url: 'http://localhost:3000/users/typesArtiste'
+      }).then(result=>{
+        this.types = result.data.data
+      }).catch(error=>{
+        console.log(error)
+      })
+    },
     addMember(){this.groupe.push(document.querySelector('#groupe').value)},
     deleteMember(index){this.groupe.splice(index,1)},
     add(){
@@ -86,17 +97,7 @@ export default {
       }
     }
   },
-  mounted(){
-    this.id_user = this.$store.state.user.id
-    axios({
-      method: 'get',
-      url: 'http://localhost:3000/users/typesArtiste'
-    }).then(result=>{
-      this.types = result.data.data
-    }).catch(error=>{
-      console.log(error)
-    })
-  }
+  mounted(){this.getData()}
 }
 </script>
 <style>

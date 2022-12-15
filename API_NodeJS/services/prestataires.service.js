@@ -49,7 +49,7 @@ export default class PrestatairesService {
                         resolve({success:1,data:'Votre manège "'+manege.name+'" à bien été supprimé !'})
                     });
                 }else{
-                    resolve({success:0,data:'Votre manège "'+manege.name+'" ne peut pas être supprimé car il est déjà inscrit ou en cours d\'inscription ! Faite une demande d\'annulation dans le menu \"inscription\"'})
+                    resolve({success:0,data:'Votre manège "'+manege.name+'" ne peut pas être supprimé car il est déjà inscrit ou en cours d\'inscription ! Faites une demande d\'annulation dans le menu \"inscription\"'})
                 }
             }).catch(error=>{
                 console.error(error)
@@ -116,7 +116,7 @@ export default class PrestatairesService {
                         resolve({success:1,data:'Votre stand "'+stand.name+'" à bien été supprimé !'})
                     });
                 }else{
-                    resolve({success:0,data:'Votre stand "'+stand.name+'" ne peut pas être supprimé car il est déjà inscrit ou en cours d\'inscription ! Faite une demande d\'annulation dans le menu \"inscription\"'})
+                    resolve({success:0,data:'Votre stand "'+stand.name+'" ne peut pas être supprimé car il est déjà inscrit ou en cours d\'inscription ! Faites une demande d\'annulation dans le menu \"inscription\"'})
                 }
             }).catch(error=>{
                 console.error(error)
@@ -159,6 +159,17 @@ export default class PrestatairesService {
             });
         });
     }
+    async editArtist(id_artiste,name,description,type,groupe){
+        return new Promise((resolve,reject)=>{
+            pool.query('update artistes set name=$1, description=$2, type=$3, groupe=$4 where id=$5;', [name,description,type,groupe,id_artiste], (error,result)=>{
+                if(error){
+                    console.error(error)
+                    reject(error)
+                }
+                resolve({success:1,data:'Votre groupe "'+name+'" à bien été modifié !'})
+            });
+        });
+    }
     async deleteArtist(id_artist){
         let service = new UsersService()
         return new Promise(async (resolve,reject)=>{
@@ -172,7 +183,7 @@ export default class PrestatairesService {
                         resolve({success:1,data:'Votre groupe "'+artist.name+'" à bien été supprimé !'})
                     });
                 }else{
-                    resolve({success:0,data:'Votre groupe "'+artist.name+'" ne peut pas être supprimé car il est déjà inscrit ou en cours d\'inscription ! Faite une demande d\'annulation dans le menu \"inscription\"'})
+                    resolve({success:0,data:'Votre groupe "'+artist.name+'" ne peut pas être supprimé car il est déjà inscrit ou en cours d\'inscription ! Faites une demande d\'annulation dans le menu \"inscription\"'})
                 }
             }).catch(error=>{
                 console.error(error)

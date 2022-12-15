@@ -27,6 +27,7 @@ router.post("/:id_user/stand/:id/signupPost", controller.signupStandPOST);
 
 router.get("/:id_user/artiste/:id?", controller.showArtists);
 router.post("/:id_user/addArtiste", controller.addArtist);
+router.post("/:id_user/artiste/:id/update", /*imageProcessor.uploadImages, await imageProcessor.resizeImages,*/ controller.editArtist);
 router.post("/:id_user/artiste/:id/delete", controller.deleteArtist);
 
 export default router;

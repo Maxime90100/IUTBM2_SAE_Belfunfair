@@ -20,7 +20,7 @@ export default new Vuex.Store({
     },
     setMessage(state, message){
       state.message = message
-      location.reload()
+      location.href='#top'
     },
     emptyMessage(state){
       state.message = null

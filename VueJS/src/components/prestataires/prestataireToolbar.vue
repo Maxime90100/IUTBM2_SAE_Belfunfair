@@ -29,17 +29,6 @@
       <v-menu>
         <template v-slot:activator="{ on }">
           <v-btn icon v-on="on">
-            <v-icon id="message">mdi-message-text</v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item>{{ this.message }}</v-list-item>
-        </v-list>
-      </v-menu>
-
-      <v-menu>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
             <v-icon>mdi-flag</v-icon>
           </v-btn>
         </template>
@@ -80,6 +69,7 @@ export default {
   },
   methods: {
     goTo (path) {this.$router.replace(path)},
+    _delete(){this.$store.commit('setMessage',null)},
     changeLanguage(lang){return i18n.locale = lang},
     logout(){
       this.$store.state.user = null
@@ -87,12 +77,6 @@ export default {
       this.goTo('/login')
       sessionStorage.clear();
     }
-  },
-  mounted(){
-    this.message = this.$store.state.message.data
-    this.color = 'red'
-    if(this.$store.state.message.success) this.color = 'green'
-    document.querySelector('#message').style.color = this.color
   }
 }
 </script>

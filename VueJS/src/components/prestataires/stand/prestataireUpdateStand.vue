@@ -43,6 +43,22 @@ export default {
   },
   methods:{
     goTo(path){this.$router.replace(path)},
+    getData(){
+      this.id_user = this.$store.state.user.id
+      this.id = this.$route.params.id
+      axios({
+        method: 'get',
+        url: 'http://localhost:3000/prestataires/'+this.id_user+'/stand/'+this.id
+      }).then(result=>{
+        this.stand = result.data.data.stand
+        this.types = result.data.data.types
+        this.name = this.stand.name
+        this.description = this.stand.description
+        this.type = this.stand.type
+      }).catch(error=>{
+        console.log(error)
+      })
+    },
     update(){
       let error = false
       if(!this.name) {document.querySelector('#name').style.borderColor = 'red'; error=true}
@@ -58,6 +74,7 @@ export default {
           }
         }).then(result=>{
           this.$store.commit('setMessage',result.data)
+          this.getData()
         }).catch(error=>{
           this.message = error
           console.log(error)
@@ -65,22 +82,7 @@ export default {
       }
     }
   },
-  mounted(){
-    this.id_user = this.$store.state.user.id
-    this.id = this.$route.params.id
-    axios({
-      method: 'get',
-      url: 'http://localhost:3000/prestataires/'+this.id_user+'/stand/'+this.id
-    }).then(result=>{
-      this.stand = result.data.data.stand
-      this.types = result.data.data.types
-      this.name = this.stand.name
-      this.description = this.stand.description
-      this.type = this.stand.type
-    }).catch(error=>{
-      console.log(error)
-    })
-  }
+  mounted(){this.getData()}
 }
 </script>
 <style>

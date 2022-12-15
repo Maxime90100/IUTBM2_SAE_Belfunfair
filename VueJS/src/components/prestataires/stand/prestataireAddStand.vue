@@ -41,6 +41,17 @@ export default {
   },
   methods:{
     goTo(path){this.$router.replace(path)},
+    getData(){
+      this.id_user = this.$store.state.user.id
+      axios({
+        method: 'get',
+        url: 'http://localhost:3000/users/typesStand'
+      }).then(result=>{
+        this.types = result.data.data
+      }).catch(error=>{
+        console.log(error)
+      })
+    },
     add(){
       let error = false
 
@@ -71,17 +82,7 @@ export default {
       }
     }
   },
-  mounted(){
-    this.id_user = this.$store.state.user.id
-    axios({
-      method: 'get',
-      url: 'http://localhost:3000/users/typesStand'
-    }).then(result=>{
-      this.types = result.data.data
-    }).catch(error=>{
-      console.log(error)
-    })
-  }
+  mounted(){this.getData()}
 }
 </script>
 <style>

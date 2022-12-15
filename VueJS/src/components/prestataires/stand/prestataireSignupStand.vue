@@ -25934,6 +25934,21 @@ export default {
   },
   methods: {
     goTo(path){this.$router.replace(path)},
+    getData(){
+      this.id_user = this.$store.state.user.id
+      this.id = this.$route.params.id
+      axios({
+        method: 'get',
+        url: 'http://localhost:3000/prestataires/'+this.id_user+'/stand/'+this.id+'/signup'
+      }).then(result=>{
+        this.registered = result.data.data.alreadyRegistered
+        this.emplacements = result.data.data.emplacements
+        this.stand = result.data.data.stand
+        this.map = document.querySelector('#mapSignupStand')
+      }).catch(error=>{
+        console.log(error)
+      })
+    },
     getEmplacementsID(){
       let emplacements = []
       this.emplacements.forEach(e=>{
@@ -25991,7 +26006,7 @@ export default {
             }
           }).then(result=>{
             this.$store.commit('setMessage',result.data)
-            console.log(this.$store.state.message)
+            this.getData()
           }).catch(error=>{
             console.log(error)
           })
@@ -25999,20 +26014,6 @@ export default {
       }
     }
   },
-  mounted(){
-    this.id_user = this.$store.state.user.id
-    this.id = this.$route.params.id
-    axios({
-      method: 'get',
-      url: 'http://localhost:3000/prestataires/'+this.id_user+'/stand/'+this.id+'/signup'
-    }).then(result=>{
-      this.registered = result.data.data.alreadyRegistered
-      this.emplacements = result.data.data.emplacements
-      this.stand = result.data.data.stand
-      this.map = document.querySelector('#mapSignupStand')
-    }).catch(error=>{
-      console.log(error)
-    })
-  }
+  mounted(){this.getData()}
 }
 </script>

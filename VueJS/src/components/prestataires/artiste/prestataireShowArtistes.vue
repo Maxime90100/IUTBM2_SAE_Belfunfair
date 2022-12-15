@@ -32,9 +32,11 @@
           <v-btn rounded @click="signup(artiste.id)">{{$t('button.signup')}}</v-btn>
         </div>
 
+        <!--
         <div v-for="(image,index) in artiste.images" :key="'prestataire-artiste-image-'+index">
           <img :src="image">
         </div>
+        -->
       </div>
     </div>
   </div>
@@ -52,6 +54,17 @@ export default {
     }
   },
   methods:{
+    getData(){
+      this.id_user = this.$store.state.user.id
+      axios({
+        method: 'get',
+        url: 'http://localhost:3000/prestataires/'+this.id_user+'/artiste'
+      }).then(result=>{
+        this.artistes = result.data
+      }).catch(error=>{
+        console.log(error)
+      })
+    },
     add(){this.$router.replace('/prestataire/artistes/add')},
     update(id){this.$router.replace('/prestataire/artistes/'+id)},
     _delete(id){
@@ -68,16 +81,7 @@ export default {
     },
     signup(id){this.$router.replace('/prestataire/artistes/'+id+'/signup')}
   },
-  mounted(){
-    this.id_user = this.$store.state.user.id
-    axios({
-      method: 'get',
-      url: 'http://localhost:3000/prestataires/'+this.id_user+'/artiste'
-    }).then(result=>{
-      this.artistes = result.data
-    }).catch(error=>{
-      console.log(error)
-    })
-  }
+  updated(){this.getData()},
+  mounted(){this.getData()}
 }
 </script>

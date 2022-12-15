@@ -17,7 +17,7 @@
         </select>
 
         <h4>{{ $t('attribute.taille') }}</h4>
-        <input id="taille" v-model="taille" type="text" required />
+        <input id="taille" v-model="taille" type="number" required />
 
         <v-btn dark @click="update()">{{ $t('button.change') }}</v-btn>
         <v-btn @click="goTo('/prestataire/maneges')">{{ $t('button.back') }}</v-btn>
@@ -45,11 +45,28 @@ export default {
   },
   methods:{
     goTo(path){this.$router.replace(path)},
+    getData(){
+      this.id_user = this.$store.state.user.id
+      this.id = this.$route.params.id
+      axios({
+        method: 'get',
+        url: 'http://localhost:3000/prestataires/'+this.id_user+'/manege/'+this.id
+      }).then(result=>{
+        this.manege = result.data.data.manege
+        this.types = result.data.data.types
+        this.name = this.manege.name
+        this.description = this.manege.description
+        this.type = this.manege.type
+        this.taille = this.manege.taille_min
+      }).catch(error=>{
+        console.log(error)
+      })
+    },
     update(){
       let error = false
       if(!this.name) {document.querySelector('#name').style.borderColor = 'red'; error=true}
       else document.querySelector('#name').style.borderColor = 'black'
-      if (!this.taille) {document.querySelector('#taille').style.borderColor = 'red'; error=true}
+      if (this.taille === '' || this.taille<0) {document.querySelector('#taille').style.borderColor = 'red'; error=true}
       else document.querySelector('#taille').style.borderColor = 'black'
       if(!error){
         axios({
@@ -63,6 +80,7 @@ export default {
           }
         }).then(result => {
           this.$store.commit('setMessage', result.data)
+          this.getData()
         }).catch(error => {
           this.message = error
           console.log(error)
@@ -70,23 +88,7 @@ export default {
       }
     }
   },
-  mounted(){
-    this.id_user = this.$store.state.user.id
-    this.id = this.$route.params.id
-    axios({
-      method: 'get',
-      url: 'http://localhost:3000/prestataires/'+this.id_user+'/manege/'+this.id
-    }).then(result=>{
-      this.manege = result.data.data.manege
-      this.types = result.data.data.types
-      this.name = this.manege.name
-      this.description = this.manege.description
-      this.type = this.manege.type
-      this.taille = this.manege.taille_min
-    }).catch(error=>{
-      console.log(error)
-    })
-  }
+  mounted(){this.getData()}
 }
 </script>
 <style>

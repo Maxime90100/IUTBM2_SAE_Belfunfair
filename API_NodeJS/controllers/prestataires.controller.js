@@ -204,16 +204,6 @@ export const showArtists = (req,res)=>{
         res.status(400).send(error)
     });
 }
-export const deleteArtist = (req,res)=>{
-    let id_artist = req.params.id
-
-    let service = new PrestatairesService()
-    service.deleteArtist(id_artist).then(result=>{
-        res.status(200).send(result)
-    }).catch(error=>{
-        res.status(400).send(error)
-    });
-}
 export const addArtist = (req,res)=>{
     let id_user = req.params.id_user
     let name = req.body.name
@@ -223,6 +213,30 @@ export const addArtist = (req,res)=>{
 
     let service = new PrestatairesService()
     service.addArtist(id_user,name,description,type,groupe).then(result=>{
+        res.status(200).send(result)
+    }).catch(error=>{
+        res.status(400).send(error)
+    });
+}
+export const editArtist = (req,res)=>{
+    let id_artiste = req.params.id
+    let name = req.body.name
+    let description = req.body.description
+    let type = req.body.type
+    let groupe = req.body.groupe
+
+    let service = new PrestatairesService()
+    service.editArtist(id_artiste,name,description,type,groupe).then(result=>{
+        res.status(200).send(result)
+    }).catch(error=>{
+        res.status(400).send(error)
+    });
+}
+export const deleteArtist = (req,res)=>{
+    let id_artist = req.params.id
+
+    let service = new PrestatairesService()
+    service.deleteArtist(id_artist).then(result=>{
         res.status(200).send(result)
     }).catch(error=>{
         res.status(400).send(error)

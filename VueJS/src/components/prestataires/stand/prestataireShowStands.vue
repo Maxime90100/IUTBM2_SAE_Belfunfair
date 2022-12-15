@@ -21,9 +21,11 @@
           <v-btn rounded @click="signup(stand.id)">{{$t('button.signup')}}</v-btn>
         </div>
 
+        <!--
         <div v-for="(image,index) in stand.images" :key="'prestataire-manege-image-'+index">
           <img :src="image">
         </div>
+        -->
       </div>
     </div>
   </div>
@@ -41,6 +43,17 @@ export default {
     }
   },
   methods:{
+    getData(){
+      this.id_user = this.$store.state.user.id
+      axios({
+        method: 'get',
+        url: 'http://localhost:3000/prestataires/'+this.id_user+'/stand'
+      }).then(result=>{
+        this.stands = result.data
+      }).catch(error=>{
+        console.log(error)
+      })
+    },
     add(){this.$router.replace('/prestataire/stands/add')},
     update(id){this.$router.replace('/prestataire/stands/'+id)},
     _delete(id){
@@ -57,16 +70,7 @@ export default {
     },
     signup(id){this.$router.replace('/prestataire/stands/'+id+'/signup')}
   },
-  mounted(){
-    this.id_user = this.$store.state.user.id
-    axios({
-      method: 'get',
-      url: 'http://localhost:3000/prestataires/'+this.id_user+'/stand'
-    }).then(result=>{
-      this.stands = result.data
-    }).catch(error=>{
-      console.log(error)
-    })
-  }
+  updated(){this.getData()},
+  mounted(){this.getData()}
 }
 </script>

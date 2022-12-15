@@ -23,9 +23,11 @@
           <v-btn rounded @click="signup(manege.id)">{{$t('button.signup')}}</v-btn>
         </div>
 
+        <!--
         <div v-for="(image,index) in manege.images" :key="'prestataire-manege-image-'+index">
           <img :src="image">
         </div>
+        -->
       </div>
     </div>
   </div>
@@ -43,8 +45,23 @@ export default {
     }
   },
   methods:{
-    add(){this.$router.replace('/prestataire/maneges/add')},
-    update(id){this.$router.replace('/prestataire/maneges/'+id)},
+    getData(){
+      this.id_user = this.$store.state.user.id
+      axios({
+        method: 'get',
+        url: 'http://localhost:3000/prestataires/'+this.id_user+'/manege'
+      }).then(result=>{
+        this.maneges = result.data
+      }).catch(error=>{
+        console.log(error)
+      })
+    },
+    add(){
+      this.$router.replace('/prestataire/maneges/add')
+    },
+    update(id){
+      this.$router.replace('/prestataire/maneges/'+id)
+    },
     _delete(id){
       if(confirm(this.$t('confirm.delete'))){
         axios({
@@ -59,16 +76,7 @@ export default {
     },
     signup(id){this.$router.replace('/prestataire/maneges/'+id+'/signup')}
   },
-  mounted(){
-    this.id_user = this.$store.state.user.id
-    axios({
-      method: 'get',
-      url: 'http://localhost:3000/prestataires/'+this.id_user+'/manege'
-    }).then(result=>{
-      this.maneges = result.data
-    }).catch(error=>{
-      console.log(error)
-    })
-  }
+  updated(){this.getData()},
+  mounted(){this.getData()}
 }
 </script>

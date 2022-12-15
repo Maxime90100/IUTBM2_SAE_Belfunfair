@@ -246,12 +246,12 @@ export default class UsersService {
             if (user) {
                 bcrypt.compare(data.password,user.password,(err,result)=>{
                     if(result){
-                        resolve({success:1,message:`Welcome ${user.firstname} ${user.surname}`,data:user});
+                        resolve({success:1,message:`Bienvenue ${user.firstname} ${user.surname}`,data:user});
                     }
-                    reject({success:0,message:"Password incorrect !",data:[]});
+                    reject({success:0,message:"Mot de passe incorrect !",data:[]});
                 });
             } else {
-                reject({success:0,message:'Firstname or Surname incorrect !',data:[]});
+                reject({success:0,message:'Prénom ou Nom incorrect !',data:[]});
             }
         })
     }
