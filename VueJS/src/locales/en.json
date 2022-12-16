@@ -39,6 +39,7 @@
   "userToolbar": {
     "presentation": "Presentation",
     "map": "Map"
+
   },
   "prestataireToolbar": {
     "profil": "Account",
@@ -61,7 +62,8 @@
   "map": {
     "change": "Change map",
     "choose": "Choose location",
-    "slots": "Slots unavailable"
+    "slots": "Slots unavailable",
+    "empty": "This location has no listings that match your criteria"
   },
   "manege": {
     "add": "Add a ride",

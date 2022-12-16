@@ -61,7 +61,8 @@
   "map": {
     "change": "Changer de plan",
     "choose": "Choisir emplacement",
-    "slots": "Créneaux indisponibles"
+    "slots": "Créneaux indisponibles",
+    "empty": "Cet emplacement ne présente aucunes inscriptions correspondantes à vos critères"
   },
   "manege": {
     "add": "Ajouter un manège",

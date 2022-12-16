@@ -13131,6 +13131,10 @@
           </div>
       </div>
     </div>
+    <div class="map__noCard">
+      <p style="font-size: 1rem; text-align: center">{{ $t('map.empty') }}</p>
+      <img src="@/assets/img/Grande-Roue.gif" style="width: 80%; margin-left:10%">
+    </div>
   </div>
 </template>
 
@@ -13248,8 +13252,14 @@ export default {
               }else this.selectedObjects.push(s)
             }
           })
-          if(this.selectedObjects.length > 0) this.map.querySelector('.map__card').style.display = 'block'
-          else this.map.querySelector('.map__card').style.display = 'none'
+          if(this.selectedObjects.length > 0) {
+            this.map.querySelector('.map__noCard').style.display = 'none'
+            this.map.querySelector('.map__card').style.display = 'block'
+          }
+          else {
+            this.map.querySelector('.map__card').style.display = 'none'
+            this.map.querySelector('.map__noCard').style.display = 'block'
+          }
         }
       }
     }
@@ -13272,6 +13282,9 @@ export default {
   width: 50%;
   height: 70vh;
   padding: 10px;
+  overflow:scroll;
+  overflow-y:auto;
+  overflow-x:auto;
   background-color: whitesmoke;
 }
 .map__card{
@@ -13281,6 +13294,16 @@ export default {
   overflow-y:auto;
   overflow-x:auto;
   display: none;
+  transform: scale(0.9);
+}
+.map__noCard{
+  width: 50%;
+  height: 70vh;
+  padding: 10px;
+  color: white;
+  overflow:scroll;
+  overflow-y:auto;
+  overflow-x:auto;
   transform: scale(0.9);
 }
 .map__card .card{
@@ -13294,7 +13317,7 @@ export default {
 .map__select > *{
   margin-bottom: 10px;
 }
-@media (max-width: 1000px) {
+@media (max-width: 785px) {
   .map{
     width: 100%;
     display: block;
@@ -13303,9 +13326,10 @@ export default {
     width: 100%;
     height: 70vh;
   }
-  .map__card{
+  .map__card, .map__noCard{
     width: 100%;
     height: 55vh;
+    display: none;
   }
 }
 </style>
