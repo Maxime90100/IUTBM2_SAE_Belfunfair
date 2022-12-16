@@ -47,6 +47,10 @@
     "stand": "Stands",
     "stage": "Scène"
   },
+  "organisateurToolbar": {
+    "profil": "Compte",
+    "home": "Accueil"
+  },
   "home": {
     "title": "Bienvenue à BELFUNFAIR",
     "description": "Organisé et financé par la Ville de Belfort avec le soutien des associations étudiantes de l’Aire urbaine, BELFUNFAIR à Belfort se déroule chaque année pendant les vacances d'été. Du 20 juin au 20 août, la cité du Lion se transforme en une majestueuse fête foraine. Diversité, gaieté et convivialité  résument, depuis sa création en 2022, l’ambiance de cet manifestation unique en son genre."

@@ -5,6 +5,7 @@ import Home from "@/views/Home.vue";
 import Login from "@/views/users/login.vue";
 
 import prestataireHome from "@/views/prestataires/prestataireHome.vue";
+import organisateurHome from "@/views/organisateurs/organisateurHome.vue";
 
 import prestataireManeges from "@/views/prestataires/manege/prestataireManeges.vue";
 import prestataireManegeAdd from "@/views/prestataires/manege/prestataireManegeAdd.vue";
@@ -40,6 +41,11 @@ export default new Router({
             path: "/prestataire",
             name: "prestataireHome",
             component: prestataireHome
+        },
+        {
+            path: "/organisateur",
+            name: "organisateurHome",
+            component: organisateurHome
         },
         {
             path: "/prestataire/maneges",

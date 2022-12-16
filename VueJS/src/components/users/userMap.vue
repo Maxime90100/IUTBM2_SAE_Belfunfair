@@ -13098,7 +13098,7 @@
                 </g>
             </svg>
 
-      <label style="color: white; float: left" for="selectMap">{{ $t('map.change') }}</label>
+      <label style="float: left" for="selectMap">{{ $t('map.change') }}</label>
       <div style="float:left; width: 5%">
         <input v-on:change="changeMap" type="checkbox" id="selectMap">
       </div>
@@ -13248,6 +13248,8 @@ export default {
               }else this.selectedObjects.push(s)
             }
           })
+          if(this.selectedObjects.length > 0) this.map.querySelector('.map__card').style.display = 'block'
+          else this.map.querySelector('.map__card').style.display = 'none'
         }
       }
     }
@@ -13261,15 +13263,25 @@ export default {
 
 <style>
 .map{
-  overflow: hidden;
   padding: 20px;
   background-color: #3F4545;
+  display: flex;
   transform: scale(0.9);
 }
-
-.map{
+.map__image{
   width: 50%;
-  margin: auto;
+  height: 70vh;
+  padding: 10px;
+  background-color: whitesmoke;
+}
+.map__card{
+  width: 50%;
+  height: 70vh;
+  overflow:scroll;
+  overflow-y:auto;
+  overflow-x:auto;
+  display: none;
+  transform: scale(0.9);
 }
 .map__card .card{
   margin: 10px;
@@ -13278,15 +13290,22 @@ export default {
   padding: 10px;
   background-color: white;
 }
-.map__select{
-  display: flex;
-}
-.map__select select{
-  background-color: white;
+
+.map__select > *{
+  margin-bottom: 10px;
 }
 @media (max-width: 1000px) {
   .map{
     width: 100%;
+    display: block;
+  }
+  .map__image{
+    width: 100%;
+    height: 70vh;
+  }
+  .map__card{
+    width: 100%;
+    height: 55vh;
   }
 }
 </style>
