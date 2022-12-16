@@ -5,11 +5,12 @@
     </header>
 
     <div id="presentation">
-      <div style="margin-top: 30vh; margin-bottom: 40vh">
-        <h2 style="font-size: x-large">{{ $t('home.title') }}</h2>
-        <h1 style="font-size: xxx-large">{{$t('attribute.from')}} {{this.$store.state.manifestation.datedebut}} {{$t('attribute.to')}} {{this.$store.state.manifestation.datefin}}</h1>
-      </div>
-      <div style="margin-right: 10%; margin-left: 10%; margin-bottom: 30vh; background-color: #3f4545; color: white; padding: 50px">
+     <div style="margin-top: 30vh;">
+        <h2 style="font-size: 5vw">{{ $t('home.title') }}</h2>
+        <h1 style="font-size: 6vw">{{$t('attribute.from')}} {{this.$store.state.manifestation.datedebut}} {{$t('attribute.to')}} {{this.$store.state.manifestation.datefin}}</h1>
+     </div>
+
+      <div style="margin:30vh 10%; background-color: #3f4545; color: white; padding: 50px">
         <h3 style="text-align: justify;font-size: 4vh">{{$t('home.description')}}</h3>
       </div>
     </div>
