@@ -1,6 +1,6 @@
 <template>
-  <div class="map" id="map">
-    <div class="map__image">
+  <div class="userMap">
+    <div class="userMap__image">
       <svg
           viewBox="0 0 296.07645 156.98164"
           version="1.1"
@@ -13103,7 +13103,7 @@
         <input v-on:change="changeMap" type="checkbox" id="selectMap">
       </div>
 
-      <div class="map__select mb-2">
+      <div class="userMap__select mb-2">
         <select v-model="selectedOption" @change="activeArea" class="form-select w-25" id="selectMap">
           <option hidden :value="'unselect'">{{ $t('map.choose') }}</option>
           <option v-for="(manege,index) in maneges" :key="'map-manege-'+index" :value="'manege-'+manege.id_emplacement+'-'+manege.id">{{manege.name}}</option>
@@ -13113,7 +13113,7 @@
       </div>
     </div>
 
-    <div class="map__card">
+    <div class="userMap__card">
       <div v-for="(object,index) in selectedObjects" :key="index">
           <div class="card">
             <h1>{{object.name}}</h1>
@@ -13131,7 +13131,7 @@
           </div>
       </div>
     </div>
-    <div class="map__noCard">
+    <div class="userMap__noCard">
       <p style="font-size: 1rem; text-align: center">{{ $t('map.empty') }}</p>
       <img src="@/assets/img/Grande-Roue.gif" style="width: 80%; margin-left:10%">
     </div>
@@ -13253,12 +13253,12 @@ export default {
             }
           })
           if(this.selectedObjects.length > 0) {
-            this.map.querySelector('.map__noCard').style.display = 'none'
-            this.map.querySelector('.map__card').style.display = 'block'
+            this.map.querySelector('.userMap__noCard').style.display = 'none'
+            this.map.querySelector('.userMap__card').style.display = 'block'
           }
           else {
-            this.map.querySelector('.map__card').style.display = 'none'
-            this.map.querySelector('.map__noCard').style.display = 'block'
+            this.map.querySelector('.userMap__card').style.display = 'none'
+            this.map.querySelector('.userMap__noCard').style.display = 'block'
           }
         }
       }
@@ -13266,19 +13266,19 @@ export default {
   },
   mounted(){
     this.fillData()
-    this.map = document.querySelector('#map')
+    this.map = document.querySelector('.userMap')
   }
 }
 </script>
 
 <style>
-.map{
+.userMap{
   padding: 20px;
   background-color: #3F4545;
   display: flex;
   transform: scale(0.9);
 }
-.map__image{
+.userMap__image{
   width: 50%;
   height: 70vh;
   padding: 10px;
@@ -13287,7 +13287,7 @@ export default {
   overflow-x:auto;
   background-color: whitesmoke;
 }
-.map__card{
+.userMap__card{
   width: 50%;
   height: 70vh;
   overflow:scroll;
@@ -13296,7 +13296,7 @@ export default {
   display: none;
   transform: scale(0.9);
 }
-.map__noCard{
+.userMap__noCard{
   width: 50%;
   height: 70vh;
   padding: 10px;
@@ -13306,7 +13306,7 @@ export default {
   overflow-x:auto;
   transform: scale(0.9);
 }
-.map__card .card{
+.userMap__card .card{
   margin: 10px;
   margin-left: 0;
   margin-right: 0;
@@ -13314,19 +13314,19 @@ export default {
   background-color: white;
 }
 
-.map__select > *{
+.userMap__select > *{
   margin-bottom: 10px;
 }
 @media (max-width: 785px) {
-  .map{
+  .userMap{
     width: 100%;
     display: block;
   }
-  .map__image{
+  .userMap__image{
     width: 100%;
     height: 70vh;
   }
-  .map__card, .map__noCard{
+  .userMap__card, .userMap__noCard{
     width: 100%;
     height: 55vh;
     display: none;

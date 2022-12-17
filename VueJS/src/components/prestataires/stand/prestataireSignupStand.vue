@@ -1,9 +1,9 @@
 <template>
   <div>
     <div v-if="!this.registered">
-      <div class="map" id="mapSignupStand">
-        <h1 style="color: white">{{$t('stand.signup')}} "{{this.stand.name}}"</h1>
-        <div class="map__image">
+      <h1>{{$t('stand.signup')}} "{{this.stand.name}}"</h1>
+      <div class="mapSignupStand">
+        <div class="mapSignupStand__image">
           <svg
               viewBox="0 0 296.07645 156.98164"
               version="1.1"
@@ -12943,7 +12943,7 @@
           <input v-on:change="changeMap" type="checkbox" id="selectMap">
           <label style="color: white" for="selectMap">{{ $t('map.change') }}</label>
 
-          <div class="map__select mb-2">
+          <div class="mapSignupStand__select mb-2">
             <select v-model="selectedOption" @change="activeArea" class="form-select w-25" id="selectMap">
               <option hidden :value="'unselect'">{{ $t('map.choose') }}</option>
               <option v-for="(e,index) in getEmplacementsID()" :key="'mapSignupStand-emplacement-'+index" :value="'stand'+e">{{e}}</option>
@@ -12952,13 +12952,7 @@
             <v-btn @click="goTo('/prestataire/stands')">{{ $t('button.back') }}</v-btn>
           </div>
         </div>
-        <div class="map__display" style="display: none">
-
-          <h3 style="color: white">- {{ $t('map.slots') }} -</h3>
-          <div v-for="(e,index) in selectedObjects" :key="'mapSignupStand-display-'+index">
-            <h3 style="color: red">{{e.datedebut}} - {{e.datefin}}</h3>
-          </div>
-
+        <div class="mapSignupStand__display" style="display: none">
           <h4 style="color: white">{{$t('attribute.startDate')}}</h4>
           <input id="datedebut" style="background-color: white; width: 100%" v-model="datedebut" type="date" :min="inputDateDebut" :max="inputDateFin">
 
@@ -12966,6 +12960,11 @@
           <input id="datefin" style="background-color: white; width: 100%; margin-bottom: 10px" v-model="datefin" type="date" :min="inputDateDebut" :max="inputDateFin">
 
           <v-btn @click="signup()">{{$t('button.signup')}}</v-btn>
+
+          <h3 style="color: white">- {{ $t('map.slots') }} -</h3>
+          <div v-for="(e,index) in selectedObjects" :key="'mapSignupStand-display-'+index">
+            <h3 style="color: red">{{e.datedebut}} - {{e.datefin}}</h3>
+          </div>
         </div>
       </div>
     </div>
@@ -12976,8 +12975,8 @@
         <h2 v-if="this.stand.status === 'attributed'" style="color: green">{{$t('status.attributed')}}</h2>
         <h1>{{this.emplacements.id_emplacement}}</h1>
         <h2 style="color: white">{{$t('attribute.from')}} {{this.emplacements.datedebut}} {{$t('attribute.to')}} {{this.emplacements.datefin}}</h2>
-        <div id="mapSignupStandRegistered">
-          <div class="map__image" style="width: 60%; margin-left: 20%">
+        <div>
+          <div class="mapSignupStand__image" style="width: 60%; margin-left: 20%">
             <svg
                 viewBox="0 0 296.07645 156.98164"
                 version="1.1"
@@ -25946,7 +25945,7 @@ export default {
         this.registered = result.data.data.alreadyRegistered
         this.emplacements = result.data.data.emplacements
         this.stand = result.data.data.stand
-        this.map = document.querySelector('#mapSignupStand')
+        this.map = document.querySelector('.mapSignupStand')
 
         let dateDebut = this.$store.state.manifestation.datedebut
         this.inputDateDebut = dateDebut.split('/')[2]+'-'+dateDebut.split('/')[1]+'-'+dateDebut.split('/')[0]
@@ -25990,7 +25989,7 @@ export default {
         if(e.id_emplacement === id)
           this.selectedObjects.push(e)
       })
-      this.map.querySelector('.map__display').style.display = 'block'
+      this.map.querySelector('.mapSignupStand__display').style.display = 'block'
     },
     signup() {
       let dateDebutManifestation = this.$store.state.manifestation.datedebut
@@ -26062,3 +26061,33 @@ export default {
   mounted(){this.getData()}
 }
 </script>
+<style>
+.mapSignupStand{
+  padding: 20px;
+  background-color: #3F4545;
+  display: flex;
+  transform: scale(0.9);
+}
+.mapSignupStand__image{
+  width: 60%;
+  padding: 10px;
+}
+.mapSignupStand__display{
+  width: 40%;
+  transform: scale(0.9);
+}
+.mapSignupStand__select > *{
+  margin-bottom: 10px;
+}
+@media (max-width: 785px) {
+  .mapSignupStand{
+    display: block;
+  }
+  .mapSignupStand__image{
+    width: 100%;
+  }
+  .mapSignupStand__display{
+    width: 100%;
+  }
+}
+</style>
