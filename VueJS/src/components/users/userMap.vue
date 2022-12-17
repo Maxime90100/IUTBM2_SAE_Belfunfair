@@ -13274,9 +13274,8 @@ export default {
 <style>
 .userMap{
   padding: 20px;
-  background-color: #3F4545;
+  background-color: #060821;
   display: flex;
-  transform: scale(0.9);
 }
 .userMap__image{
   width: 50%;
@@ -13286,6 +13285,7 @@ export default {
   overflow-y:auto;
   overflow-x:auto;
   background-color: whitesmoke;
+  transform: scale(0.9);
 }
 .userMap__card{
   width: 50%;

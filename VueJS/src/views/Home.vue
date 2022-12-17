@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-color: whitesmoke">
     <header style="background-color: #050416">
       <top-toolbar></top-toolbar>
     </header>
@@ -11,11 +11,12 @@
       </div>
    </div>
 
-    <div id="presentation">
-      <div style="margin:30vh 10%; background-color: #3f4545; color: white; padding: 50px">
-        <h3 style="text-align: justify;font-size: 4vh">{{$t('home.description')}}</h3>
+    <div id="presentation" style="margin: 10vh 10vw 0; height: 50vh; width: 80vw;">
+      <div class="video-responsive">
+        <iframe src="https://www.youtube.com/embed/17NOpbW7pRk?autoplay=1&mute=1&loop=1&playlist=17NOpbW7pRk" title="Présentataion belfort" frameborder="0" allow="autoplay" allowfullscreen></iframe>
       </div>
     </div>
+    <h1 style="text-align: justify; margin: 0 10vw 10vh; padding: 5vw; font-size: 3vh">{{$t('home.description')}}</h1>
 
     <div id="map">
       <user-map :maneges-data="maneges" :stands-data="stands"></user-map>
@@ -64,3 +65,18 @@ export default {
   }
 }
 </script>
+<style>
+.video-responsive {
+  overflow:hidden;
+  padding-bottom:56.25%;
+  position:relative;
+  height:0;
+}
+.video-responsive iframe {
+  left:0;
+  top:0;
+  height:50vh;
+  width:80vw;
+  position:absolute;
+}
+</style>
