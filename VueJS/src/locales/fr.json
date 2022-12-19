@@ -16,7 +16,10 @@
     "from": "Du",
     "to": "au",
     "groupMember": "Membres du groupe",
-    "noMessage": "Aucune informations pour le moment"
+    "noMessage": "Aucune informations pour le moment",
+    "location": "Emplacement",
+    "stand": "Stand",
+    "manege": "Manège"
   },
   "button": {
     "logout": "Déconnexion",
@@ -25,11 +28,14 @@
     "delete": "Supprimer",
     "add": "Ajouter",
     "signup": "Inscrire",
+    "cancelSignup": "Annuler inscription",
+    "cancelSignupInProgress": "Annulation inscription en cours...",
     "about": "A propos",
     "back": "retour"
   },
   "confirm": {
-    "delete": "Êtes-vous sûr de vouloir supprimer ?"
+    "delete": "Êtes-vous sûr de vouloir supprimer ?",
+    "cancel": "Êtes-vous sûr de vouloir annuler ?"
   },
   "status": {
     "attributed": "inscrit",
@@ -53,7 +59,7 @@
   },
   "home": {
     "title": "Bienvenue à BELFUNFAIR",
-    "description": "Organisé et financé par la Ville de Belfort avec le soutien des associations étudiantes de l’Aire urbaine, BELFUNFAIR à Belfort se déroule chaque année pendant les vacances d'été. Du 20 juin au 20 août, la cité du Lion se transforme en une majestueuse fête foraine. Diversité, gaieté et convivialité  résument, depuis sa création en 2022, l’ambiance de cet manifestation unique en son genre."
+    "description": "Organisée et financée par la Ville de Belfort avec le soutien des associations étudiantes de l’Aire urbaine, BELFUNFAIR à Belfort se déroule chaque année pendant les vacances d'été. Du 20 juin au 20 août, la cité du Lion se transforme en une majestueuse fête foraine. Diversité, gaieté et convivialité  résument, depuis sa création en 2022, l’ambiance de cette manifestation unique en son genre."
   },
   "login": {
     "description": "Cet espace est uniquement réservé aux prestataires et organisateurs de Belfunfair"
@@ -62,7 +68,7 @@
     "change": "Changer de plan",
     "choose": "Choisir emplacement",
     "slots": "Créneaux indisponibles",
-    "empty": "Cet emplacement ne présente aucunes inscriptions correspondantes à vos critères"
+    "empty": "Cet emplacement ne présente aucune inscription correspondante à vos critères"
   },
   "manege": {
     "add": "Ajouter un manège",

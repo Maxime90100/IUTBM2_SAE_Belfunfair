@@ -57,9 +57,9 @@ export default class PrestatairesService {
             });
         });
     }
-    async signupManege(id_manege,id_emplacament,datedebut,datefin){
+    async signupManege(id_manege,id_emplacament,id_manifestation,datedebut,datefin){
         return new Promise(async (resolve,reject)=>{
-           pool.query('insert into manegesinscrit(id_manege,id_emplacement,datedebut,datefin) values ($1,$2,$3,$4);', [id_manege,id_emplacament,datedebut,datefin], (error,result)=>{
+           pool.query('insert into manegesinscrit(id_manege,id_emplacement,id_manifestation,datedebut,datefin,cancel) values ($1,$2,$3,$4,$5,$6);', [id_manege,id_emplacament,id_manifestation,datedebut,datefin,false], (error,result)=>{
                if(error){
                    console.error(error)
                    resolve({success:0,date:error})
@@ -67,6 +67,34 @@ export default class PrestatairesService {
                pool.query('update maneges set status=$1 where id=$2;', ['wait_attribution',id_manege])
                resolve({success:1,data:'Votre demande d\'inscription à bien été prise en compte !'})
            });
+        });
+    }
+    async cancelSignupManege(id_manege,id_manifestation){
+        return new Promise(async (resolve,reject)=>{
+            pool.query('select status from maneges where id=$1;',[id_manege],(error,result)=> {
+                if (error) {
+                    console.error(error)
+                    resolve({success: 0, date: error})
+                }
+                let status = result.rows[0].status
+                if(status !== 'attributed'){
+                    pool.query('delete from manegesinscrit where id_manege=$1 and id_manifestation=$2;', [id_manege, id_manifestation], (error, result) => {
+                        if (error) {
+                            console.error(error)
+                            resolve({success: 0, date: error})
+                        }
+                        pool.query('update maneges set status=$1 where id=$2;', ['not_attributed', id_manege])
+                        resolve({success: 1, data: 'Votre demande d\'inscription à bien été annulée !'})
+                    });
+                }
+                pool.query('update manegesinscrit set cancel=$1 where id_manege=$2 and id_manifestation=$3;', [true, id_manege, id_manifestation], (error, result) => {
+                    if (error) {
+                        console.error(error)
+                        resolve({success: 0, date: error})
+                    }
+                    resolve({success: 1, data: 'Votre demande d\'annulation d\'inscription a bien été enregistrée, vous recevrez un mail de la part de nos administrateurs lorsque celle-ci sera prise en compte !'})
+                });
+            });
         });
     }
 
@@ -124,9 +152,9 @@ export default class PrestatairesService {
             });
         });
     }
-    async signupStand(id_stand,id_emplacament,datedebut,datefin){
+    async signupStand(id_stand,id_emplacament,id_manifestation,datedebut,datefin){
         return new Promise(async (resolve,reject)=>{
-            pool.query('insert into standsinscrit(id_stand,id_emplacement,datedebut,datefin) values ($1,$2,$3,$4);', [id_stand,id_emplacament,datedebut,datefin], (error,result)=>{
+            pool.query('insert into standsinscrit(id_stand,id_emplacement,id_manifestation,datedebut,datefin) values ($1,$2,$3,$4,$5);', [id_stand,id_emplacament,id_manifestation,datedebut,datefin], (error,result)=>{
                 if(error){
                     console.error(error)
                     reject(error)
@@ -136,6 +164,35 @@ export default class PrestatairesService {
             });
         });
     }
+    async cancelSignupStand(id_stand,id_manifestation){
+        return new Promise(async (resolve,reject)=>{
+            pool.query('select status from stands where id=$1;',[id_stand],(error,result)=> {
+                if (error) {
+                    console.error(error)
+                    resolve({success: 0, date: error})
+                }
+                let status = result.rows[0].status
+                if(status !== 'attributed'){
+                    pool.query('delete from standsinscrit where id_stand=$1 and id_manifestation=$2;', [id_stand, id_manifestation], (error, result) => {
+                        if (error) {
+                            console.error(error)
+                            resolve({success: 0, date: error})
+                        }
+                        pool.query('update stands set status=$1 where id=$2;', ['not_attributed', id_stand])
+                        resolve({success: 1, data: 'Votre demande d\'inscription à bien été annulée !'})
+                    });
+                }
+                pool.query('update standsinscrit set cancel=$1 where id_stand=$2 and id_manifestation=$3;', [true, id_stand, id_manifestation], (error, result) => {
+                    if (error) {
+                        console.error(error)
+                        resolve({success: 0, date: error})
+                    }
+                    resolve({success: 1, data: 'Votre demande d\'annulation d\'inscription a bien été enregistrée, vous recevrez un mail de la part de nos administrateurs lorsque celle-ci sera prise en compte !'})
+                });
+            });
+        });
+    }
+
 
     // SCENE
 

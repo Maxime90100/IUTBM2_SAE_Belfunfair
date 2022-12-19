@@ -16,7 +16,10 @@
     "from": "From",
     "to": "to",
     "groupMember": "Group members",
-    "noMessage": "No information yet"
+    "noMessage": "No information yet",
+    "location": "Location",
+    "stand": "Stalls",
+    "manege": "Rides"
   },
   "button": {
     "logout": "Logout",
@@ -25,11 +28,14 @@
     "delete": "Delete",
     "add": "Add",
     "signup": "Signup",
+    "cancelSignup": "Cancel registration",
+    "cancelSignupInProgress": "Registration cancellation in progress...",
     "about": "About",
     "back": "back"
   },
   "confirm": {
-    "delete": "Are you sure to delete ?"
+    "delete": "Are you sure to delete ?",
+    "cancel": "Are you sure to cancel ?"
   },
   "status": {
     "attributed": "registered",

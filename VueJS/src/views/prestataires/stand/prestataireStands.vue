@@ -3,8 +3,8 @@
     <header>
       <prestataire-toolbar></prestataire-toolbar>
     </header>
-    <flash-message></flash-message>
     <h1>{{$t('prestataireToolbar.stand')}}</h1>
+    <flash-message></flash-message>
     <prestataire-show-stands></prestataire-show-stands>
   </div>
 </template>

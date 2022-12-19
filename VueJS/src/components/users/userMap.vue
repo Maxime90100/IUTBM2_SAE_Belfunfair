@@ -13065,34 +13065,34 @@
             style="display:inline">
                     <path
                         name="map"
-                        v-on:mouseover="changeSelectedPath('restaurant1')"
+                        v-on:mouseover="changeSelectedPath('stand11')"
                         style="display:inline;fill:#7f7f7f;fill-opacity:1;stroke-width:0.264583"
                         d="m 177.74248,49.714438 12.56225,2.138256 -3.47466,15.502353 -9.88943,-1.33641 z"
-                        id="restaurant1"
+                        id="stand11"
                         inkscape:label="1"
                     />
           <path
               name="map"
-              v-on:mouseover="changeSelectedPath('restaurant2')"
+              v-on:mouseover="changeSelectedPath('stand12')"
               style="fill:#7f7f7f;fill-opacity:1;stroke-width:0.264583"
               d="m 124.82066,81.520989 15.23507,2.940101 -1.60369,12.829532 -16.03692,-2.940101 v 0.801847 z"
-              id="restaurant2"
+              id="stand12"
               inkscape:label="2"
           />
           <path
               name="map"
-              v-on:mouseover="changeSelectedPath('restaurant3')"
+              v-on:mouseover="changeSelectedPath('stand13')"
               style="fill:#7f7f7f;fill-opacity:1;stroke-width:0.264583"
               d="m 102.63626,23.253528 15.50235,2.940101 -2.67282,17.373326 -14.16594,-2.405538 z"
-              id="restaurant3"
+              id="stand13"
               inkscape:label="3"
           />
           <path
               name="map"
-              v-on:mouseover="changeSelectedPath('restaurant4')"
+              v-on:mouseover="changeSelectedPath('stand14')"
               style="fill:#7f7f7f;fill-opacity:1;stroke-width:0.264583"
               d="m 211.95457,90.074011 10.424,5.345639 8.8203,-8.553024 -9.62215,-8.553022 z"
-              id="restaurant4"
+              id="stand14"
               inkscape:label="4"
           />
                 </g>
@@ -13133,7 +13133,6 @@
     </div>
     <div class="userMap__noCard">
       <p style="font-size: 1rem; text-align: center">{{ $t('map.empty') }}</p>
-      <img src="@/assets/img/Grande-Roue.gif" style="width: 80%; margin-left:10%">
     </div>
   </div>
 </template>

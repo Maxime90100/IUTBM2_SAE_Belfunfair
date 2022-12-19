@@ -11,6 +11,7 @@ router.post("/:id_user/manege/:id/update", /*imageProcessor.uploadImages, await 
 router.post("/:id_user/manege/:id/delete", controller.deleteManege);
 router.get("/:id_user/manege/:id/signup", controller.signupManege);
 router.post("/:id_user/manege/:id/signupPost", controller.signupManegePOST);
+router.post("/:id_user/manege/:id/cancelSignup", controller.cancelSignupManege);
 //router.post("/:id_user/manege/:id/deleteImage", imageProcessor.deleteImage, controller.deleteImageManege);
 
 // STANDS
@@ -21,6 +22,7 @@ router.post("/:id_user/stand/:id/update", /*imageProcessor.uploadImages, await i
 router.post("/:id_user/stand/:id/delete", controller.deleteStand);
 router.get("/:id_user/stand/:id/signup", controller.signupStand);
 router.post("/:id_user/stand/:id/signupPost", controller.signupStandPOST);
+router.post("/:id_user/stand/:id/cancelSignup", controller.cancelSignupStand);
 //router.post("/:id_user/stand/:id/deleteImage", imageProcessor.deleteImage, controller.deleteImageStand);
 
 // SCENE

@@ -16,7 +16,7 @@ export default class UsersService {
     }
     async getEmplacements(type){
         return new Promise((resolve,reject)=>{
-            pool.query('select emplacements'+type+'.id as id_emplacement, '+type+'.id, '+type+'.name as name, cast('+type+'Inscrit.dateDebut as varchar), cast('+type+'Inscrit.dateFin as varchar) from emplacements'+type+' left join '+type+'Inscrit on emplacements'+type+'.id = '+type+'Inscrit.id_emplacement left join '+type+' on '+type+'.id = '+type+'Inscrit.id_'+type.substring(0,type.length - 1)+' order by emplacements'+type+'.id ASC;', (error,result)=>{
+            pool.query('select emplacements'+type+'.id as id_emplacement, '+type+'.id, '+type+'.name as name, cast('+type+'Inscrit.dateDebut as varchar), cast('+type+'Inscrit.dateFin as varchar), '+type+'Inscrit.cancel from emplacements'+type+' left join '+type+'Inscrit on emplacements'+type+'.id = '+type+'Inscrit.id_emplacement left join '+type+' on '+type+'.id = '+type+'Inscrit.id_'+type.substring(0,type.length - 1)+' order by emplacements'+type+'.id ASC;', (error,result)=>{
                if(error){
                    console.error(error)
                    reject(error)
@@ -87,7 +87,7 @@ export default class UsersService {
     }
     async getManegesByIdUser(id_user){
         return new Promise((resolve,reject)=>{
-            pool.query('select m.id, m.id_user, m.name, t.libelle as type, m.taille_min, m.description, m.images, m.status, cast(mi.datedebut as TEXT), cast(mi.datefin as TEXT) from maneges m join types_manege t on m.type = t.id left join manegesInscrit mi on m.id = mi.id_manege where m.id_user=$1 order by m.id ASC;', [id_user], (error,result)=>{
+            pool.query('select m.id, m.id_user, m.name, t.libelle as type, m.taille_min, m.description, m.images, m.status, cast(mi.datedebut as TEXT), cast(mi.datefin as TEXT), mi.cancel from maneges m join types_manege t on m.type = t.id left join manegesInscrit mi on m.id = mi.id_manege where m.id_user=$1 order by m.id ASC;', [id_user], (error,result)=>{
                 if(error){
                     console.error(error)
                     reject(error)
@@ -134,7 +134,7 @@ export default class UsersService {
     }
     async getStandsByIdUser(id_user){
         return new Promise((resolve,reject)=>{
-            pool.query('select s.id, s.id_user, s.name, t.libelle as type, s.description, s.images, s.status, cast(si.datedebut as TEXT), cast(si.datefin as TEXT) from stands s join types_stand t on s.type = t.id left join standsInscrit si on s.id = si.id_stand where id_user=$1 order by id ASC;', [id_user], (error,result)=>{
+            pool.query('select s.id, s.id_user, s.name, t.libelle as type, s.description, s.images, s.status, cast(si.datedebut as TEXT), cast(si.datefin as TEXT), si.cancel from stands s join types_stand t on s.type = t.id left join standsInscrit si on s.id = si.id_stand where id_user=$1 order by id ASC;', [id_user], (error,result)=>{
                 if(error){
                     console.error(error)
                     reject(error)

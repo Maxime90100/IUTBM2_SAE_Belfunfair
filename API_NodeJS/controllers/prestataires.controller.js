@@ -68,10 +68,21 @@ export const signupManege = async (req,res)=>{
 export const signupManegePOST = async (req,res)=>{
     let id_manege = req.params.id
     let id_emplacement = req.body.id_emplacement
+    let id_manifestation = req.body.id_manifestation
     let datedebut = req.body.datedebut
     let datefin = req.body.datefin
     let service = new PrestatairesService()
-    service.signupManege(id_manege, id_emplacement, datedebut, datefin).then(result => {
+    service.signupManege(id_manege, id_emplacement, id_manifestation, datedebut, datefin).then(result => {
+        res.status(200).send(result)
+    }).catch(error => {
+        res.status(400).send(error)
+    });
+}
+export const cancelSignupManege = async (req,res)=>{
+    let id_manege = req.params.id
+    let id_manifestation = req.body.id_manifestation
+    let service = new PrestatairesService()
+    service.cancelSignupManege(id_manege, id_manifestation).then(result => {
         res.status(200).send(result)
     }).catch(error => {
         res.status(400).send(error)
@@ -161,11 +172,22 @@ export const signupStand = async (req,res)=>{
 export const signupStandPOST = async (req,res)=>{
     let id_stand = req.params.id
     let id_emplacement = req.body.id_emplacement
+    let id_manifestation = req.body.id_manifestation
     let datedebut = req.body.datedebut
     let datefin = req.body.datefin
 
     let service = new PrestatairesService()
-    service.signupStand(id_stand, id_emplacement, datedebut, datefin).then(result => {
+    service.signupStand(id_stand, id_emplacement, id_manifestation, datedebut, datefin).then(result => {
+        res.status(200).send(result)
+    }).catch(error => {
+        res.status(400).send(error)
+    });
+}
+export const cancelSignupStand = async (req,res)=>{
+    let id_stand = req.params.id
+    let id_manifestation = req.body.id_manifestation
+    let service = new PrestatairesService()
+    service.cancelSignupStand(id_stand, id_manifestation).then(result => {
         res.status(200).send(result)
     }).catch(error => {
         res.status(400).send(error)

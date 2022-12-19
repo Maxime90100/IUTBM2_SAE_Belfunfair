@@ -9,6 +9,7 @@
           <h4 v-if="stand.status === 'attributed'" style="color: green">{{$t('status.attributed')}} ({{stand.datedebut}} - {{stand.datefin}})</h4>
           <h4 v-if="stand.status === 'wait_attribution'" style="color: orange">{{$t('status.wait_attribution')}} ({{stand.datedebut}} - {{stand.datefin}})</h4>
           <h4 v-if="stand.status === 'not_attributed'" style="color: red">{{$t('status.not_attributed')}}</h4>
+          <h5 v-if="stand.cancel" style="color: skyblue">{{$t('button.cancelSignupInProgress')}}</h5>
         </div>
 
         <h2>- {{stand.type}} -</h2>
@@ -70,6 +71,7 @@ export default {
     },
     signup(id){this.$router.replace('/prestataire/stands/'+id+'/signup')}
   },
+  updated(){this.getData()},
   mounted(){this.getData()}
 }
 </script>

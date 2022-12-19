@@ -64,6 +64,7 @@ create table manegesInscrit(
   id_emplacement int,
   dateDebut date,
   dateFin date,
+  cancel boolean,
   primary key (id),
   foreign key (id_manifestation) references manifestations(id),
   foreign key (id_manege) references maneges(id),
@@ -101,6 +102,7 @@ create table standsInscrit(
   id_emplacement int,
   dateDebut date,
   dateFin date,
+  cancel boolean,
   primary key (id),
   foreign key (id_manifestation) references manifestations(id),
   foreign key (id_stand) references stands(id),
@@ -140,6 +142,7 @@ insert into manifestations (dateDebut, dateFin, inProgress) values ('20-06-2023'
 
 insert into  types_manege(libelle) values ('Sensations');
 insert into  types_manege(libelle) values ('Grand public');
+insert into  types_manege(libelle) values ('Enfants');
 
 insert into maneges(id_user, name, type, taille_min, description, images, status) values (3,'Autos-tamponeuses', 2, 120, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis nulla vel justo faucibus venenatis et ut tellus. Nam ac ante purus. Donec in tempor lacus. Quisque efficitur augue ut mi bibendum, ut maximus nisi consequat. Proin pretium ante vitae elit luctus varius vitae eget nulla. Curabitur eleifend malesuada mattis. Quisque ut mi at sapien eleifend porttitor. Fusce at efficitur nulla. Vivamus ex nisl, semper ut sodales in, vulputate at dolor. Integer sit amet efficitur lorem. Aliquam vel pharetra augue. Vestibulum quis malesuada metus, et elementum lectus.','{"/img/upload/image-maneges-1-auto-tamponeuse-1666876806176.jpeg"}','attributed');
 insert into maneges(id_user, name, type, description, images, status) values (3,'Tasses', 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis nulla vel justo faucibus venenatis et ut tellus. Nam ac ante purus. Donec in tempor lacus. Quisque efficitur augue ut mi bibendum, ut maximus nisi consequat. Proin pretium ante vitae elit luctus varius vitae eget nulla. Curabitur eleifend malesuada mattis. Quisque ut mi at sapien eleifend porttitor. Fusce at efficitur nulla. Vivamus ex nisl, semper ut sodales in, vulputate at dolor. Integer sit amet efficitur lorem. Aliquam vel pharetra augue. Vestibulum quis malesuada metus, et elementum lectus.','{}','attributed');
@@ -159,12 +162,12 @@ insert into emplacementsManeges(id) values (6);
 insert into emplacementsManeges(id) values (7);
 insert into emplacementsManeges(id) values (8);
 
-insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin) values (1,1,2,'20-06-2023','20-07-2023');
-insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin) values (2,1,2,'30-07-2023','10-08-2023');
-insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin) values (3,1,1,'30-06-2023','15-08-2023');
-insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin) values (4,1,7,'01-07-2023','20-07-2023');
-insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin) values (5,1,3,'10-07-2023','10-08-2023');
-insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin) values (6,1,6,'10-07-2023','20-07-2023');
+insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin, cancel) values (1,1,2,'20-06-2023','20-07-2023',false);
+insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin, cancel) values (2,1,2,'30-07-2023','10-08-2023',false);
+insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin, cancel) values (3,1,1,'30-06-2023','15-08-2023',false);
+insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin, cancel) values (4,1,7,'01-07-2023','20-07-2023',false);
+insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin, cancel) values (5,1,3,'10-07-2023','10-08-2023',false);
+insert into manegesInscrit(id_manege, id_manifestation, id_emplacement, dateDebut, dateFin, cancel) values (6,1,6,'10-07-2023','20-07-2023',false);
 
 /* STANDS */
 
@@ -187,10 +190,14 @@ insert into emplacementsStands(id) values (7);
 insert into emplacementsStands(id) values (8);
 insert into emplacementsStands(id) values (9);
 insert into emplacementsStands(id) values (10);
+insert into emplacementsStands(id) values (11);
+insert into emplacementsStands(id) values (12);
+insert into emplacementsStands(id) values (13);
+insert into emplacementsStands(id) values (14);
 
-insert into standsInscrit(id_stand, id_manifestation, id_emplacement, dateDebut, dateFin) values (1,1,3,'25-06-2023','02-07-2023');
-insert into standsInscrit(id_stand, id_manifestation, id_emplacement, dateDebut, dateFin) values (2,1,6,'18-07-2023','30-07-2023');
-insert into standsInscrit(id_stand, id_manifestation, id_emplacement, dateDebut, dateFin) values (3,1,10,'20-06-2023','20-08-2023');
+insert into standsInscrit(id_stand, id_manifestation, id_emplacement, dateDebut, dateFin, cancel) values (1,1,3,'25-06-2023','02-07-2023', false);
+insert into standsInscrit(id_stand, id_manifestation, id_emplacement, dateDebut, dateFin, cancel) values (2,1,6,'18-07-2023','30-07-2023', false);
+insert into standsInscrit(id_stand, id_manifestation, id_emplacement, dateDebut, dateFin, cancel) values (3,1,12,'20-06-2023','20-08-2023', false);
 
 /* ARTISTES */
 

@@ -3,8 +3,8 @@
     <header>
       <prestataire-toolbar></prestataire-toolbar>
     </header>
-    <flash-message></flash-message>
     <h1>{{$t('artiste.name')}}</h1>
+    <flash-message></flash-message>
     <prestataire-show-artistes></prestataire-show-artistes>
   </div>
 </template>
