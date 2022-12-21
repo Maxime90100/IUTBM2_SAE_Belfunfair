@@ -8,6 +8,7 @@ drop table if exists emplacementsStands;
 drop table if exists stands;
 drop table if exists types_stand;
 
+drop table if exists artistesInscrit;
 drop table if exists artistes;
 drop table if exists types_artiste;
 
@@ -129,6 +130,19 @@ create table artistes(
   foreign key (type) references types_artiste(id)
 );
 
+create table artistesInscrit(
+  id serial,
+  id_manifestation int,
+  id_artiste int,
+  date date,
+  startHour time,
+  endHour time,
+  cancel boolean,
+  primary key (id),
+  foreign key (id_manifestation) references manifestations(id),
+  foreign key (id_artiste) references artistes(id)
+);
+
 /* USERS */
 
 insert into users(role, firstname, surname, email, password) values ('organisateur','orga1','orga1', 'orga1@orga1.com','$2b$10$94kO1uWdRJrMNCozXZII7OE38Yxd7oQFsA.10iq.gZOg35FEzralO');
@@ -205,3 +219,5 @@ insert into types_artiste(libelle) values ('Musique');
 insert into types_artiste(libelle) values ('Théâtre');
 
 insert into artistes(id_user, name, type, description, images, groupe, status) values (3,'Le trio', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin turpis mauris, vulputate sit amet quam eu, rhoncus auctor massa. Donec id maximus eros. In porttitor et massa vestibulum bibendum. In quis nibh vitae libero tempor dignissim. Aenean convallis leo ac dapibus consequat. Vivamus quis enim tempus, feugiat odio vitae, pharetra urna. Ut id tortor pharetra, tincidunt dui non, dictum lorem. Mauris a neque id ante lacinia interdum. Morbi dapibus placerat urna, ac efficitur purus hendrerit in.', '{}', 'Eustache Durand,Emmanuelle Souplet,Daniel Dandonneau', 'not_attributed');
+
+insert into artistesInscrit(id_manifestation, id_artiste, date, startHour, endHour, cancel) values (1,1,'20-06-2023', '08:30:00', '12:00:00', false);

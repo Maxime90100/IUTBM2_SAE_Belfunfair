@@ -20,6 +20,7 @@ import prestataireStandSignup from "@/views/prestataires/stand/prestataireStandS
 import prestataireArtistes from "@/views/prestataires/artiste/prestataireArtistes.vue";
 import prestataireArtisteAdd from "@/views/prestataires/artiste/prestataireArtisteAdd.vue";
 import prestataireArtisteUpdate from "@/views/prestataires/artiste/prestataireArtisteUpdate.vue";
+import prestataireArtisteSignup from "@/views/prestataires/artiste/prestataireArtisteSignup.vue";
 
 Vue.use(Router);
 
@@ -101,6 +102,11 @@ export default new Router({
             path: "/prestataire/artistes/:id",
             name: "prestataireArtisteUpdate",
             component: prestataireArtisteUpdate
+        },
+        {
+            path: "/prestataire/artistes/:id/signup",
+            name: "prestataireArtisteSignup",
+            component: prestataireArtisteSignup
         }
     ]
 })

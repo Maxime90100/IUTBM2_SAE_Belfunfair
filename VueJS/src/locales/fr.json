@@ -15,11 +15,17 @@
     "endDate": "Date fin",
     "from": "Du",
     "to": "au",
+    "date": "Date",
     "groupMember": "Membres du groupe",
     "noMessage": "Aucune informations pour le moment",
     "location": "Emplacement",
-    "stand": "Stand",
-    "manege": "Manège"
+    "stand": "Stands",
+    "manege": "Manèges",
+    "stage": "Scène",
+    "ticketing": "Billetterie",
+    "security": "Sécurité",
+    "infirmerie": "Secours"
+
   },
   "button": {
     "logout": "Déconnexion",

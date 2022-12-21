@@ -15,11 +15,16 @@
     "endDate": "End date",
     "from": "From",
     "to": "to",
+    "date": "Date",
     "groupMember": "Group members",
     "noMessage": "No information yet",
     "location": "Location",
     "stand": "Stalls",
-    "manege": "Rides"
+    "manege": "Rides",
+    "stage": "Stage",
+    "ticketing": "Ticketing",
+    "security": "Security",
+    "infirmerie": "Infirmery"
   },
   "button": {
     "logout": "Logout",

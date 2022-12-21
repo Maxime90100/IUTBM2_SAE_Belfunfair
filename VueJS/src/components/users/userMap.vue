@@ -13098,17 +13098,25 @@
                 </g>
             </svg>
 
-      <label style="float: left" for="selectMap">{{ $t('map.change') }}</label>
-      <div style="float:left; width: 5%">
-        <input v-on:change="changeMap" type="checkbox" id="selectMap">
+      <div style="display: flex; margin: 5px 5px">
+        <v-btn v-on:click="changeMap" outlined>{{ $t('map.change') }}</v-btn>
+        <v-btn v-on:click="changeSelectedPath('security')">{{ $t('attribute.security') }}</v-btn>
+        <v-btn v-on:click="changeSelectedPath('secours')">{{ $t('attribute.infirmerie') }}</v-btn>
+        <v-btn v-on:click="changeSelectedPath('billetterie')">{{ $t('attribute.ticketing') }}</v-btn>
+        <v-btn v-on:click="changeSelectedPath('stage')">{{ $t('attribute.stage') }}</v-btn>
       </div>
 
-      <div class="userMap__select mb-2">
-        <select v-model="selectedOption" @change="activeArea" class="form-select w-25" id="selectMap">
+      <div class="userMap__select mb-2" style="display: flex; margin: 5px 5px">
+
+        <v-btn id="selectManege" v-on:click="changeMapManegeStand('manege')" small dark>{{ $t('attribute.manege') }}</v-btn>
+        <v-btn id="selectStand" v-on:click="changeMapManegeStand('stand')" small dark>{{ $t('attribute.stand') }}</v-btn>
+
+        <select v-model="selectedOption" @change="changeDate" class="form-select" id="selectMap">
           <option hidden :value="'unselect'">{{ $t('map.choose') }}</option>
           <option v-for="(manege,index) in maneges" :key="'map-manege-'+index" :value="'manege-'+manege.id_emplacement+'-'+manege.id">{{manege.name}}</option>
           <option v-for="(stand,index) in stands" :key="'map-stand-'+index" :value="'stand-'+stand.id_emplacement+'-'+stand.id">{{stand.name}}</option>
         </select>
+
         <input v-model="selectedDate" @change="activeArea" type="date" :min="dateDebut" :max="dateFin">
       </div>
     </div>
@@ -13154,7 +13162,8 @@ export default {
       selectedDate:null,
       selectedObjects: [],
       dateDebut:null,
-      dateFin:null
+      dateFin:null,
+      mapOpacity:100
     }
   },
   methods:{
@@ -13167,6 +13176,7 @@ export default {
       this.dateFin = dateFin.split('/')[2]+'-'+dateFin.split('/')[1]+'-'+dateFin.split('/')[0]
     },
     changeDate(){
+      this.fillData()
       if(this.selectedDate){
         let date = new Date(this.selectedDate)
         let dateDebut, dateFin
@@ -13181,12 +13191,40 @@ export default {
           if (!(dateDebut <= date && dateFin >= date)) this.stands.splice(i,1)
         });
       }
+      this.activeArea()
     },
     changeMap(){
-      let select = this.map.querySelector('#selectMap')
-      let opacity = 100
-      if(select.checked) opacity = 0
-      this.map.querySelector('#satelite').style.opacity = opacity
+      let map = this.map.querySelector('#satelite')
+      if(this.mapOpacity === 100) this.mapOpacity = 0
+      else this.mapOpacity = 100
+      map.style.opacity = this.mapOpacity
+    },
+    changeMapManegeStand(type){
+      this.fillData()
+      let selectManege = this.map.querySelector('#selectManege')
+      let selectStand = this.map.querySelector('#selectStand')
+
+      let select
+      if(type === 'manege') select = selectManege
+      else select = selectStand
+
+      let color = select.style.backgroundColor
+      let opacity
+      if(color === 'green'){
+        opacity = 0
+        select.style.backgroundColor = "red"
+      }else{
+        opacity = 100
+        select.style.backgroundColor = "green"
+      }
+      let paths = this.map.querySelectorAll('[name="map"]')
+      paths.forEach(p=>{
+        if(p.id.includes(type))
+          p.style.opacity = opacity
+      })
+      if(selectManege.style.backgroundColor === 'red') this.maneges = []
+      if(selectStand.style.backgroundColor === 'red') this.stands = []
+      this.activeArea()
     },
     changeSelectedPath(id){
       this.selectedOption = null
@@ -13196,8 +13234,6 @@ export default {
     activeArea(){
       if(this.selectedOption !== 'unselect' || this.selectedPath) {
 
-        this.fillData()
-        this.changeDate()
         this.selectedObjects = []
         if(this.selectedOption) this.selectedPath = null
         this.map.querySelectorAll('[name="map"]').forEach(p => {p.style.fill = 'grey'})
@@ -13266,6 +13302,8 @@ export default {
   mounted(){
     this.fillData()
     this.map = document.querySelector('.userMap')
+    this.map.querySelector('#selectManege').style.backgroundColor = 'green'
+    this.map.querySelector('#selectStand').style.backgroundColor = 'green'
   }
 }
 </script>
