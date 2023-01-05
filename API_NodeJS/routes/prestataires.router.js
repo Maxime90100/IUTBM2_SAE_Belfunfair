@@ -31,5 +31,8 @@ router.get("/:id_user/artiste/:id?", controller.showArtists);
 router.post("/:id_user/addArtiste", controller.addArtist);
 router.post("/:id_user/artiste/:id/update", /*imageProcessor.uploadImages, await imageProcessor.resizeImages,*/ controller.editArtist);
 router.post("/:id_user/artiste/:id/delete", controller.deleteArtist);
+router.get("/:id_user/artiste/:id/signup", controller.signupArtist);
+router.post("/:id_user/artiste/:id/signupPost", controller.signupArtistPOST);
+router.post("/:id_user/artiste/:id/cancelSignup", controller.cancelSignupArtist);
 
 export default router;

@@ -17,9 +17,10 @@
         </div>
 
         <div style="text-align: center">
-          <h4 v-if="artiste.status === 'attributed'" style="color: green">{{$t('status.attributed')}}</h4>
-          <h4 v-if="artiste.status === 'wait_attribution'" style="color: orange">{{$t('status.wait_attribution')}}</h4>
+          <h4 v-if="artiste.status === 'attributed'" style="color: green">{{$t('status.attributed')}} <br> {{artiste.date}} [{{artiste.starthour}} - {{artiste.endhour}}]</h4>
+          <h4 v-if="artiste.status === 'wait_attribution'" style="color: orange">{{$t('status.wait_attribution')}} <br> {{artiste.date}} [{{artiste.starthour}} - {{artiste.endhour}}]</h4>
           <h4 v-if="artiste.status === 'not_attributed'" style="color: red">{{$t('status.not_attributed')}}</h4>
+          <h5 v-if="artiste.cancel" style="color: skyblue">{{$t('button.cancelSignupInProgress')}}</h5>
         </div>
 
         <h2>- {{artiste.type}} -</h2>

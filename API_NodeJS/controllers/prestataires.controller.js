@@ -254,6 +254,40 @@ export const editArtist = (req,res)=>{
         res.status(400).send(error)
     });
 }
+export const signupArtist = async (req,res)=>{
+    let id_user = req.params.id_user
+    let service = new UsersService()
+    service.getArtistsInscrits().then(artists=>{
+        res.status(200).send({success:1,data: {artists:artists}})
+    }).catch(error=>{
+        req.flash("error",`${error}`);
+        res.redirect("/prestataires/"+id_user+"/manege");
+    });
+}
+export const signupArtistPOST = async (req,res)=>{
+    let id_artist = req.params.id
+    let id_manifestation = req.body.id_manifestation
+    let date = req.body.date
+    let startHour = req.body.startHour
+    let endHour = req.body.endHour
+
+    let service = new PrestatairesService()
+    service.signupArtist(id_artist, id_manifestation, date, startHour, endHour).then(result => {
+        res.status(200).send(result)
+    }).catch(error => {
+        res.status(400).send(error)
+    });
+}
+export const cancelSignupArtist = async (req,res)=>{
+    let id_artist = req.params.id
+    let id_manifestation = req.body.id_manifestation
+    let service = new PrestatairesService()
+    service.cancelSignupArtist(id_artist, id_manifestation).then(result => {
+        res.status(200).send(result)
+    }).catch(error => {
+        res.status(400).send(error)
+    });
+}
 export const deleteArtist = (req,res)=>{
     let id_artist = req.params.id
 

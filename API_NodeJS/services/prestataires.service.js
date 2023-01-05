@@ -248,4 +248,45 @@ export default class PrestatairesService {
             });
         });
     }
+    async signupArtist(id_artist,id_manifestation,date,startHour,endHour){
+        return new Promise(async (resolve,reject)=>{
+            pool.query('insert into artistesinscrit(id_manifestation,id_artiste,date,starthour,endhour,cancel) values ($1,$2,$3,$4,$5,$6);', [id_manifestation,id_artist,date,startHour,endHour,false], (error,result)=>{
+                if(error){
+                    console.error(error)
+                    reject(error)
+                }
+                pool.query('update artistes set status=$1 where id=$2;', ['wait_attribution',id_artist])
+                resolve({success:1,data:'Votre demande d\'inscription à bien été prise en compte !'})
+            });
+        });
+    }
+    async cancelSignupArtist(id_artist,id_manifestation){
+        return new Promise(async (resolve,reject)=>{
+            pool.query('select status from artistes where id=$1;',[id_artist],(error,result)=> {
+                if (error) {
+                    console.error(error)
+                    resolve({success: 0, date: error})
+                }
+                let status = result.rows[0].status
+                if(status !== 'attributed'){
+                    pool.query('delete from artistesinscrit where id_artiste=$1 and id_manifestation=$2;', [id_artist, id_manifestation], (error, result) => {
+                        if (error) {
+                            console.error(error)
+                            resolve({success: 0, date: error})
+                        }
+                        pool.query('update artistes set status=$1 where id=$2;', ['not_attributed', id_artist])
+                        resolve({success: 1, data: 'Votre demande d\'inscription à bien été annulée !'})
+                    });
+                }
+                pool.query('update artistesinscrit set cancel=$1 where id_artiste=$2 and id_manifestation=$3;', [true, id_artist, id_manifestation], (error, result) => {
+                    if (error) {
+                        console.error(error)
+                        resolve({success: 0, date: error})
+                    }
+                    resolve({success: 1, data: 'Votre demande d\'annulation d\'inscription a bien été enregistrée, vous recevrez un mail de la part de nos administrateurs lorsque celle-ci sera prise en compte !'})
+                });
+            });
+        });
+    }
+
 }

@@ -179,9 +179,20 @@ export default class UsersService {
             });
         });
     }
+    async getArtistsInscrits(){
+        return new Promise((resolve,reject)=>{
+            pool.query('select a.id, a.id_manifestation, a.id_artiste, CAST(a.date as TEXT), a.starthour, a.endhour from artistesinscrit a;', (error,result)=>{
+                if(error){
+                    console.error(error)
+                    reject(error)
+                }
+                resolve(result.rows)
+            });
+        });
+    }
     async getArtistsByIdUser(id_user){
         return new Promise((resolve,reject)=>{
-            pool.query('select a.id, a.id_user, a.name, t.libelle as type, a.description, a.images, a.groupe, a.status from artistes a join types_artiste t on a.type = t.id where id_user=$1 order by id ASC;', [id_user], (error,result)=>{
+            pool.query('select a.id, a.id_user, a.name, t.libelle as type, a.description, a.images, a.groupe, a.status, cast(ai.date as TEXT), ai.starthour, ai.endhour, ai.cancel from artistes a join types_artiste t on a.type = t.id left join artistesinscrit ai on a.id = ai.id_artiste where id_user=$1 order by id ASC;', [id_user], (error,result)=>{
                 if(error){
                     console.error(error)
                     reject(error)
@@ -192,7 +203,7 @@ export default class UsersService {
     }
     async getArtistById(id){
         return new Promise((resolve,reject)=>{
-            pool.query('select a.id, a.id_user, a.name, a.type, t.libelle as typeLibelle, a.description, a.images, a.groupe, a.status from artistes a join types_artiste t on a.type = t.id where a.id=$1;', [id], (error,result)=>{
+            pool.query('select a.id, a.id_user, a.name, a.type, t.libelle as typeLibelle, a.description, a.images, a.groupe, a.status, cast(ai.date as TEXT), ai.starthour, ai.endhour, ai.cancel from artistes a join types_artiste t on a.type = t.id left join artistesinscrit ai on a.id = ai.id_artiste where a.id=$1;', [id], (error,result)=>{
                 if(error){
                     console.error(error)
                     reject(error)
