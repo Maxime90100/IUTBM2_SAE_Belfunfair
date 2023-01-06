@@ -14,10 +14,8 @@
         </template>
 
         <v-list>
-          <v-list-item @click="goTo('/#presentation')">{{$t('userToolbar.presentation')}}</v-list-item>
-          <v-list-item @click="goTo('/#map')">{{$t('userToolbar.map')}}</v-list-item>
+          <v-list-item @click="goTo('/')">{{$t('userToolbar.presentation')}}</v-list-item>
           <v-list-item @click="goTo('/login')"><v-icon>mdi-login</v-icon>{{$t('button.login')}}</v-list-item>
-          <v-list-item @click="goTo('/#about')"><v-icon>mdi-information-outline</v-icon>{{$t('button.about')}}</v-list-item>
         </v-list>
       </v-menu>
 
@@ -42,9 +40,8 @@
       <!-- EXTEND MENU -->
       <template v-slot:extension>
         <v-tabs align-with-title>
-          <v-tab @click="goTo('/#presentation')">{{$t('userToolbar.presentation')}}</v-tab>
-          <v-tab @click="goTo('/#map')">{{$t('userToolbar.map')}}</v-tab>
-          <v-tab @click="goTo('/#about')">{{$t('button.about')}}</v-tab>
+          <v-tab @click="goTo('/')">{{$t('userToolbar.presentation')}}</v-tab>
+          <v-tab @click="goTo('/attractions')">{{$t('userToolbar.attractions')}}</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>

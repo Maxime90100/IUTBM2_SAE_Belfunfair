@@ -13098,12 +13098,17 @@
                 </g>
             </svg>
 
-      <div style="display: flex; margin: 5px 5px">
-        <v-btn v-on:click="changeMap" outlined>{{ $t('map.change') }}</v-btn>
-        <v-btn v-on:click="changeSelectedPath('security')">{{ $t('attribute.security') }}</v-btn>
-        <v-btn v-on:click="changeSelectedPath('secours')">{{ $t('attribute.infirmerie') }}</v-btn>
-        <v-btn v-on:click="changeSelectedPath('billetterie')">{{ $t('attribute.ticketing') }}</v-btn>
-        <v-btn v-on:click="changeSelectedPath('stage')">{{ $t('attribute.stage') }}</v-btn>
+      <div style="display: flex; margin: 5px">
+        <div>
+          <v-btn small v-on:click="changeMap" outlined>{{ $t('map.change') }}</v-btn>
+          <v-btn small dark color="grey" v-on:click="showItems" id="show-item-userMap"></v-btn>
+        </div>
+        <div style="display: flex" id="btn-items-userMap">
+          <v-btn small v-on:click="changeSelectedPath('security')">{{ $t('attribute.security') }}</v-btn>
+          <v-btn small v-on:click="changeSelectedPath('secours')">{{ $t('attribute.infirmerie') }}</v-btn>
+          <v-btn small v-on:click="changeSelectedPath('billetterie')">{{ $t('attribute.ticketing') }}</v-btn>
+          <v-btn small v-on:click="changeSelectedPath('stage')">{{ $t('attribute.stage') }}</v-btn>
+        </div>
       </div>
 
       <div class="userMap__select mb-2" style="display: flex; margin: 5px 5px">
@@ -13118,6 +13123,7 @@
         </select>
 
         <input v-model="selectedDate" @change="activeArea" type="date" :min="dateDebut" :max="dateFin">
+        <input v-model="ratio">
       </div>
     </div>
 
@@ -13152,6 +13158,14 @@ export default {
     manegesData: Array,
     standsData: Array
   },
+  // Problem with Props Load
+  watch:{
+    $props:{
+      handler(){this.fillData()},
+      deep: true,
+      immediate: true
+    }
+  },
   data:()=>{
     return{
       maneges:[],
@@ -13161,22 +13175,33 @@ export default {
       selectedOption: 'unselect',
       selectedDate:null,
       selectedObjects: [],
+      selectManege: true,
+      selectStand:true,
       dateDebut:null,
       dateFin:null,
-      mapOpacity:100
+      mapOpacity:100,
+      ratio:null,
+      expandItems:false
     }
   },
   methods:{
     fillData(){
-      this.maneges = this.manegesData.map(x=>x)
-      this.stands = this.standsData.map(x=>x)
+      if(this.selectManege){
+        this.maneges = this.manegesData.map(x=>x)
+        this.map.querySelector('#selectManege').style.backgroundColor = 'green'
+      }
+      if(this.selectStand){
+        this.stands = this.standsData.map(x=>x)
+        this.map.querySelector('#selectStand').style.backgroundColor = 'green'
+      }
+      this.changeDate()
       let dateDebut = this.$store.state.manifestation.datedebut
       this.dateDebut = dateDebut.split('/')[2]+'-'+dateDebut.split('/')[1]+'-'+dateDebut.split('/')[0]
       let dateFin = this.$store.state.manifestation.datefin
       this.dateFin = dateFin.split('/')[2]+'-'+dateFin.split('/')[1]+'-'+dateFin.split('/')[0]
+      this.activeArea()
     },
     changeDate(){
-      this.fillData()
       if(this.selectedDate){
         let date = new Date(this.selectedDate)
         let dateDebut, dateFin
@@ -13200,30 +13225,49 @@ export default {
       map.style.opacity = this.mapOpacity
     },
     changeMapManegeStand(type){
-      this.fillData()
       let selectManege = this.map.querySelector('#selectManege')
       let selectStand = this.map.querySelector('#selectStand')
 
-      let select
-      if(type === 'manege') select = selectManege
-      else select = selectStand
-
-      let color = select.style.backgroundColor
-      let opacity
-      if(color === 'green'){
-        opacity = 0
-        select.style.backgroundColor = "red"
-      }else{
-        opacity = 100
-        select.style.backgroundColor = "green"
+      // Change Select
+      let select, display
+      if(type === 'manege') {
+        select = selectManege
+        if(this.selectManege){
+          this.selectManege = false
+          display = 'none'
+          select.style.backgroundColor = "red"
+        }
+        else{
+          this.selectManege = true
+          display = 'block'
+          select.style.backgroundColor = "green"
+        }
       }
+      else{
+        select = selectStand
+        if(this.selectStand){
+          this.selectStand = false
+          display = 'none'
+          select.style.backgroundColor = "red"
+        }
+        else{
+          this.selectStand = true
+          display = 'block'
+          select.style.backgroundColor = "green"
+        }
+      }
+
+      // Show/Hide Paths
       let paths = this.map.querySelectorAll('[name="map"]')
       paths.forEach(p=>{
         if(p.id.includes(type))
-          p.style.opacity = opacity
+          p.style.display = display
       })
-      if(selectManege.style.backgroundColor === 'red') this.maneges = []
-      if(selectStand.style.backgroundColor === 'red') this.stands = []
+
+      // Update
+      this.fillData()
+      if(!this.selectManege) this.maneges = []
+      if(!this.selectStand) this.stands = []
       this.activeArea()
     },
     changeSelectedPath(id){
@@ -13234,10 +13278,12 @@ export default {
     activeArea(){
       if(this.selectedOption !== 'unselect' || this.selectedPath) {
 
+        // Initialisation
         this.selectedObjects = []
         if(this.selectedOption) this.selectedPath = null
         this.map.querySelectorAll('[name="map"]').forEach(p => {p.style.fill = 'grey'})
 
+        // Fill Color Path
         let id, id_emplacement, type, path
         if (this.selectedOption){
           id = this.selectedOption.split('-')[2]
@@ -13247,6 +13293,7 @@ export default {
         } else path = this.map.querySelector('#'+this.selectedPath)
         path.style.fill = 'blue'
 
+        // Selected Option
         if(id){
           if(type === 'manege'){
             this.maneges.forEach(m=>{
@@ -13258,7 +13305,10 @@ export default {
               if(s.id === parseInt(id)) this.selectedObjects.push(s)
             })
           }
-        }else{
+        }
+
+        // Selected Path
+        else{
           this.maneges.forEach(m => {
             let id = parseInt(path.id.split('manege')[1])
             if (m.id_emplacement === id) {
@@ -13287,23 +13337,49 @@ export default {
               }else this.selectedObjects.push(s)
             }
           })
-          if(this.selectedObjects.length > 0) {
-            this.map.querySelector('.userMap__noCard').style.display = 'none'
-            this.map.querySelector('.userMap__card').style.display = 'block'
-          }
-          else {
-            this.map.querySelector('.userMap__card').style.display = 'none'
-            this.map.querySelector('.userMap__noCard').style.display = 'block'
-          }
+        }
+
+        // Show selected Objects
+        this.ratio = (this.maneges.length+this.stands.length)+' attractions'
+        if(this.selectedObjects.length > 0) {
+          this.map.querySelector('.userMap__noCard').style.display = 'none'
+          this.map.querySelector('.userMap__card').style.display = 'block'
+        }
+        else {
+          this.map.querySelector('.userMap__card').style.display = 'none'
+          this.map.querySelector('.userMap__noCard').style.display = 'block'
         }
       }
+    },
+    showItems(){
+      let btn = document.getElementById("show-item-userMap")
+      let items = document.getElementById("btn-items-userMap")
+      let show = this.$t("attribute.show")
+      let hide = this.$t("attribute.hide")
+      let display
+      if(this.expandItems){
+        btn.innerText = show
+        items.style.display = "none"
+        display = 'none'
+        this.expandItems = false
+      }else{
+        btn.innerText = hide
+        items.style.display = "block"
+        display = 'block'
+        this.expandItems = true
+      }
+      let paths = this.map.querySelectorAll('[name="map"]')
+      paths.forEach(p=>{
+        if(p.id === 'stage') p.style.display = display
+        if(p.id === 'security') p.style.display = display
+        if(p.id === 'secours') p.style.display = display
+        if(p.id === 'billetterie') p.style.display = display
+      })
     }
   },
   mounted(){
-    this.fillData()
     this.map = document.querySelector('.userMap')
-    this.map.querySelector('#selectManege').style.backgroundColor = 'green'
-    this.map.querySelector('#selectStand').style.backgroundColor = 'green'
+    this.showItems()
   }
 }
 </script>

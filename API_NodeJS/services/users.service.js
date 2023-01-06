@@ -123,7 +123,7 @@ export default class UsersService {
 
     async getStands(){
         return new Promise((resolve,reject)=>{
-            pool.query('select s.id, s.id_user, s.name, t.libelle as type, s.description, s.images, s.status from stands s join types_stand t on s.type = t.id order by m.id ASC;', (error,result)=>{
+            pool.query('select s.id, s.id_user, s.name, t.libelle as type, s.description, s.images, s.status from stands s join types_stand t on s.type = t.id order by s.id ASC;', (error,result)=>{
                 if(error){
                     console.error(error)
                     reject(error)

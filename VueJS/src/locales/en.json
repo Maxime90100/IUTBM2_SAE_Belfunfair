@@ -25,10 +25,13 @@
     "location": "Location",
     "stand": "Stalls",
     "manege": "Rides",
+    "artist": "Artist groups",
     "stage": "Stage",
     "ticketing": "Ticketing",
     "security": "Security",
-    "infirmerie": "Infirmery"
+    "infirmerie": "Infirmery",
+    "show": "Show",
+    "hide": "Hide"
   },
   "button": {
     "logout": "Logout",
@@ -53,7 +56,7 @@
   },
   "userToolbar": {
     "presentation": "Presentation",
-    "map": "Map"
+    "attractions": "Attractions"
 
   },
   "prestataireToolbar": {

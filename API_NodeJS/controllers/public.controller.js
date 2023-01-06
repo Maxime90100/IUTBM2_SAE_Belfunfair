@@ -3,5 +3,6 @@ export const Home = async(req,res)=>{
     let service = new PublicService();
     let maneges = await service.getManegesMap()
     let stands = await service.getStandsMap()
-    res.status(200).send({success:1,data:{maneges:maneges,stands:stands}});
+    let artistes = await service.getArtistesMap()
+    res.status(200).send({success:1,data:{maneges:maneges,stands:stands,artistes:artistes}});
 }

@@ -3,6 +3,7 @@ import Router from "vue-router";
 
 import Home from "@/views/Home.vue";
 import Login from "@/views/users/login.vue";
+import Attractions from "@/views/users/attractions.vue";
 
 import prestataireHome from "@/views/prestataires/prestataireHome.vue";
 import organisateurHome from "@/views/organisateurs/organisateurHome.vue";
@@ -37,6 +38,11 @@ export default new Router({
             path:"/login",
             name:"Login",
             component: Login
+        },
+        {
+            path:"/attractions",
+            name:"Attractions",
+            component: Attractions
         },
         {
             path: "/prestataire",

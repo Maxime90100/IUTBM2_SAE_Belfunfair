@@ -25,10 +25,13 @@
     "location": "Emplacement",
     "stand": "Stands",
     "manege": "Manèges",
+    "artist": "Groupes Artiste",
     "stage": "Scène",
     "ticketing": "Billetterie",
     "security": "Sécurité",
-    "infirmerie": "Secours"
+    "infirmerie": "Secours",
+    "show": "Afficher",
+    "hide": "Masquer"
 
   },
   "button": {
@@ -54,7 +57,7 @@
   },
   "userToolbar": {
     "presentation": "Présentation",
-    "map": "Carte"
+    "attractions": "Attractions"
   },
   "prestataireToolbar": {
     "profil": "Compte",

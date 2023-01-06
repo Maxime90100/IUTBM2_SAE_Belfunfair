@@ -24,4 +24,15 @@ export default class PublicService {
             });
         });
     }
+    async getArtistesMap() {
+        return new Promise((resolve, reject) => {
+            pool.query('select a.id, a.id_user, a.name, t.libelle as type, a.description, a.images, a.status, cast(ai.date as TEXT), ai.starthour, ai.endhour from artistes a join types_artiste t on a.type = t.id join artistesinscrit ai on a.id = ai.id_artiste where status = $1;', ['attributed'], (error, result) => {
+                if (error) {
+                    console.error(error)
+                    reject(error)
+                }
+                resolve(result.rows)
+            });
+        });
+    }
 }

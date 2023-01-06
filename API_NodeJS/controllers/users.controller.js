@@ -50,3 +50,11 @@ export const getManifestation = async (req,res)=>{
     let manifestation = await service.getInProgressManifestation()
     res.status(200).send({success:1,data:manifestation});
 }
+
+export const getAttractions = async (req,res)=>{
+    let service = new UsersService()
+    let maneges = await service.getManeges()
+    let stands = await service.getStands()
+    let artistes = await service.getArtists()
+    res.status(200).send({success:1,data:{maneges:maneges,stands:stands,artistes:artistes}})
+}

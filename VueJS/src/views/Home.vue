@@ -60,10 +60,7 @@ export default {
       })
     }
   },
-  mounted(){
-    this.getData()
-    console.log(this.$route.query)
-  }
+  mounted(){this.getData()}
 }
 </script>
 <style>
