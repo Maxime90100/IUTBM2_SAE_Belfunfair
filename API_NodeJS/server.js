@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const swaggerOption = {
     swaggerDefinition: (swaggerJsdoc.Options = {
         info: {
-            title: "Bel'funfair project",
+            title: "Belfunfair project",
             description: "API documentation",
             contact: {
                 name: "SAE",
@@ -49,6 +49,19 @@ app.use("/users", UsersRouter);
 app.use("/prestataires", PrestatairesRouter);
 app.use("/organisateurs", OrganisateursRouter);
 app.get("/",controllerPublic.Home);
+/**
+ * @swagger
+ * /:
+ *   get:
+ *      description: Used to get all Manèges, Stands and Groups of Artist
+ *      tags:
+ *          - users
+ *      responses:
+ *          '200':
+ *              description: Resource successfully fetch
+ *          '400':
+ *              description: Bad request
+ */
 
 /*app.use("*",(req,res,next)=>{
     const err = new Error("Not found");

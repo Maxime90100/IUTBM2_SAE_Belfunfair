@@ -1,3 +1,7 @@
+drop table if exists notesManege;
+drop table if exists notesStand;
+drop table if exists notesArtiste;
+
 drop table if exists manegesInscrit;
 drop table if exists emplacementsManeges;
 drop table if exists maneges;
@@ -143,12 +147,41 @@ create table artistesInscrit(
   foreign key (id_artiste) references artistes(id)
 );
 
+create table notesManege(
+    id serial,
+    id_user int,
+    id_manege int,
+    note float(4),
+    primary key (id),
+    foreign key (id_user) references users(id),
+    foreign key (id_manege) references maneges(id)
+);
+create table notesStand(
+    id serial,
+    id_user int,
+    id_stand int,
+    note float(4),
+    primary key (id),
+    foreign key (id_user) references users(id),
+    foreign key (id_stand) references stands(id)
+);
+create table notesArtiste(
+    id serial,
+    id_user int,
+    id_artiste int,
+    note float(4),
+    primary key (id),
+    foreign key (id_user) references users(id),
+    foreign key (id_artiste) references artistes(id)
+);
+
 /* USERS */
 
 insert into users(role, firstname, surname, email, password) values ('organisateur','orga1','orga1', 'orga1@orga1.com','$2b$10$94kO1uWdRJrMNCozXZII7OE38Yxd7oQFsA.10iq.gZOg35FEzralO');
 insert into users(role, firstname, surname, email, password) values ('organisateur','orga2','orga2', 'orga2@orga2.com','$2b$10$IAZ6pccUb..oKrKxh8iLVeJMS0JPu9YWIfUlNQl3T5rYPINtd5Eai');
 insert into users(role, firstname, surname, email, password) values ('prestataire','maxime','theveneau', 'maxime.theveneau@gmail.com','$2b$10$94kO1uWdRJrMNCozXZII7OE38Yxd7oQFsA.10iq.gZOg35FEzralO');
 insert into users(role, firstname, surname, email, password) values ('prestataire','presta2','presta2', 'presta2@presta2.com','$2b$10$IAZ6pccUb..oKrKxh8iLVeJMS0JPu9YWIfUlNQl3T5rYPINtd5Eai');
+insert into users(role, firstname, surname, email, password) values ('user','user1','user1', 'user1@user1.com','$2b$10$94kO1uWdRJrMNCozXZII7OE38Yxd7oQFsA.10iq.gZOg35FEzralO');
 
 insert into manifestations (dateDebut, dateFin, inProgress) values ('20-06-2023','20-08-2023', TRUE);
 
@@ -223,3 +256,14 @@ insert into artistes(id_user, name, type, description, images, groupe, status) v
 
 insert into artistesInscrit(id_manifestation, id_artiste, date, startHour, endHour, cancel) values (1,1,'20-06-2023', '08:30', '12:00', false);
 insert into artistesInscrit(id_manifestation, id_artiste, date, startHour, endHour, cancel) values (1,2,'20-06-2023', '14:30', '16:00', false);
+
+/* NOTES */
+
+insert into notesmanege(id_user, id_manege, note) values (1,1,3);
+insert into notesmanege(id_user, id_manege, note) values (2,1,4.5);
+insert into notesmanege(id_user, id_manege, note) values (1,4,3.3);
+insert into notesmanege(id_user, id_manege, note) values (2,4,2.7);
+insert into notesmanege(id_user, id_manege, note) values (1,2,3);
+insert into notesmanege(id_user, id_manege, note) values (2,2,4.5);
+insert into notesmanege(id_user, id_manege, note) values (3,2,3.3);
+insert into notesmanege(id_user, id_manege, note) values (4,2,2.7);

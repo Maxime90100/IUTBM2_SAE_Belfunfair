@@ -3,6 +3,39 @@ import {pool} from "./../db.js"
 
 export default class UsersService {
 
+    async authenticate(data){
+        let users = await this.getUsers()
+        const user = users.find((u) =>
+            u.firstname.toLowerCase() === data.firstname.toLowerCase() &&
+            u.surname.toLowerCase() === data.surname.toLowerCase())
+        return new Promise((resolve, reject)=>{
+            if (user) {
+                bcrypt.compare(data.password,user.password,(err,result)=>{
+                    if(result){
+                        resolve({success:1,message:`Bienvenue ${user.firstname} ${user.surname}`,data:user});
+                    }
+                    reject({success:0,message:"Mot de passe incorrect !",data:[]});
+                });
+            } else {
+                reject({success:0,message:'Prénom ou Nom incorrect !',data:[]});
+            }
+        })
+    }
+
+    async signup(firstname,surname,password,email){
+        return new Promise((resolve,reject)=>{
+            bcrypt.hash(password,10).then(pwdHash=>{
+                pool.query('insert into users(firstname,surname,password,email,role) values ($1,$2,$3,$4,$5);', [firstname,surname,pwdHash,email,'user'], (error,result)=>{
+                    if(error){
+                        console.error(error)
+                        reject(error)
+                    }
+                    resolve({success:1,data:"Votre compte à bien été enregistrer !"})
+                });
+            }).catch(err=>{reject(err)})
+        });
+    }
+
     async getUsers(){
         return new Promise((resolve,reject)=>{
             pool.query('select * from users order by id ASC;', (error,result)=>{
@@ -76,7 +109,7 @@ export default class UsersService {
 
     async getManeges(){
         return new Promise((resolve,reject)=>{
-            pool.query('select m.id, m.id_user, m.name, t.libelle as type, m.taille_min, m.description, m.images, m.status from maneges m join types_manege t on m.type = t.id order by m.id ASC;', (error,result)=>{
+            pool.query('select m.id, m.id_user, m.name, t.libelle as type, m.taille_min, m.description, m.images, m.status, AVG(n.note) as note from maneges m join types_manege t on m.type = t.id left join notesManege n on m.id = n.id_manege group by m.id, t.libelle order by m.id ASC;', (error,result)=>{
                 if(error){
                     console.error(error)
                     reject(error)
@@ -123,7 +156,7 @@ export default class UsersService {
 
     async getStands(){
         return new Promise((resolve,reject)=>{
-            pool.query('select s.id, s.id_user, s.name, t.libelle as type, s.description, s.images, s.status from stands s join types_stand t on s.type = t.id order by s.id ASC;', (error,result)=>{
+            pool.query('select s.id, s.id_user, s.name, t.libelle as type, s.description, s.images, s.status, AVG(n.note) as note from stands s join types_stand t on s.type = t.id left join notesStand n on s.id = n.id_stand group by s.id, t.libelle order by s.id ASC;', (error,result)=>{
                 if(error){
                     console.error(error)
                     reject(error)
@@ -170,7 +203,7 @@ export default class UsersService {
 
     async getArtists(){
         return new Promise((resolve,reject)=>{
-            pool.query('select a.id, a.id_user, a.name, t.libelle as type, a.description, a.images, a.groupe, a.status from artistes a join types_artiste t on a.type = t.id order by a.id ASC;', (error,result)=>{
+            pool.query('select a.id, a.id_user, a.name, t.libelle as type, a.description, a.images, a.groupe, a.status, AVG(n.note) as note from artistes a join types_artiste t on a.type = t.id left join notesArtiste n on a.id = n.id_artiste group by a.id, t.libelle order by a.id ASC;', (error,result)=>{
                 if(error){
                     console.error(error)
                     reject(error)
@@ -225,6 +258,64 @@ export default class UsersService {
     }
 
 
+    async getNotes(id_user){
+        let params = []
+        if(id_user) params.push(id_user)
+        return new Promise((resolve,reject)=>{
+            let notesManege, notesStand, notesArtiste, query
+            query = 'select * from notesManege;'
+            if(id_user) query = 'select * from notesManege where id_user = $1;'
+            pool.query(query, params, (error,result)=>{
+                if(error) reject(error)
+                notesManege = result.rows
+                query = 'select * from notesStand;'
+                if(id_user) query = 'select * from notesStand where id_user = $1;'
+                pool.query(query, params, (error,result)=>{
+                    if(error) reject(error)
+                    notesStand = result.rows
+                    query = 'select * from notesArtiste;'
+                    if(id_user) query = 'select * from notesArtiste where id_user = $1;'
+                    pool.query(query, params, (error,result)=>{
+                        if(error) reject(error)
+                        notesArtiste = result.rows
+                        resolve({notesManege:notesManege,notesStand:notesStand,notesArtiste:notesArtiste})
+                    });
+                });
+            });
+        });
+    }
+    async setNote(id_user,type,id,note){
+        let select, insert, update
+        if(type === 'manege'){
+            select = 'select * from notesManege where id_user = $1 and id_manege = $2;'
+            insert = 'insert into notesManege(note,id_user,id_manege) values ($1,$2,$3);'
+            update = 'update notesManege set note=$1 where id_user=$2 and id_manege=$3;'
+        }
+        if(type === 'stand'){
+            select = 'select * from notesStand where id_user = $1 and id_stand = $2;'
+            insert = 'insert into notesStand(note,id_user,id_stand) values ($1,$2,$3);'
+            update = 'update notesStand set note=$1 where id_user=$2 and id_stand=$3;'
+        }
+        if(type === 'artiste'){
+            select = 'select * from notesArtiste where id_user = $1 and id_artiste = $2;'
+            insert = 'insert into notesArtiste(note,id_user,id_artiste) values ($1,$2,$3);'
+            update = 'update notesArtiste set note=$1 where id_user=$2 and id_artiste=$3;'
+        }
+        return new Promise((resolve,reject)=>{
+            pool.query(select,[id_user,id], (err,res)=>{
+                if(err) reject(err)
+                let query
+                if(res.rows.length>0) query = update
+                else query = insert
+                pool.query(query, [note,id_user,id], (error,result)=>{
+                    if(error) reject(error)
+                    resolve("Note ajoutée !")
+                });
+            })
+        });
+    }
+
+
 
 
 
@@ -258,24 +349,5 @@ export default class UsersService {
                 resolve(result.rows)
             });
         });
-    }
-
-    async authenticate(data){
-        let users = await this.getUsers()
-        const user = users.find((u) =>
-            u.firstname.toLowerCase() === data.firstname.toLowerCase() &&
-            u.surname.toLowerCase() === data.surname.toLowerCase())
-        return new Promise((resolve, reject)=>{
-            if (user) {
-                bcrypt.compare(data.password,user.password,(err,result)=>{
-                    if(result){
-                        resolve({success:1,message:`Bienvenue ${user.firstname} ${user.surname}`,data:user});
-                    }
-                    reject({success:0,message:"Mot de passe incorrect !",data:[]});
-                });
-            } else {
-                reject({success:0,message:'Prénom ou Nom incorrect !',data:[]});
-            }
-        })
     }
 }

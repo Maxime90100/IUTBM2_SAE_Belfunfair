@@ -1,9 +1,11 @@
 <template>
   <div>
+    <user-signup></user-signup>
+
     <h1>{{$t('userToolbar.attractions')}}</h1>
     <ul>
       <li>
-        <h4>{{$t('attribute.manege')}}</h4>
+        <h4>{{$t('attribute.manege')}} ({{maneges.length}})</h4>
         <v-btn class="mb-2" small v-on:click="showManeges" id="btnManege">{{$t('attribute.hide')}}</v-btn>
         <div>
           <div id="attractions-Manege">
@@ -18,13 +20,22 @@
                 <div style="background-color: white; border-radius: 10px; padding: 10px; text-align: justify; margin: 10px">
                   {{m.description}}
                 </div>
+                <div v-if="$store.state.user">
+                  <notes-star :type="'manege'" :id="m.id" :rate="m.note"></notes-star>
+                </div>
+                <div v-else style="display: flex">
+                  <span style="margin-right: 10px">{{Math.round((m.note)*10)/10}}/5</span>
+                  <div v-for=" i in Math.round(m.note)" :key="i+'star-manege-'+m.id">
+                    <v-icon small>mdi-star</v-icon>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </li>
       <li>
-        <h4>{{$t('attribute.stand')}}</h4>
+        <h4>{{$t('attribute.stand')}} ({{stands.length}})</h4>
         <v-btn class="mb-2" small v-on:click="showStands" id="btnStand">{{$t('attribute.hide')}}</v-btn>
         <div>
           <div id="attractions-Stand">
@@ -38,13 +49,22 @@
                 <div style="background-color: white; border-radius: 10px; padding: 10px; text-align: justify; margin: 10px">
                   {{s.description}}
                 </div>
+                <div v-if="$store.state.user">
+                  <notes-star :type="'stand'" :id="s.id"></notes-star>
+                </div>
+                <div v-else style="display: flex">
+                  <span style="margin-right: 10px">{{Math.round((s.note)*10)/10}}/5</span>
+                  <div v-for=" i in Math.round(s.note)" :key="i+'star-stand-'+s.id">
+                    <v-icon small>mdi-star</v-icon>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </li>
       <li>
-        <h4>{{$t('attribute.artist')}}</h4>
+        <h4>{{$t('attribute.artist')}} ({{artistes.length}})</h4>
         <v-btn class="mb-2" small v-on:click="showArtists" id="btnArtist">{{$t('attribute.hide')}}</v-btn>
         <div>
           <div id="attractions-Artist">
@@ -58,6 +78,15 @@
                 <div style="background-color: white; border-radius: 10px; padding: 10px; text-align: justify; margin: 10px">
                   {{a.description}}
                 </div>
+                <div v-if="$store.state.user">
+                  <notes-star :type="'artiste'" :id="a.id"></notes-star>
+                </div>
+                <div v-else style="display: flex">
+                  <span style="margin-right: 10px">{{Math.round((a.note)*10)/10}}/5</span>
+                  <div v-for=" i in Math.round(a.note)" :key="i+'star-artiste-'+a.id">
+                    <v-icon small>mdi-star</v-icon>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -69,10 +98,14 @@
 
 <script>
 import axios from "axios";
-import {attribute} from "postcss-selector-parser";
-
+import userSignup from "@/components/users/userConnection.vue";
+import notesStar from "@/components/users/notesStar.vue";
 export default {
   name: "userAttractions",
+  components:{
+    userSignup,
+    notesStar
+  },
   data:()=>{
     return{
       maneges:null,
@@ -84,7 +117,6 @@ export default {
     }
   },
   methods:{
-    attribute,
     getData(){
       axios({
         method: 'get',

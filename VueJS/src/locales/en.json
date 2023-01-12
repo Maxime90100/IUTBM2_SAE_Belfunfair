@@ -31,7 +31,9 @@
     "security": "Security",
     "infirmerie": "Infirmery",
     "show": "Show",
-    "hide": "Hide"
+    "hide": "Hide",
+    "signup": "Signup",
+    "email": "Email"
   },
   "button": {
     "logout": "Logout",
@@ -43,11 +45,13 @@
     "cancelSignup": "Cancel registration",
     "cancelSignupInProgress": "Registration cancellation in progress...",
     "about": "About",
-    "back": "back"
+    "back": "back",
+    "rate": "rate"
   },
   "confirm": {
     "delete": "Are you sure to delete ?",
-    "cancel": "Are you sure to cancel ?"
+    "cancel": "Are you sure to cancel ?",
+    "logout": "Are you sure to logout ?"
   },
   "status": {
     "attributed": "registered",
@@ -55,8 +59,10 @@
     "not_attributed": "not registered"
   },
   "userToolbar": {
+    "hello": "Hello",
     "presentation": "Presentation",
-    "attractions": "Attractions"
+    "attractions": "Attractions",
+    "noUser": "Login to access all features!"
 
   },
   "prestataireToolbar": {
@@ -73,9 +79,6 @@
   "home": {
     "title": "Welcome to BELFUNFAIR",
     "description": "Organized and funded by the City of Belfort with the support of the student associations of the Urban Area, BELFUNFAIR in Belfort takes place every year during the summer holidays. From June 20 to August 20, the city of the Lion is transformed into a majestic fairground. Diversity, cheerfulness and conviviality sum up, since its creation in 2022, the atmosphere of this unique event."
-  },
-  "login": {
-    "description": "This space is only reserved for Belfunfair service providers and organizers"
   },
   "map": {
     "change": "Change map",

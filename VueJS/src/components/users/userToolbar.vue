@@ -19,12 +19,27 @@
         </v-list>
       </v-menu>
 
-      <v-toolbar-title>Belfunfair</v-toolbar-title>
+      <v-toolbar-title>
+        <div v-if="$store.state.user">
+          {{ $t('userToolbar.hello') }} !
+          <span style="color: orange">
+            {{this.$store.state.user.firstname}}
+          </span>
+        </div>
+        <div v-else>
+          Belfunfair
+        </div>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-menu>
         <template v-slot:activator="{ on }">
-          <v-btn @click="goTo('/login')">{{$t('button.login')}}</v-btn>
+          <div v-if="$store.state.user && $store.state.user.role === 'user'">
+            <v-btn @click="logout">{{$t('button.logout')}}</v-btn>
+          </div>
+          <div v-else>
+            <v-btn @click="goTo('/login')">{{$t('button.login')}}</v-btn>
+          </div>
           <v-btn icon v-on="on">
             <v-icon>mdi-flag</v-icon>
           </v-btn>
@@ -56,7 +71,13 @@ export default {
   name: 'userToolbar',
   methods: {
     goTo (path) {this.$router.replace(path)},
-    changeLanguage(lang){return i18n.locale = lang}
+    changeLanguage(lang){return i18n.locale = lang},
+    logout(){
+      if(confirm(this.$t('confirm.logout'))){
+        this.$store.state.user = null
+        this.goTo('/')
+      }
+    }
   }
 }
 </script>

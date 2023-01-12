@@ -13131,6 +13131,9 @@
       <div v-for="(object,index) in selectedObjects" :key="index">
           <div class="card">
             <h1>{{object.name}}</h1>
+            <h2 v-if="object.note">
+              {{Math.round((object.note)*10)/10}}/5 <v-icon>mdi-star</v-icon>
+            </h2>
             <h2 style="color: red">{{$t('attribute.from')}} {{object.datedebut}} {{$t('attribute.to')}} {{object.datefin}}</h2>
 
             <h3>- {{object.type}} -</h3>
