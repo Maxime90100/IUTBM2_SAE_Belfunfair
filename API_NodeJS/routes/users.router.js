@@ -1,11 +1,12 @@
 import express from "express";
 import * as user from "../controllers/users.controller.js";
+import {authenticateUser, signupUser, logoutUser} from "../middlewares/authentication.js";
 
 const router = express.Router();
 
 router.get("/");
 
-router.post("/login",user.authenticateUser);
+router.post("/login",authenticateUser);
 /**
  * @swagger
  * /users/login:
@@ -35,7 +36,7 @@ router.post("/login",user.authenticateUser);
  *          '400':
  *              description: Bad request
  */
-router.post("/signup",user.signup);
+router.post("/signup",signupUser);
 /**
  * @swagger
  * /users/signup:
@@ -70,7 +71,7 @@ router.post("/signup",user.signup);
  *          '400':
  *              description: Bad request
  */
-router.get("/logout", user.logout);
+router.get("/logout", logoutUser);
 
 router.get("/typesManege",user.getTypesManege);
 /**

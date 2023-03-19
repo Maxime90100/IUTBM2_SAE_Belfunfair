@@ -113,6 +113,11 @@ export default new Router({
             path: "/prestataire/artistes/:id/signup",
             name: "prestataireArtisteSignup",
             component: prestataireArtisteSignup
+        },
+        {
+            path: "*",
+            name: "incorrectPath",
+            redirect: "/"
         }
     ]
 })

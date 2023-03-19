@@ -39,6 +39,7 @@
   "button": {
     "logout": "Déconnexion",
     "login": "Connexion",
+    "socialLogin": "Réseaux Sociaux",
     "change": "Mofifier",
     "delete": "Supprimer",
     "add": "Ajouter",

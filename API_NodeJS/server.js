@@ -11,12 +11,14 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const port = process.env.PORT;
-const app = express();
+export const app = express();
 
 import * as controllerPublic from "./controllers/public.controller.js"
 import {default as UsersRouter} from "./routes/users.router.js";
 import {default as PrestatairesRouter} from "./routes/prestataires.router.js";
 import {default as OrganisateursRouter} from "./routes/organisateurs.router.js";
+import setSocialAuth, {default as GoogleRouter} from "./middlewares/setSocialAuth.js";
+import {validateToken} from "./middlewares/authentication.js";
 
 app.use(express.static(__dirname+"/public"));
 app.use(bodyParser.json());
@@ -40,14 +42,14 @@ app.use("/api-docs",swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
 app.use(cors({
-    origin:['http://localhost:8080'],
+    origin:'*',
     credentials: true,
     exposedHeaders: ['set-cookie']
 }))
 
 app.use("/users", UsersRouter);
-app.use("/prestataires", PrestatairesRouter);
-app.use("/organisateurs", OrganisateursRouter);
+app.use("/prestataires", validateToken, PrestatairesRouter);
+app.use("/organisateurs", validateToken, OrganisateursRouter);
 app.get("/",controllerPublic.Home);
 /**
  * @swagger
@@ -63,19 +65,9 @@ app.get("/",controllerPublic.Home);
  *              description: Bad request
  */
 
-/*app.use("*",(req,res,next)=>{
-    const err = new Error("Not found");
-    err.status = 404
-    next(err)
-});
-app.use((err,req,res,next)=>{
-    console.error(err.stack)
-    res.render("error404.handlebars")
-});
-*/
-
+setSocialAuth()
 app.listen(port, ()=>{
-    console.log("Le serveur écoute sur port "+port)
+    console.log(`Le serveur écoute sur le port ${port}...`)
 });
 
 

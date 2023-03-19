@@ -1,40 +1,6 @@
-import bcrypt from "bcrypt"
 import {pool} from "./../db.js"
 
 export default class UsersService {
-
-    async authenticate(data){
-        let users = await this.getUsers()
-        const user = users.find((u) =>
-            u.firstname.toLowerCase() === data.firstname.toLowerCase() &&
-            u.surname.toLowerCase() === data.surname.toLowerCase())
-        return new Promise((resolve, reject)=>{
-            if (user) {
-                bcrypt.compare(data.password,user.password,(err,result)=>{
-                    if(result){
-                        resolve({success:1,message:`Bienvenue ${user.firstname} ${user.surname}`,data:user});
-                    }
-                    reject({success:0,message:"Mot de passe incorrect !",data:[]});
-                });
-            } else {
-                reject({success:0,message:'Prénom ou Nom incorrect !',data:[]});
-            }
-        })
-    }
-
-    async signup(firstname,surname,password,email){
-        return new Promise((resolve,reject)=>{
-            bcrypt.hash(password,10).then(pwdHash=>{
-                pool.query('insert into users(firstname,surname,password,email,role) values ($1,$2,$3,$4,$5);', [firstname,surname,pwdHash,email,'user'], (error,result)=>{
-                    if(error){
-                        console.error(error)
-                        reject(error)
-                    }
-                    resolve({success:1,data:"Votre compte à bien été enregistrer !"})
-                });
-            }).catch(err=>{reject(err)})
-        });
-    }
 
     async getUsers(){
         return new Promise((resolve,reject)=>{

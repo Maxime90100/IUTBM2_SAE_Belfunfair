@@ -38,6 +38,7 @@
   "button": {
     "logout": "Logout",
     "login": "Login",
+    "socialLogin": "Social Networks",
     "change": "Edit",
     "delete": "Delete",
     "add": "Add",
