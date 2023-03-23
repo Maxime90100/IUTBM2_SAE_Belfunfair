@@ -5,8 +5,11 @@ import Home from "@/views/Home.vue";
 import Login from "@/views/users/login.vue";
 import Attractions from "@/views/users/attractions.vue";
 
-import prestataireHome from "@/views/prestataires/prestataireHome.vue";
 import organisateurHome from "@/views/organisateurs/organisateurHome.vue";
+
+import organisateurPrestataires from "@/views/organisateurs/organisateurPrestataires.vue";
+
+import prestataireHome from "@/views/prestataires/prestataireHome.vue";
 
 import prestataireManeges from "@/views/prestataires/manege/prestataireManeges.vue";
 import prestataireManegeAdd from "@/views/prestataires/manege/prestataireManegeAdd.vue";
@@ -45,14 +48,19 @@ export default new Router({
             component: Attractions
         },
         {
-            path: "/prestataire",
-            name: "prestataireHome",
-            component: prestataireHome
-        },
-        {
             path: "/organisateur",
             name: "organisateurHome",
             component: organisateurHome
+        },
+        {
+            path: "/organisateur/prestataires",
+            name: "organisateurPrestataires",
+            component: organisateurPrestataires
+        },
+        {
+            path: "/prestataire",
+            name: "prestataireHome",
+            component: prestataireHome
         },
         {
             path: "/prestataire/maneges",

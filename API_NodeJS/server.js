@@ -17,7 +17,7 @@ import * as controllerPublic from "./controllers/public.controller.js"
 import {default as UsersRouter} from "./routes/users.router.js";
 import {default as PrestatairesRouter} from "./routes/prestataires.router.js";
 import {default as OrganisateursRouter} from "./routes/organisateurs.router.js";
-import setSocialAuth, {default as GoogleRouter} from "./middlewares/setSocialAuth.js";
+import socialAuth, {default as GoogleRouter} from "./middlewares/socialAuth.js";
 import {validateToken} from "./middlewares/authentication.js";
 
 app.use(express.static(__dirname+"/public"));
@@ -65,7 +65,7 @@ app.get("/",controllerPublic.Home);
  *              description: Bad request
  */
 
-setSocialAuth()
+socialAuth()
 app.listen(port, ()=>{
     console.log(`Le serveur écoute sur le port ${port}...`)
 });

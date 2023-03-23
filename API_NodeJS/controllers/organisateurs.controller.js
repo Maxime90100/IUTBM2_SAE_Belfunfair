@@ -2,6 +2,15 @@ import OrganisateursService from "../services/organisateurs.service.js";
 import dotenv from "dotenv"
 dotenv.config()
 
+export const getPrestataires = async (req,res)=>{
+    let service = new OrganisateursService()
+    service.getPrestataires().then(result => {
+        res.status(200).send(result)
+    }).catch(error => {
+        res.status(400).send(error)
+    });
+}
+
 export const getCancelSignup = async (req,res)=>{
     let service = new OrganisateursService()
     service.getCancelSignup().then(result => {

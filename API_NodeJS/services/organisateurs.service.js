@@ -4,6 +4,16 @@ import {getWaitAttribution} from "../controllers/organisateurs.controller.js";
 
 export default class Organisateurs {
 
+    async getPrestataires(){
+        return new Promise(async (resolve,reject)=>{
+            pool.query('select * from users where role=$1;',["prestataire"],(error,result)=> {
+                if (error) reject(error)
+                let prestataires = result.rows
+                resolve({success: 0, data: {prestataires:prestataires}})
+            });
+        });
+    }
+
     async getCancelSignup(){
         return new Promise(async (resolve,reject)=>{
             pool.query('select * from manegesinscrit where cancel=$1;',[true],(error,result)=> {

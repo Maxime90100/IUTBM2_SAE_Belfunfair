@@ -75,7 +75,8 @@
   },
   "organisateurToolbar": {
     "profil": "Account",
-    "home": "Home"
+    "home": "Home",
+    "prestataires": "Service providers"
   },
   "home": {
     "title": "Welcome to BELFUNFAIR",

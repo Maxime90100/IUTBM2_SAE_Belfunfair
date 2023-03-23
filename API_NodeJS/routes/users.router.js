@@ -116,7 +116,7 @@ router.get("/typesArtiste",user.getTypesArtist);
  *              description: Bad request
  */
 
-router.get("/attractions",user.getAttractions);
+router.get("/attractions/:idUser?",user.getAttractions);
 /**
  * @swagger
  * /users/attractions:

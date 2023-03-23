@@ -120,7 +120,7 @@ export default {
       return valid
     },
     google(){
-      document.location.href = getGoogleUrl('http://localhost:8080/login')
+      getGoogleUrl(document.location.href)
     }
   },
   mounted(){

@@ -15,6 +15,7 @@
 
         <v-list>
           <v-list-item @click="goTo('/organisateur')"><v-icon>mdi-account</v-icon>{{$t('organisateurToolbar.profil')}}</v-list-item>
+          <v-list-item @click="goTo('/organisateur/prestataires')"><v-icon>mdi-account-group</v-icon>{{$t('organisateurToolbar.prestataires')}}</v-list-item>
           <v-list-item @click="logout"><v-icon>mdi-logout</v-icon>{{$t('button.logout')}}</v-list-item>
           <v-list-item @click="goTo('/')"><v-icon>mdi-home</v-icon>{{$t('organisateurToolbar.home')}}</v-list-item>
         </v-list>
@@ -43,6 +44,7 @@
       <template v-slot:extension>
         <v-tabs align-with-title>
           <v-tab @click="goTo('/organisateur')">{{$t('organisateurToolbar.profil')}}</v-tab>
+          <v-tab @click="goTo('/organisateur/prestataires')">{{$t('organisateurToolbar.prestataires')}}</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>

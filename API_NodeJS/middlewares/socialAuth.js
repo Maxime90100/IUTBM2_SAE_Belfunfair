@@ -3,10 +3,9 @@ import passport from 'passport'
 import session from 'express-session'
 import {OAuth2Strategy} from "passport-google-oauth";
 import {findUser} from "./authentication.js";
-import * as url from "url";
 
 const originRequest = "http://localhost:8080/login"
-export default function setSocialAuth(){
+export default function socialAuth(){
     const GOOGLE_CLIENT_ID = '606419346830-prkq4eqoskvqlb86tomev0q8igi879oi.apps.googleusercontent.com';
     const GOOGLE_CLIENT_SECRET = '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';
     let userProfile
@@ -21,10 +20,12 @@ export default function setSocialAuth(){
     app.use(passport.session());
 
     passport.serializeUser(function(user, cb) {
+        console.log("serializeUser")
         cb(null, user);
     });
 
     passport.deserializeUser(function(obj, cb) {
+        console.log("deserializeUser")
         cb(null, obj);
     });
 

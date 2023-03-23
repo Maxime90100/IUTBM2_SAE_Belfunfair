@@ -3,16 +3,18 @@
     <header>
       <organisateur-toolbar></organisateur-toolbar>
     </header>
-    home
+    <organisateur-prestataires></organisateur-prestataires>
   </div>
 </template>
 
 <script>
 import organisateurToolbar from "@/components/organisateurs/organisateurToolbar.vue";
+import organisateurPrestataires from "@/components/organisateurs/organisateurPrestataires.vue";
 export default {
-  name: "organisateurHome",
+  name: "organisateurPrestatairesView",
   components:{
-    organisateurToolbar
+    organisateurToolbar,
+    organisateurPrestataires
   }
 }
 </script>

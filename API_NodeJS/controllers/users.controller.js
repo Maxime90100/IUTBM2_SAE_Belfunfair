@@ -34,10 +34,18 @@ export const getManifestation = async (req,res)=>{
 }
 
 export const getAttractions = async (req,res)=>{
+    let idUser = req.params.idUser
     let service = new UsersService()
-    let maneges = await service.getManeges()
-    let stands = await service.getStands()
-    let artistes = await service.getArtists()
+    let maneges, stands, artistes
+    if(idUser){
+        maneges = await service.getManegesByIdUser(idUser)
+        stands = await service.getStandsByIdUser(idUser)
+        artistes = await service.getArtistsByIdUser(idUser)
+    }else{
+        maneges = await service.getManeges()
+        stands = await service.getStands()
+        artistes = await service.getArtists()
+    }
     res.status(200).send({success:1,data:{maneges:maneges,stands:stands,artistes:artistes}})
 }
 
