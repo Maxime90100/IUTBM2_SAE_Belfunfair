@@ -86,7 +86,7 @@ export default class UsersService {
     }
     async getManegesByIdUser(id_user){
         return new Promise((resolve,reject)=>{
-            pool.query('select m.id, m.id_user, m.name, t.libelle as type, m.taille_min, m.description, m.images, m.status, cast(mi.datedebut as TEXT), cast(mi.datefin as TEXT), mi.cancel from maneges m join types_manege t on m.type = t.id left join manegesInscrit mi on m.id = mi.id_manege where m.id_user=$1 order by m.id ASC;', [id_user], (error,result)=>{
+            pool.query('select m.id, m.id_user, m.name, t.libelle as type, m.taille_min, m.description, m.images, m.status, cast(mi.datedebut as TEXT), cast(mi.datefin as TEXT), mi.id_emplacement, mi.id_manifestation, mi.cancel from maneges m join types_manege t on m.type = t.id left join manegesInscrit mi on m.id = mi.id_manege where m.id_user=$1 order by m.id ASC;', [id_user], (error,result)=>{
                 if(error){
                     console.error(error)
                     reject(error)
@@ -133,7 +133,7 @@ export default class UsersService {
     }
     async getStandsByIdUser(id_user){
         return new Promise((resolve,reject)=>{
-            pool.query('select s.id, s.id_user, s.name, t.libelle as type, s.description, s.images, s.status, cast(si.datedebut as TEXT), cast(si.datefin as TEXT), si.cancel from stands s join types_stand t on s.type = t.id left join standsInscrit si on s.id = si.id_stand where id_user=$1 order by id ASC;', [id_user], (error,result)=>{
+            pool.query('select s.id, s.id_user, s.name, t.libelle as type, s.description, s.images, s.status, cast(si.datedebut as TEXT), cast(si.datefin as TEXT), si.id_emplacement, si.id_manifestation, si.cancel from stands s join types_stand t on s.type = t.id left join standsInscrit si on s.id = si.id_stand where id_user=$1 order by id ASC;', [id_user], (error,result)=>{
                 if(error){
                     console.error(error)
                     reject(error)
@@ -191,7 +191,7 @@ export default class UsersService {
     }
     async getArtistsByIdUser(id_user){
         return new Promise((resolve,reject)=>{
-            pool.query('select a.id, a.id_user, a.name, t.libelle as type, a.description, a.images, a.groupe, a.status, cast(ai.date as TEXT), ai.starthour, ai.endhour, ai.cancel from artistes a join types_artiste t on a.type = t.id left join artistesinscrit ai on a.id = ai.id_artiste where id_user=$1 order by id ASC;', [id_user], (error,result)=>{
+            pool.query('select a.id, a.id_user, a.name, t.libelle as type, a.description, a.images, a.groupe, a.status, cast(ai.date as TEXT), ai.starthour, ai.endhour, ai.id_manifestation, ai.cancel from artistes a join types_artiste t on a.type = t.id left join artistesinscrit ai on a.id = ai.id_artiste where id_user=$1 order by id ASC;', [id_user], (error,result)=>{
                 if(error){
                     console.error(error)
                     reject(error)

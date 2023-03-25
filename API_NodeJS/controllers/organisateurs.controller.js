@@ -74,9 +74,8 @@ export const registerStand = async (req,res)=>{
 export const cancelSignupArtiste = async (req,res)=>{
     let id_artiste = req.params.id_artiste
     let id_manifestation = req.params.id_manifestation
-    let date = req.params.date
     let service = new OrganisateursService()
-    service.cancelSignupArtiste(id_artiste, id_manifestation,date).then(result => {
+    service.cancelSignupArtiste(id_artiste, id_manifestation).then(result => {
         res.status(200).send(result)
     }).catch(error => {
         res.status(400).send(error)
@@ -85,9 +84,8 @@ export const cancelSignupArtiste = async (req,res)=>{
 export const registerArtiste = async (req,res)=>{
     let id_artiste = req.params.id_artiste
     let id_manifestation = req.params.id_manifestation
-    let date = req.params.date
     let service = new OrganisateursService()
-    service.registerArtiste(id_artiste, id_manifestation,id_emplacement).then(result => {
+    service.registerArtiste(id_artiste, id_manifestation).then(result => {
         res.status(200).send(result)
     }).catch(error => {
         res.status(400).send(error)

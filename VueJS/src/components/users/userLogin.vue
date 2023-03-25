@@ -41,7 +41,6 @@
 <script>
 import axios from "axios";
 import {getGoogleUrl} from "@/utils/getGoogleUrl";
-
 export default {
   name: "userLogin",
   data:()=>({
@@ -119,7 +118,7 @@ export default {
       else document.querySelector('#email').style.borderColor = 'black'
       return valid
     },
-    google(){
+    async google() {
       getGoogleUrl(document.location.href)
     }
   },

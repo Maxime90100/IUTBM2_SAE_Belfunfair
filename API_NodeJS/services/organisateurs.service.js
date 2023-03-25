@@ -9,7 +9,7 @@ export default class Organisateurs {
             pool.query('select * from users where role=$1;',["prestataire"],(error,result)=> {
                 if (error) reject(error)
                 let prestataires = result.rows
-                resolve({success: 0, data: {prestataires:prestataires}})
+                resolve({success: 1, data: {prestataires:prestataires}})
             });
         });
     }
@@ -25,7 +25,7 @@ export default class Organisateurs {
                     pool.query('select id, id_manifestation, id_artiste, cast(date as text), starthour, endhour, cancel from artistesinscrit where cancel=$1;',[true],(error,result)=> {
                         if (error) reject(error)
                         let artistes = result.rows
-                        resolve({success: 0, date: {maneges:maneges,stands:stands,artistes:artistes}})
+                        resolve({success: 1, data: {maneges:maneges,stands:stands,artistes:artistes}})
                     });
                 });
             });
@@ -43,7 +43,7 @@ export default class Organisateurs {
                     pool.query('select * from artistesinscrit ai join artistes a on ai.id_artiste=a.id where a.status=$1;',['wait_attribution'],(error,result)=> {
                         if (error) reject(error)
                         let artistes = result.rows
-                        resolve({success: 0, date: {maneges:maneges,stands:stands,artistes:artistes}})
+                        resolve({success: 1, data: {maneges:maneges,stands:stands,artistes:artistes}})
                     });
                 });
             });
@@ -55,7 +55,7 @@ export default class Organisateurs {
                 if (error) reject(error)
                 pool.query('update maneges set status=$1 where id=$2;',['not_attributed',id_manege],(error,result)=> {
                     if (error) reject(error)
-                    resolve({success: 0, date: "Inscription correctement annulée !"})
+                    resolve({success: 1, data: "Inscription correctement annulée !"})
                 });
             });
         });
@@ -64,7 +64,7 @@ export default class Organisateurs {
         return new Promise(async (resolve,reject)=>{
             pool.query('update maneges m set status=$1 from manegesinscrit mi where m.id=$2 and mi.id_manifestation=$3 and mi.id_emplacement=$4;',['attributed',id_manege,id_manifestation,id_emplacement],(error,result)=> {
                 if (error) reject(error)
-                resolve({success: 0, date: "Inscription validée !"})
+                resolve({success: 1, data: "Inscription validée !"})
             });
         });
     }
@@ -74,7 +74,7 @@ export default class Organisateurs {
                 if (error) reject(error)
                 pool.query('update stands set status=$1 where id=$2;',['not_attributed',id_stand],(error,result)=> {
                     if (error) reject(error)
-                    resolve({success: 0, date: "Inscription correctement annulée !"})
+                    resolve({success: 1, data: "Inscription correctement annulée !"})
                 });
             });
         });
@@ -83,27 +83,27 @@ export default class Organisateurs {
         return new Promise(async (resolve,reject)=>{
             pool.query('update stands s set status=$1 from standsinscrit si where s.id=$2 and si.id_manifestation=$3 and si.id_emplacement=$4;',['attributed',id_stand,id_manifestation,id_emplacement],(error,result)=> {
                 if (error) reject(error)
-                resolve({success: 0, date: "Inscription validée !"})
+                resolve({success: 1, data: "Inscription validée !"})
             });
         });
     }
 
-    async cancelSignupArtiste(id_artiste,id_manifestation,date){
+    async cancelSignupArtiste(id_artiste,id_manifestation){
         return new Promise(async (resolve,reject)=>{
-            pool.query('delete from artistesinscrit where id_artiste=$1 and id_manifestation=$2 and date=$3;',[id_artiste,id_manifestation,date],(error,result)=> {
+            pool.query('delete from artistesinscrit where id_artiste=$1 and id_manifestation=$2',[id_artiste,id_manifestation],(error,result)=> {
                 if (error) reject(error)
                 pool.query('update artistes set status=$1 where id=$2;',['not_attributed',id_artiste],(error,result)=> {
                     if (error) reject(error)
-                    resolve({success: 0, date: "Inscription correctement annulée !"})
+                    resolve({success: 1, data: "Inscription correctement annulée !"})
                 });
             });
         });
     }
-    async registerArtiste(id_artiste,id_manifestation,id_emplacement){
+    async registerArtiste(id_artiste,id_manifestation){
         return new Promise(async (resolve,reject)=>{
-            pool.query('update artistes a set status=$1 from artistesinscrit ai where a.id=$2 and ai.id_manifestation=$3 and ai.id_emplacement=$4;',['attributed',id_artiste,id_manifestation,id_emplacement],(error,result)=> {
+            pool.query('update artistes a set status=$1 from artistesinscrit ai where a.id=$2 and ai.id_manifestation=$3;',['attributed',id_artiste,id_manifestation],(error,result)=> {
                 if (error) reject(error)
-                resolve({success: 0, date: "Inscription validée !"})
+                resolve({success: 1, data: "Inscription validée !"})
             });
         });
     }

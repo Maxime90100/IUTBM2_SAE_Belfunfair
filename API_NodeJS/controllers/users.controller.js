@@ -1,4 +1,5 @@
 import UsersService from "../services/users.service.js";
+import OrganisateursService from "../services/organisateurs.service.js"
 import dotenv from "dotenv"
 dotenv.config()
 
@@ -36,17 +37,19 @@ export const getManifestation = async (req,res)=>{
 export const getAttractions = async (req,res)=>{
     let idUser = req.params.idUser
     let service = new UsersService()
-    let maneges, stands, artistes
+    let serviceOrga = new OrganisateursService()
+    let maneges, stands, artistes, cancelSignup
     if(idUser){
         maneges = await service.getManegesByIdUser(idUser)
         stands = await service.getStandsByIdUser(idUser)
         artistes = await service.getArtistsByIdUser(idUser)
+        cancelSignup = await serviceOrga.getCancelSignup()
     }else{
         maneges = await service.getManeges()
         stands = await service.getStands()
         artistes = await service.getArtists()
     }
-    res.status(200).send({success:1,data:{maneges:maneges,stands:stands,artistes:artistes}})
+    res.status(200).send({success:1,data:{maneges:maneges,stands:stands,artistes:artistes,cancelSignup:cancelSignup.data}})
 }
 
 export const getNotes = async (req,res)=>{

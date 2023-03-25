@@ -155,7 +155,7 @@ router.post("/stand/:id_stand/:id_manifestation/register/:id_emplacement",contro
  *              description: Bad request
  */
 
-router.post("/manege/:id_manege/:id_manifestation/cancel/:date",controller.cancelSignupArtiste)
+router.post("/artiste/:id_artiste/:id_manifestation/cancel",controller.cancelSignupArtiste)
 /**
  * @swagger
  * /organisateurs/artiste/{id_artiste}/{id_manifestation}/cancel/{date}:
@@ -186,7 +186,7 @@ router.post("/manege/:id_manege/:id_manifestation/cancel/:date",controller.cance
  *          '400':
  *              description: Bad request
  */
-router.post("/manege/:id_manege/:id_manifestation/register/:date",controller.registerArtiste)
+router.post("/artiste/:id_artiste/:id_manifestation/register",controller.registerArtiste)
 /**
  * @swagger
  * /organisateurs/artiste/{id_artiste}/{id_manifestation}/register/{date}:

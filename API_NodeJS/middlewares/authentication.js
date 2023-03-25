@@ -24,7 +24,7 @@ export async function authenticate(data){
                 if(result){
                     const token = jwt.sign(user,process.env.JWT_SECRET_KEY,{
                         algorithm:'HS256',
-                        expiresIn:'1m'
+                        expiresIn:'30m'
                     });
                     resolve({success:1,token:token,message:`Bienvenue ${user.firstname} ${user.surname}`,data:user});
                 }
