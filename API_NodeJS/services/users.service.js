@@ -1,4 +1,5 @@
 import {pool} from "./../db.js"
+import {deleteFromGoldenBook} from "../controllers/users.controller.js";
 
 export default class UsersService {
 
@@ -279,6 +280,72 @@ export default class UsersService {
                 });
             })
         });
+    }
+
+    async getLike(id_user){
+        let params = []
+        if(id_user) params.push(id_user)
+        return new Promise((resolve,reject)=>{
+            let likeListManege, likeListStand, likeListArtiste, query
+            query = id_user ? 'select * from likeListManege where id_user = $1;' : 'select * from likeListManege;'
+            pool.query(query, params, (error,result)=>{
+                if(error) reject(error)
+                likeListManege = result.rows
+                query = id_user ? 'select * from likeListStand where id_user = $1;' : 'select * from likeListStand;'
+                pool.query(query, params, (error,result)=>{
+                    if(error) reject(error)
+                    likeListStand = result.rows
+                    query = id_user ? 'select * from likeListArtiste where id_user = $1;' : 'select * from likeListArtiste;'
+                    pool.query(query, params, (error,result)=>{
+                        if(error) reject(error)
+                        likeListArtiste = result.rows
+                        resolve({likeListManege:likeListManege,likeListStand:likeListStand,likeListArtiste:likeListArtiste})
+                    });
+                });
+            });
+        });
+    }
+    async setLike(id_user,type,id,bool){
+        let query
+        if(type === 'manege')
+            query = bool === "true" ? 'insert into likeListManege(id_user,id_manege) values ($1,$2);' : 'delete from likeListManege where id_user=$1 and id_manege=$2;'
+        if(type === 'stand')
+            query = bool === "true" ? 'insert into likeListStand(id_user,id_stand) values ($1,$2);' : 'delete from likeListStand where id_user=$1 and id_stand=$2;'
+        if(type === 'artiste')
+            query = bool === "true" ? 'insert into likeListArtiste(id_user,id_artiste) values ($1,$2);' : 'delete from likeListArtiste where id_user=$1 and id_artiste=$2;'
+        return new Promise((resolve,reject)=>{
+            pool.query(query,[id_user,id], (err,res)=>{
+                if(err) reject(err)
+                resolve("Votre likeList à bien été mise à jour !")
+            })
+        });
+    }
+
+    async getGoldenBook(){
+        return new Promise((resolve,reject)=>{
+            pool.query('select * from goldenBook order by id DESC;',(err,res)=>{
+                if(err) reject(err)
+                resolve(res.rows)
+            })
+        })
+    }
+
+    async addToGoldenBook(id_user,comment,header){
+        return new Promise((resolve,reject)=>{
+            pool.query('insert into goldenBook(id_user,header,comment) values ($1,$2,$3);', [id_user,header,comment], (err,res)=>{
+                if(err) reject(err)
+                resolve("Votre commentaire à bien été ajouté !")
+            })
+        })
+    }
+
+    async deleteFromGoldenBook(id){
+        return new Promise((resolve,reject)=>{
+            pool.query('delete from goldenBook where id=$1;', [id], (err,res)=>{
+                if(err) reject(err)
+                resolve("Votre commentaire à bien été supprimé !")
+            })
+        })
     }
 
 

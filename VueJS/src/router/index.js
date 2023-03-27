@@ -4,6 +4,7 @@ import Router from "vue-router";
 import Home from "@/views/Home.vue";
 import Login from "@/views/users/login.vue";
 import Attractions from "@/views/users/attractions.vue";
+import goldenBook from "@/views/users/goldenBook.vue";
 
 import organisateurHome from "@/views/organisateurs/organisateurHome.vue";
 
@@ -46,6 +47,11 @@ export default new Router({
             path:"/attractions",
             name:"Attractions",
             component: Attractions
+        },
+        {
+            path:"/goldenBook",
+            name:"GoldenBook",
+            component: goldenBook
         },
         {
             path: "/organisateur",

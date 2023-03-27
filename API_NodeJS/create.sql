@@ -1,3 +1,9 @@
+drop table if exists goldenBook;
+
+drop table if exists likeListManege;
+drop table if exists likeListStand;
+drop table if exists likeListArtiste;
+
 drop table if exists notesManege;
 drop table if exists notesStand;
 drop table if exists notesArtiste;
@@ -175,6 +181,42 @@ create table notesArtiste(
     foreign key (id_artiste) references artistes(id)
 );
 
+create table likeListManege(
+    id serial,
+    id_user int,
+    id_manege int,
+    primary key (id),
+    foreign key (id_user) references users(id),
+    foreign key (id_manege) references maneges(id)
+);
+
+create table likeListStand(
+    id serial,
+    id_user int,
+    id_stand int,
+    primary key (id),
+    foreign key (id_user) references users(id),
+    foreign key (id_stand) references stands(id)
+);
+
+create table likeListArtiste(
+    id serial,
+    id_user int,
+    id_artiste int,
+    primary key (id),
+    foreign key (id_user) references users(id),
+    foreign key (id_artiste) references artistes(id)
+);
+
+create table goldenBook(
+    id serial,
+    id_user int,
+    header varchar(100),
+    comment varchar(1000),
+    primary key (id),
+    foreign key (id_user) references users(id)
+);
+
 /* USERS */
 
 insert into users(role, firstname, surname, email, password) values ('organisateur','orga1','orga1', 'orga1@orga1.com','$2b$10$94kO1uWdRJrMNCozXZII7OE38Yxd7oQFsA.10iq.gZOg35FEzralO');
@@ -267,3 +309,9 @@ insert into notesmanege(id_user, id_manege, note) values (1,2,3);
 insert into notesmanege(id_user, id_manege, note) values (2,2,4.5);
 insert into notesmanege(id_user, id_manege, note) values (3,2,3.3);
 insert into notesmanege(id_user, id_manege, note) values (4,2,2.7);
+
+/* GOLDEN BOOK */
+
+insert into goldenBook(id_user, header, comment) values (1,'De "orga1 orga1", le 20-03-2023:','Good manifestation !');
+insert into goldenBook(id_user, header, comment) values (2,'De "orga2 orga2", le 25-03-2023:','Greatest food stand of the world !');
+insert into goldenBook(id_user, header, comment) values (3,'De "maxime theveneau", le 27-03-2023:','I love Belfunfair !');

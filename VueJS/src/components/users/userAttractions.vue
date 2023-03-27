@@ -1,17 +1,32 @@
 <template>
   <div>
     <user-signup></user-signup>
-
-    <h1>{{$t('userToolbar.attractions')}}</h1>
+    <div style="text-align: center">
+      <h1>{{$t('userToolbar.attractions')}}</h1>
+      <v-btn v-if="$store.state.user" v-on:click="showLike">
+        <span v-if="liked"> Only liked</span>
+        <span v-else> All</span>
+      </v-btn>
+    </div>
     <ul>
       <li>
-        <h4>{{$t('attribute.manege')}} ({{maneges.length}})</h4>
+        <h4>{{$t('attribute.manege')}} ({{getManeges.length}})</h4>
         <v-btn class="mb-2" small v-on:click="showManeges" id="btnManege">{{$t('attribute.hide')}}</v-btn>
         <div>
           <div id="attractions-Manege">
-            <div v-for="(m,i) in maneges" :key="'attractions-manege-'+i">
+            <div v-for="(m,i) in getManeges" :key="'attractions-manege-'+i">
               <div style="width: 80vw; background-color: #cccccc; border-radius: 10px; padding: 10px; margin: 1vh 10vw">
-                <h2>{{m.name}}</h2>
+                <div style="display: inline-flex; text-align: center; background: none">
+                  <div v-if="$store.state.user">
+                    <button  v-if="isliked('manege',m.id)" v-on:click="setLike('manege',m.id,false)" class="mr-2">
+                      <v-icon color="red">mdi-heart</v-icon>
+                    </button>
+                    <button v-else v-on:click="setLike('manege',m.id,true)" class="mr-2">
+                      <v-icon color="red">mdi-heart-outline</v-icon>
+                    </button>
+                  </div>
+                  <h2>{{m.name}}</h2>
+                </div>
                 <h3>{{$t('attribute.from')}} {{m.datedebut}} {{$t('attribute.to')}} {{m.datefin}}</h3>
                 <ul>
                   <li>{{$t('attribute.type')}}: {{m.type}}</li>
@@ -35,13 +50,23 @@
         </div>
       </li>
       <li>
-        <h4>{{$t('attribute.stand')}} ({{stands.length}})</h4>
+        <h4>{{$t('attribute.stand')}} ({{getStands.length}})</h4>
         <v-btn class="mb-2" small v-on:click="showStands" id="btnStand">{{$t('attribute.hide')}}</v-btn>
         <div>
           <div id="attractions-Stand">
-            <div v-for="(s,i) in stands" :key="'attractions-stand-'+i">
+            <div v-for="(s,i) in getStands" :key="'attractions-stand-'+i">
               <div style="width: 80vw; background-color: #cccccc; border-radius: 10px; padding: 10px; margin: 1vh 10vw">
-                <h2>{{s.name}}</h2>
+                <div style="display: inline-flex; text-align: center; background: none">
+                  <div v-if="$store.state.user">
+                    <button v-if="isliked('stand',s.id)" v-on:click="setLike('stand',s.id,false)" class="mr-2">
+                      <v-icon color="red">mdi-heart</v-icon>
+                    </button>
+                    <button v-else v-on:click="setLike('stand',s.id,true)" class="mr-2">
+                      <v-icon color="red">mdi-heart-outline</v-icon>
+                    </button>
+                  </div>
+                  <h2>{{s.name}}</h2>
+                </div>
                 <h3>{{$t('attribute.from')}} {{s.datedebut}} {{$t('attribute.to')}} {{s.datefin}}</h3>
                 <ul>
                   <li>{{$t('attribute.type')}}: {{s.type}}</li>
@@ -64,13 +89,23 @@
         </div>
       </li>
       <li>
-        <h4>{{$t('attribute.artist')}} ({{artistes.length}})</h4>
+        <h4>{{$t('attribute.artist')}} ({{getArtistes.length}})</h4>
         <v-btn class="mb-2" small v-on:click="showArtists" id="btnArtist">{{$t('attribute.hide')}}</v-btn>
         <div>
           <div id="attractions-Artist">
-            <div v-for="(a,i) in artistes" :key="'attractions-artist-'+i">
+            <div v-for="(a,i) in getArtistes" :key="'attractions-artist-'+i">
               <div style="width: 80vw; background-color: #cccccc; border-radius: 10px; padding: 10px; margin: 1vh 10vw">
-                <h2>{{a.name}}</h2>
+                <div style="display: inline-flex; text-align: center; background: none">
+                  <div v-if="$store.state.user">
+                    <button v-if="isliked('artiste',a.id)" v-on:click="setLike('artiste',a.id,false)" class="mr-2">
+                      <v-icon color="red">mdi-heart</v-icon>
+                    </button>
+                    <button v-else v-on:click="setLike('artiste',a.id,true)" class="mr-2">
+                      <v-icon color="red">mdi-heart-outline</v-icon>
+                    </button>
+                  </div>
+                  <h2>{{a.name}}</h2>
+                </div>
                 <h3>{{$t('attribute.fromHour')}} {{a.starthour}} {{$t('attribute.toHour')}} {{a.endhour}}</h3>
                 <ul>
                   <li>{{$t('attribute.type')}}: {{a.type}}</li>
@@ -106,14 +141,51 @@ export default {
     userSignup,
     notesStar
   },
+  computed:{
+    getManeges(){
+      let maneges = []
+      if(this.liked && this.likeLists.likeListManege){
+        this.maneges.forEach(m=>{
+          if(this.isliked('manege',m.id))
+            maneges.push(m)
+        })
+      }
+      else maneges = this.maneges
+      return maneges
+    },
+    getStands(){
+      let stands = []
+      if(this.liked && this.likeLists.likeListStand){
+        this.stands.forEach(s=>{
+          if(this.isliked('stand',s.id))
+            stands.push(s)
+        })
+      }
+      else stands = this.stands
+      return stands
+    },
+    getArtistes(){
+      let artistes = []
+      if(this.liked && this.likeLists.likeListArtiste){
+        this.artistes.forEach(a=>{
+          if(this.isliked('artiste',a.id))
+            artistes.push(a)
+        })
+      }
+      else artistes = this.artistes
+      return artistes
+    }
+  },
   data:()=>{
     return{
-      maneges:null,
+      maneges:[],
       mExpand:false,
-      stands:null,
+      stands:[],
       sExpand:false,
-      artistes:null,
-      aExpand:false
+      artistes:[],
+      aExpand:false,
+      likeLists:[],
+      liked:false
     }
   },
   methods:{
@@ -191,6 +263,54 @@ export default {
         this.aExpand = true
       }
       btn.innerText = text
+    },
+    getLike(id_user){
+      let url = id_user ? `http://localhost:3000/users/like/${this.$store.state.user.id}` : `http://localhost:3000/users/like`
+      axios({
+        method: 'get',
+        url: url
+      }).then(res=>{
+        this.likeLists = res.data.data
+      })
+    },
+    setLike(type,id,bool){
+      axios({
+        method: 'post',
+        url: `http://localhost:3000/users/like/${this.$store.state.user.id}/${type}/${id}/${bool}`
+      }).then(res=>{
+        location.reload()
+        console.log(res)
+        //this.$store.commit('setMessage', {success:1,data:res.data.data})
+      })
+    },
+    isliked(type,id){
+      let res = false
+      if(type === 'manege'){
+        if(this.likeLists.likeListManege) {
+          this.likeLists.likeListManege.forEach(m=>{
+            if(m.id_manege === id && m.id_user === this.$store.state.user.id)
+              res = true
+          })
+        }
+      }else if(type === 'stand'){
+        if(this.likeLists.likeListStand) {
+          this.likeLists.likeListStand.forEach(s=>{
+            if(s.id_stand === id && s.id_user === this.$store.state.user.id)
+              res = true
+          })
+        }
+      }else if(type === 'artiste'){
+        if(this.likeLists.likeListArtiste) {
+          this.likeLists.likeListArtiste.forEach(a=>{
+            if(a.id_artiste === id && a.id_user === this.$store.state.user.id)
+              res = true
+          })
+        }
+      }
+      return res
+    },
+    showLike(){
+      this.liked = !this.liked
     }
   },
   mounted() {
@@ -198,6 +318,7 @@ export default {
     this.showManeges()
     this.showStands()
     this.showArtists()
+    this.getLike()
   }
 }
 </script>

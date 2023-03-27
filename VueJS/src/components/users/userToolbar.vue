@@ -16,6 +16,7 @@
         <v-list>
           <v-list-item @click="goTo('/')">{{$t('userToolbar.presentation')}}</v-list-item>
           <v-list-item @click="goTo('/login')"><v-icon>mdi-login</v-icon>{{$t('button.login')}}</v-list-item>
+          <v-list-item @click="goTo('/goldenBook')"><v-icon>mdi-notebook-edit-outline</v-icon>{{$t('userToolbar.goldenBook')}}</v-list-item>
         </v-list>
       </v-menu>
 
@@ -57,6 +58,7 @@
         <v-tabs align-with-title>
           <v-tab @click="goTo('/')">{{$t('userToolbar.presentation')}}</v-tab>
           <v-tab @click="goTo('/attractions')">{{$t('userToolbar.attractions')}}</v-tab>
+          <v-tab @click="goTo('/goldenBook')">{{$t('userToolbar.goldenBook')}}</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>

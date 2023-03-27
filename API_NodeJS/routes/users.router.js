@@ -214,4 +214,11 @@ router.post("/note/:id_user/:type/:id/:note",user.setNote);
  *          '400':
  *              description: Bad request
  */
+
+router.post("/like/:id_user/:type/:id/:bool", user.setLike)
+router.get("/like/:id_user?",user.getLike);
+
+router.get("/goldenBook",user.getGoldenBook)
+router.post("/goldenBook/:id_user",user.addToGoldenBook)
+router.post("/goldenBook/delete/:id",user.deleteFromGoldenBook)
 export default router;

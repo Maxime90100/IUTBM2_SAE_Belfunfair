@@ -71,3 +71,55 @@ export const setNote = async (req,res)=>{
         res.status(200).send({data:error})
     });
 }
+
+export const getLike = async (req,res)=>{
+    let service = new UsersService()
+    let id_user = req.params.id_user
+    if(id_user === undefined) id_user = null
+    let likes = await service.getLike(id_user)
+    res.status(200).send({success:1,data:likes})
+}
+
+export const setLike = async (req,res)=>{
+    let id_user = req.params.id_user
+    let type = req.params.type
+    let id = req.params.id
+    let bool = req.params.bool
+    let service = new UsersService()
+    service.setLike(id_user,type,id,bool).then(result=>{
+        res.status(200).send({data:result})
+    }).catch(error=>{
+        res.status(200).send({data:error})
+    });
+}
+
+export const getGoldenBook = async (req,res)=>{
+    let service = new UsersService()
+    service.getGoldenBook().then(result=>{
+        res.status(200).send({data:result})
+    }).catch(error=>{
+        res.status(200).send({data:error})
+    });
+}
+
+export const addToGoldenBook = async (req,res)=>{
+    let id_user = req.params.id_user
+    let comment = req.body.comment
+    let header = req.body.header
+    let service = new UsersService()
+    service.addToGoldenBook(id_user,comment,header).then(result=>{
+        res.status(200).send({data:result})
+    }).catch(error=>{
+        res.status(200).send({data:error})
+    });
+}
+
+export const deleteFromGoldenBook = async (req,res)=>{
+    let id = req.params.id
+    let service = new UsersService()
+    service.deleteFromGoldenBook(id).then(result=>{
+        res.status(200).send({data:result})
+    }).catch(error=>{
+        res.status(200).send({data:error})
+    });
+}

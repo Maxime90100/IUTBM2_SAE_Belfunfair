@@ -33,7 +33,11 @@
     "show": "Afficher",
     "hide": "Masquer",
     "signup": "Inscription",
-    "email": "Email"
+    "email": "Email",
+    "comments": "Commentaires",
+    "myComments": "Mes commentaires",
+    "otherComments": "Autres commentaires",
+    "addComment": "Ajouter un commentaire"
 
   },
   "button": {
@@ -64,7 +68,8 @@
     "hello": "Salut",
     "presentation": "Présentation",
     "attractions": "Attractions",
-    "noUser": "Connectez-vous afin d'accéder à toutes les fonctionnalités !"
+    "noUser": "Connectez-vous afin d'accéder à toutes les fonctionnalités !",
+    "goldenBook": "Livre d'or"
   },
   "prestataireToolbar": {
     "profil": "Compte",

@@ -33,7 +33,11 @@
     "show": "Show",
     "hide": "Hide",
     "signup": "Signup",
-    "email": "Email"
+    "email": "Email",
+    "comments": "Comments",
+    "myComments": "My comments",
+    "otherComments": "Other comments",
+    "addComment": "Add a comment"
   },
   "button": {
     "logout": "Logout",
@@ -63,7 +67,8 @@
     "hello": "Hello",
     "presentation": "Presentation",
     "attractions": "Attractions",
-    "noUser": "Login to access all features!"
+    "noUser": "Login to access all features!",
+    "goldenBook": "Golden Book"
 
   },
   "prestataireToolbar": {
