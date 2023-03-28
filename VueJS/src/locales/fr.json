@@ -52,7 +52,8 @@
     "cancelSignupInProgress": "Annulation inscription en cours...",
     "about": "A propos",
     "back": "retour",
-    "rate": "évaluer"
+    "rate": "évaluer",
+    "submit": "Envoyer"
   },
   "confirm": {
     "delete": "Êtes-vous sûr de vouloir supprimer ?",
@@ -69,7 +70,8 @@
     "presentation": "Présentation",
     "attractions": "Attractions",
     "noUser": "Connectez-vous afin d'accéder à toutes les fonctionnalités !",
-    "goldenBook": "Livre d'or"
+    "goldenBook": "Livre d'or",
+    "ticket": "e-billet"
   },
   "prestataireToolbar": {
     "profil": "Compte",

@@ -51,7 +51,8 @@
     "cancelSignupInProgress": "Registration cancellation in progress...",
     "about": "About",
     "back": "back",
-    "rate": "rate"
+    "rate": "rate",
+    "submit": "Send"
   },
   "confirm": {
     "delete": "Are you sure to delete ?",
@@ -68,7 +69,8 @@
     "presentation": "Presentation",
     "attractions": "Attractions",
     "noUser": "Login to access all features!",
-    "goldenBook": "Golden Book"
+    "goldenBook": "Golden Book",
+    "ticket": "e-ticket"
 
   },
   "prestataireToolbar": {

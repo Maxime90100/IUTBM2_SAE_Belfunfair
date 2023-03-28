@@ -5,6 +5,7 @@ import Home from "@/views/Home.vue";
 import Login from "@/views/users/login.vue";
 import Attractions from "@/views/users/attractions.vue";
 import goldenBook from "@/views/users/goldenBook.vue";
+import ticket from "@/views/users/ticket.vue";
 
 import organisateurHome from "@/views/organisateurs/organisateurHome.vue";
 
@@ -52,6 +53,11 @@ export default new Router({
             path:"/goldenBook",
             name:"GoldenBook",
             component: goldenBook
+        },
+        {
+            path:"/ticket",
+            name:"ticketView",
+            component: ticket
         },
         {
             path: "/organisateur",
